@@ -144,13 +144,7 @@ below given mail Id
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => UserInfo(
-                              userMail: widget.email,
-                              userName: widget.name,
-                              userNumber: widget.number,
-                              userImage: null,
-                              userId: null,
-                            ),
+                            builder: (_) => UserInfo(),
                           ),
                         );
                       },

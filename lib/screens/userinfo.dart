@@ -13,22 +13,14 @@ String userBio = '';
 String userId = '';
 String userPassword = '';
 String userConfirmPassword = '';
+String userName = '';
+String userMail = '';
+int userNumber = 0;
+var userImage;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
+
 class UserInfo extends StatefulWidget {
-  UserInfo({
-    @required this.userMail,
-    @required this.userNumber,
-    @required this.userName,
-    @required this.userImage,
-    @required this.userId,
-  });
-  final String userId;
-  final String userName;
-  final String userImage;
-  final String userMail;
-  final int userNumber;
-  @override
   _UserInfoState createState() => _UserInfoState();
 }
 
@@ -73,43 +65,36 @@ class _UserInfoState extends State<UserInfo> {
 
   @override
   void initState() {
+    getUserMail();
     super.initState();
-    userId = widget.userId;
   }
 
   void getUserMail() async {
     try {
-        
-          try {
-            await _firestore
-                .collection("college")
-                .document(mainKey)
-                .collection('students')
-                .where("code", isEqualTo: subKey)
-                .getDocuments()
-                .then((value) {
-              value.documents.forEach((element) {
-                setState(() {
-                  if (element.data['code'] == subKey) {
-                    userName = element.data['name'];
-                    userDesc = element.data['desc'];
-                    imageData =
-                        element.data['male'] ? maleImageFace : femaleImageFace;
-                    logKey = true;
-                  } else {}
-                });
-              });
-            });
-          } catch (e) {
-            print(e);
-            Scaffold.of(context).showSnackBar(SnackBar(
-                backgroundColor: errorCardColor,
-                content: Text(
-                  'An error occurred. Please try again later.',
-                  style: TextStyle(color: fadeTextColor),
-                ),
-                duration: Duration(seconds: 3)));
-          }
+      userMail = _auth.currentUser.email;
+      try {
+        await _firestore.collection("user").doc(userMail).get().then((value) {
+          setState(() {
+            userName = value.data()['name'];
+            userMail = value.data()['mail'];
+            userNumber = value.data()['phone'];
+            userId = value.data()['userId'];
+            try {
+              userImage = value.data()['dp'];
+            } catch (e) {
+              userImage = null;
+            }
+          });
+        });
+      } catch (e) {
+        print(e);
+        Scaffold.of(context).showSnackBar(SnackBar(
+            backgroundColor: errorCardColor,
+            content: Text(
+              'An error occurred. Please try again later.',
+              style: TextStyle(color: fadeTextColor),
+            ),
+            duration: Duration(seconds: 3)));
       }
     } catch (e) {
       print(e);
@@ -185,7 +170,7 @@ class _UserInfoState extends State<UserInfo> {
                                 fit: BoxFit.fitHeight,
                               ),
                             )
-                          : widget.userImage == null
+                          : userImage == null
                               ? Container(
                                   decoration: BoxDecoration(
                                       color: Colors.grey[200],
@@ -199,8 +184,8 @@ class _UserInfoState extends State<UserInfo> {
                                 )
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
-                                  child: Image.asset(
-                                    widget.userImage,
+                                  child: Image.network(
+                                    userImage,
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.fitHeight,
@@ -227,9 +212,9 @@ class _UserInfoState extends State<UserInfo> {
               padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.250),
               child: Tabbar(
-                userNumber: widget.userNumber,
-                userMail: widget.userMail,
-                userName: widget.userName,
+                userNumber: userNumber,
+                userMail: userMail,
+                userName: userName,
               ),
             )
           ],
