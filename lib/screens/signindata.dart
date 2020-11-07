@@ -271,6 +271,8 @@ above given mail Id""",
                                       .set({
                                     'name': userName,
                                     'phone': userNumber,
+                                    'userId': userId,
+                                    'mail': userMail,
                                   });
                                   print('uploaded');
                                   Navigator.push(
