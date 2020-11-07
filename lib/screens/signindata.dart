@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vgo/screens/userinfo.dart';
 import 'package:vgo/screens/verification.dart';
 import 'package:vgo/utilities/constants.dart';
 
@@ -211,7 +212,8 @@ above given mail Id""",
                           try {
                             if (userMail == '' ||
                                 userPass == '' ||
-                                userName == '') {
+                                userName == '' ||
+                                userId == '') {
                               _scaffoldKey.currentState.showSnackBar(
                                 SnackBar(
                                   backgroundColor: errorCardColor,
@@ -233,7 +235,11 @@ above given mail Id""",
                                 );
                                 if (newUser != null) {
                                   print(newUser);
-                                  await _firestore.collection('user').add({
+                                  await _firestore
+                                      .collection('user')
+                                      .doc(userId)
+                                      .collection('userdata')
+                                      .add({
                                     'name': userName,
                                     'phone': userNumber,
                                   });
