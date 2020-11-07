@@ -5,6 +5,7 @@ import 'package:vgo/screens/home.dart';
 import 'package:vgo/screens/login.dart';
 import 'package:vgo/screens/navigation.dart';
 import 'package:vgo/screens/profile.dart';
+import 'package:vgo/screens/signindata.dart';
 import 'package:vgo/screens/splash.dart';
 // import 'package:tik_tok_demo/screens/camera.dart';
 // import 'package:tik_tok_demo/screens/emaillogin.dart';
@@ -44,6 +45,7 @@ class _MainAppState extends State<MainApp> {
         'profile': (context) => ProfileScreen(),
         'email': (context) => EmailLogin(),
         'home': (context) => HomeScreen(),
+        'signin1': (context) => SignInData(),
         // 'signin': (context) => SignIn(),
         // 'notification': (context) => NotificationScreen(),
         // 'search': (context) => SearchPage(),
