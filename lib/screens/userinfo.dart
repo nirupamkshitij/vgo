@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vgo/utilities/constants.dart';
@@ -11,7 +13,8 @@ String userBio = '';
 String userId = '';
 String userPassword = '';
 String userConfirmPassword = '';
-
+final _auth = FirebaseAuth.instance;
+final _firestore = FirebaseFirestore.instance;
 class UserInfo extends StatefulWidget {
   UserInfo({
     @required this.userMail,
@@ -72,6 +75,52 @@ class _UserInfoState extends State<UserInfo> {
   void initState() {
     super.initState();
     userId = widget.userId;
+  }
+
+  void getUserMail() async {
+    try {
+        
+          try {
+            await _firestore
+                .collection("college")
+                .document(mainKey)
+                .collection('students')
+                .where("code", isEqualTo: subKey)
+                .getDocuments()
+                .then((value) {
+              value.documents.forEach((element) {
+                setState(() {
+                  if (element.data['code'] == subKey) {
+                    userName = element.data['name'];
+                    userDesc = element.data['desc'];
+                    imageData =
+                        element.data['male'] ? maleImageFace : femaleImageFace;
+                    logKey = true;
+                  } else {}
+                });
+              });
+            });
+          } catch (e) {
+            print(e);
+            Scaffold.of(context).showSnackBar(SnackBar(
+                backgroundColor: errorCardColor,
+                content: Text(
+                  'An error occurred. Please try again later.',
+                  style: TextStyle(color: fadeTextColor),
+                ),
+                duration: Duration(seconds: 3)));
+          }
+      }
+    } catch (e) {
+      print(e);
+      Scaffold.of(context).showSnackBar(SnackBar(
+          backgroundColor: errorCardColor,
+          content: Text(
+            'An error occurred. Please try again later.',
+            style: TextStyle(color: fadeTextColor),
+          ),
+          duration: Duration(seconds: 3)));
+    }
   }
 
   @override
