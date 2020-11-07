@@ -22,6 +22,7 @@ final _firestore = FirebaseFirestore.instance;
 
 class _SignInDataState extends State<SignInData> {
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _idController = TextEditingController();
   final TextEditingController _mailController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
@@ -83,6 +84,35 @@ class _SignInDataState extends State<SignInData> {
                     ),
                     border: InputBorder.none,
                     labelText: 'Full Name',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 25,
+                  left: 25,
+                  right: 25,
+                ),
+                child: TextField(
+                  controller: _idController,
+                  onChanged: (value) {
+                    setState(() {
+                      userId = value;
+                    });
+                  },
+                  style: TextStyle(
+                    color: mainBgColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(
+                      color: darkFadeTextColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    border: InputBorder.none,
+                    labelText: 'User Id',
                   ),
                 ),
               ),
@@ -177,7 +207,7 @@ class _SignInDataState extends State<SignInData> {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.3,
+                  top: MediaQuery.of(context).size.height * 0.2,
                 ),
                 child: Text(
                   """We'll send OTP verification on
@@ -238,8 +268,7 @@ above given mail Id""",
                                   await _firestore
                                       .collection('user')
                                       .doc(userId)
-                                      .collection('userdata')
-                                      .add({
+                                      .set({
                                     'name': userName,
                                     'phone': userNumber,
                                   });
