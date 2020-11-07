@@ -32,6 +32,7 @@ class _EmailLoginState extends State<EmailLogin> {
       child: Scaffold(
         key: _scaffoldKey,
         resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           backgroundColor: bottomContainerColor,
           centerTitle: true,
