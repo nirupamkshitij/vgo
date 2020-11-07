@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vgo/screens/splash.dart';
 // import 'package:tik_tok_demo/screens/camera.dart';
 // import 'package:tik_tok_demo/screens/emaillogin.dart';
 // import 'package:tik_tok_demo/screens/home.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/services.dart';
 // import 'package:tik_tok_demo/screens/search.dart';
 // import 'package:tik_tok_demo/screens/signin.dart';
 // import 'package:tik_tok_demo/screens/signindata.dart';
-// import 'package:tik_tok_demo/screens/splash.dart';
 // import 'package:tik_tok_demo/screens/terms.dart';
 
 void main() {
@@ -33,7 +33,7 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: 'splash',
       routes: {
-        // 'splash': (context) => SplashScreen(),
+        'splash': (context) => SplashScreen(),
         // 'login': (context) => Login(),
         // 'signin': (context) => SignIn(),
         // 'navigation': (context) => NavigationScreen(),
