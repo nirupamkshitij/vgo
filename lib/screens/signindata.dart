@@ -243,7 +243,8 @@ above given mail Id""",
                             if (userMail == '' ||
                                 userPass == '' ||
                                 userName == '' ||
-                                userId == '') {
+                                userId == '' ||
+                                userNumber == 0) {
                               _scaffoldKey.currentState.showSnackBar(
                                 SnackBar(
                                   backgroundColor: errorCardColor,
@@ -267,7 +268,7 @@ above given mail Id""",
                                   print(newUser);
                                   await _firestore
                                       .collection('user')
-                                      .doc(userId)
+                                      .doc(userMail)
                                       .set({
                                     'name': userName,
                                     'phone': userNumber,
