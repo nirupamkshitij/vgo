@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vgo/screens/login.dart';
+import 'package:vgo/screens/navigation.dart';
 import 'package:vgo/screens/profile.dart';
 import 'package:vgo/screens/splash.dart';
 // import 'package:tik_tok_demo/screens/camera.dart';
@@ -36,11 +37,11 @@ class _MainAppState extends State<MainApp> {
       initialRoute: 'splash',
       routes: {
         'splash': (context) => SplashScreen(),
+        'navigation': (context) => NavigationScreen(),
         'login': (context) => Login(),
-        // 'signin': (context) => SignIn(),
-        // 'navigation': (context) => NavigationScreen(),
-        // 'notification': (context) => NotificationScreen(),
         'profile': (context) => ProfileScreen(),
+        // 'signin': (context) => SignIn(),
+        // 'notification': (context) => NotificationScreen(),
         // 'search': (context) => SearchPage(),
         // 'camera': (context) => CameraScreen(),
         // 'home': (context) => HomeScreen(),
