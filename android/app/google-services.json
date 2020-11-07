@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "866631162328",
+    "firebase_url": "https://vgo-db-f7b4a.firebaseio.com",
+    "project_id": "vgo-db-f7b4a",
+    "storage_bucket": "vgo-db-f7b4a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866631162328:android:b878aa23e4e3df15abfaad",
+        "android_client_info": {
+          "package_name": "com.example.vgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866631162328-ls39b9u91m12fadfosrn68ddfigqoheh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOe4LeEl8gEhQQqi_KseZbXX1qhCyZEAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866631162328-ls39b9u91m12fadfosrn68ddfigqoheh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
