@@ -84,6 +84,7 @@ class _UserInfoState extends State<UserInfo> {
             } catch (e) {
               userImage = null;
             }
+            print('Got Data');
           });
         });
       } catch (e) {
@@ -215,6 +216,7 @@ class _UserInfoState extends State<UserInfo> {
                 userNumber: userNumber,
                 userMail: userMail,
                 userName: userName,
+                userId: userId,
               ),
             )
           ],
@@ -259,10 +261,12 @@ class Tabbar extends StatefulWidget {
     @required this.userMail,
     @required this.userName,
     @required this.userNumber,
+    @required this.userId,
   });
   final String userName;
   final String userMail;
   final int userNumber;
+  final String userId;
   @override
   _TabbarState createState() => _TabbarState();
 }
@@ -346,56 +350,29 @@ class _TabbarState extends State<Tabbar> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
-                          top: 25,
-                          left: 25,
-                          right: 25,
-                        ),
-                        child: userId == null
-                            ? TextFormField(
-                                onChanged: (value) {
-                                  setState(() {
-                                    userId = value;
-                                  });
-                                },
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: mainBgColor,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                decoration: InputDecoration(
-                                  labelStyle: TextStyle(
-                                    color: darkFadeTextColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  border: InputBorder.none,
-                                  labelText: 'Username',
-                                ),
-                              )
-                            : TextFormField(
-                                initialValue: userId,
-                                onChanged: (value) {
-                                  setState(() {
-                                    userId = value;
-                                  });
-                                },
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: mainBgColor,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                decoration: InputDecoration(
-                                  labelStyle: TextStyle(
-                                    color: darkFadeTextColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  border: InputBorder.none,
-                                  labelText: 'Username',
-                                ),
+                          padding: EdgeInsets.only(
+                            top: 25,
+                            left: 25,
+                            right: 25,
+                          ),
+                          child: TextFormField(
+                            enabled: false,
+                            initialValue: widget.userId,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: mainBgColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color: darkFadeTextColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
                               ),
-                      ),
+                              border: InputBorder.none,
+                              labelText: 'Username',
+                            ),
+                          )),
                       Padding(
                         padding: EdgeInsets.only(
                           top: 25,
