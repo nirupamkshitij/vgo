@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tik_tok_demo/screens/pages/videos.dart';
-import 'package:tik_tok_demo/utilities/constants.dart';
-import 'package:tik_tok_demo/widgets/bottomnavbar.dart';
 import 'package:vgo/utilities/constants.dart';
-import 'package:video_player/video_player.dart';
+import 'package:vgo/widgets/bottomnavbar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
