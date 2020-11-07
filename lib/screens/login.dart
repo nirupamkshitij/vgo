@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vgo/screens/signin.dart';
 import 'package:vgo/utilities/constants.dart';
 
 class Login extends StatefulWidget {
@@ -137,11 +138,11 @@ comment on videos, and more.''',
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Navigator.of(context).pushReplacement(
-                        //   CupertinoPageRoute<bool>(
-                        //     builder: (BuildContext context) => SignIn(),
-                        //   ),
-                        // );
+                        Navigator.of(context).pushReplacement(
+                          CupertinoPageRoute<bool>(
+                            builder: (BuildContext context) => SignIn(),
+                          ),
+                        );
                       },
                       child: Text(
                         '''Sign Up''',
