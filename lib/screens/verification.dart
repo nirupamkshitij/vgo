@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vgo/screens/userinfo.dart';
 import 'package:vgo/utilities/constants.dart';
 
 class Verification extends StatefulWidget {
@@ -140,18 +141,18 @@ below given mail Id
                           borderRadius: BorderRadius.circular(5)),
                       color: buttonBgColor,
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (_) => UserInfo(
-                        //       userMail: widget.email,
-                        //       userName: widget.name,
-                        //       userNumber: widget.number,
-                        //       userImage: null,
-                        //       userId: null,
-                        //     ),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => UserInfo(
+                              userMail: widget.email,
+                              userName: widget.name,
+                              userNumber: widget.number,
+                              userImage: null,
+                              userId: null,
+                            ),
+                          ),
+                        );
                       },
                       child: Text(
                         'Submit',
