@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vgo/screens/emaillogin.dart';
 import 'package:vgo/screens/login.dart';
 import 'package:vgo/screens/navigation.dart';
 import 'package:vgo/screens/profile.dart';
@@ -40,6 +41,7 @@ class _MainAppState extends State<MainApp> {
         'navigation': (context) => NavigationScreen(),
         'login': (context) => Login(),
         'profile': (context) => ProfileScreen(),
+        'email': (context) => EmailLogin(),
         // 'signin': (context) => SignIn(),
         // 'notification': (context) => NotificationScreen(),
         // 'search': (context) => SearchPage(),
@@ -47,7 +49,7 @@ class _MainAppState extends State<MainApp> {
         // 'home': (context) => HomeScreen(),
         // 'signin1': (context) => SignInData(),
         // 'terms': (context) => Terms(),
-        // 'email': (context) => EmailLogin(),
+        //
       },
     );
   }
