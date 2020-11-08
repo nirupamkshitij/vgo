@@ -40,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    getUserMail();
     super.initState();
   }
 
@@ -157,7 +157,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fit: BoxFit.fitHeight,
                   colorFilter: ColorFilter.mode(
                       Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                  image: AssetImage('images/profile.png'),
+                  image: NetworkImage(userURL),
                 ),
               ),
               child: Column(
@@ -169,8 +169,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100.0),
-                          child: Image.asset(
-                            'images/profile.png',
+                          child: Image.network(
+                            userURL,
                             height: 80.0,
                             width: 80.0,
                           ),
