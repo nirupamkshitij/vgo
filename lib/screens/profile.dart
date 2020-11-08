@@ -221,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Padding(
                     padding: EdgeInsets.only(top: 5, left: 28),
                     child: Text(
-                      'No bio yet',
+                      userBio,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.raleway(
                         fontSize: 16,
