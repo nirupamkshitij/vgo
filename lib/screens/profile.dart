@@ -20,10 +20,10 @@ List likedList = [
   'https://images.shaadisaga.com/shaadisaga_production/photos/pictures/000/683/048/new_large/aanal_savaliya.jpg?1548750168',
   'https://images.shaadisaga.com/shaadisaga_production/photos/pictures/000/683/049/new_large/andrew_koe_studio.jpg?1548750174'
 ];
-final String username = '';
-final String userId = '';
-final String userBio = '';
-final String userURL = '';
+String username = '';
+String userId = '';
+String userBio = '';
+String userURL = '';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -32,15 +32,55 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   int currentIndex = 4;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
 
+  void getUserMail() async {
+    try {
+      final userMail = _auth.currentUser.email;
+      try {
+        await _firestore.collection("user").doc(userMail).get().then((value) {
+          setState(() {
+            username = value.data()['name'];
+            userBio = value.data()['userBio'];
+            userId = value.data()['userId'];
+            try {
+              userURL = value.data()['dpURl'];
+            } catch (e) {
+              userURL = null;
+            }
+            print('Got Data');
+          });
+        });
+      } catch (e) {
+        print(e);
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: errorCardColor,
+            content: Text(
+              'An error occurred. Please try again later.',
+              style: TextStyle(color: fadeTextColor),
+            ),
+            duration: Duration(seconds: 3)));
+      }
+    } catch (e) {
+      print(e);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: errorCardColor,
+          content: Text(
+            'An error occurred. Please try again later.',
+            style: TextStyle(color: fadeTextColor),
+          ),
+          duration: Duration(seconds: 3)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SafeArea(

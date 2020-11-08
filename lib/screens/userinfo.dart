@@ -256,7 +256,7 @@ class _UserInfoState extends State<UserInfo> {
             userNumber = value.data()['phone'];
             userId = value.data()['userId'];
             try {
-              userImage = value.data()['userURL'];
+              userImage = value.data()['dpURl'];
             } catch (e) {
               userImage = null;
             }
