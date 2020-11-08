@@ -2,7 +2,9 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vgo/utilities/constants.dart';
 
@@ -25,7 +27,8 @@ class UserInfo extends StatefulWidget {
 }
 
 class _UserInfoState extends State<UserInfo> {
-  File _image;
+  // ignore: avoid_init_to_null
+  File _image = null;
 
   final picker = ImagePicker();
 
@@ -61,6 +64,36 @@ class _UserInfoState extends State<UserInfo> {
         }
       },
     );
+  }
+
+  Future _fileUploader() async {
+    if (_image != null) {
+      final storageReference = FirebaseStorage.instance.ref().child('file1');
+      final UploadTask uploadTask = storageReference.putFile(_image);
+      await uploadTask.whenComplete(() {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          backgroundColor: okCardColor,
+          content: Text(
+            'File Uploaded',
+            style: GoogleFonts.raleway(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          duration: Duration(seconds: 3),
+        ));
+      });
+    } else {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        backgroundColor: errorCardColor,
+        content: Text(
+          'No File',
+          style: GoogleFonts.raleway(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        duration: Duration(seconds: 3),
+      ));
+    }
   }
 
   @override
@@ -123,7 +156,8 @@ class _UserInfoState extends State<UserInfo> {
               heroTag: "btn2",
               backgroundColor: bottomContainerColor,
               onPressed: () {
-                Navigator.popAndPushNamed(context, 'home');
+                _fileUploader();
+                // Navigator.popAndPushNamed(context, 'home');
               },
               child: ShaderMask(
                 shaderCallback: (Rect bounds) {
@@ -255,6 +289,8 @@ class _UserInfoState extends State<UserInfo> {
         });
   }
 }
+
+mixin StorageUploadTask {}
 
 class Tabbar extends StatefulWidget {
   const Tabbar({
