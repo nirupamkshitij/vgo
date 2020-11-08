@@ -392,6 +392,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           body: Stack(
             children: [
               Container(
+                constraints: BoxConstraints(
+                  minWidth: MediaQuery.of(context).size.width,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.grey[700],
                 ),
