@@ -16,7 +16,7 @@ class CameraScreen extends StatefulWidget {
 String fileName;
 bool isPick = false;
 String videoPath;
-File _file = null;
+File _file;
 GlobalKey<ScaffoldState> _scaffold = GlobalKey();
 
 class CameraScreenState extends State<CameraScreen>
@@ -31,6 +31,7 @@ class CameraScreenState extends State<CameraScreen>
   final picker = ImagePicker();
   @override
   void initState() {
+    _file = null;
     _initCamera();
     super.initState();
   }
