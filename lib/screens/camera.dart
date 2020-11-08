@@ -24,7 +24,6 @@ class CameraScreenState extends State<CameraScreen>
   CameraController _controller;
   List<CameraDescription> _cameras;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool _isRecordingMode = true;
   bool _isRecording = false;
   final _timerKey = GlobalKey<VideoTimerState>();
   int currentIndex = 2;
@@ -161,15 +160,14 @@ class CameraScreenState extends State<CameraScreen>
               },
             ),
           ),
-          if (_isRecordingMode)
-            Positioned(
-              left: 0,
-              right: 0,
-              top: 32.0,
-              child: VideoTimer(
-                key: _timerKey,
-              ),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 32.0,
+            child: VideoTimer(
+              key: _timerKey,
             ),
+          ),
           Padding(
             padding: EdgeInsets.only(bottom: 50),
             child: Align(
@@ -230,9 +228,9 @@ class CameraScreenState extends State<CameraScreen>
                 ),
                 onPressed: () {
                   if (_isRecording) {
-                    stopVideoRecording();
+                    _onStopButtonPressed();
                   } else {
-                    startVideoRecording();
+                    _onRecordButtonPressed();
                   }
                 },
               ),
@@ -301,42 +299,53 @@ class CameraScreenState extends State<CameraScreen>
     }
   }
 
-  String timestamp() => new DateTime.now().millisecondsSinceEpoch.toString();
-  Future<String> startVideoRecording() async {
+  void _onRecordButtonPressed() {
+    _startVideoRecording().then((String filePath) {
+      if (filePath != null) {
+        showInSnackBar('Recording video started');
+      }
+    });
+  }
+
+  void _onStopButtonPressed() {
+    _stopVideoRecording().then((_) {
+      if (mounted) setState(() {});
+      showInSnackBar('Video recorded to $videoPath');
+    });
+  }
+
+  Future<String> _startVideoRecording() async {
     if (!_controller.value.isInitialized) {
-      showInSnackBar('Error: select a camera first.');
+      showInSnackBar('Please wait');
       return null;
     }
-    setState(() {});
-    final Directory extDir = await getApplicationDocumentsDirectory();
-    final String dirPath = '${extDir.path}/Videos';
-    print(dirPath);
-    await Directory(dirPath).create(recursive: true);
-    final String filePath = '$dirPath/${timestamp()}.mp4';
-    print(filePath);
 
+    // Do nothing if a recording is on progress
     if (_controller.value.isRecordingVideo) {
       return null;
     }
 
+    final Directory appDirectory = await getApplicationDocumentsDirectory();
+    final String videoDirectory = '${appDirectory.path}/Videos';
+    await Directory(videoDirectory).create(recursive: true);
+    final String currentTime = DateTime.now().millisecondsSinceEpoch.toString();
+    final String filePath = '$videoDirectory/$currentTime.mp4';
+
     try {
-      videoPath = filePath;
       await _controller.startVideoRecording(filePath);
+      videoPath = filePath;
     } on CameraException catch (e) {
-      showInSnackBar(e.toString());
+      _showCameraException(e);
       return null;
     }
+
     return filePath;
   }
 
-  Future<void> stopVideoRecording() async {
+  Future<void> _stopVideoRecording() async {
     if (!_controller.value.isRecordingVideo) {
       return null;
     }
-    _timerKey.currentState.stopTimer();
-    setState(() {
-      _isRecording = false;
-    });
 
     try {
       await _controller.stopVideoRecording();
