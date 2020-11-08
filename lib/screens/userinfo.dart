@@ -111,7 +111,7 @@ class _UserInfoState extends State<UserInfo> {
           ),
           duration: Duration(seconds: 3),
         ));
-        print(uploadTask);
+        print(storageReference.getDownloadURL().toString());
       });
     } else {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
