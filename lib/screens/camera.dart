@@ -1,46 +1,39 @@
 import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:thumbnails/thumbnails.dart';
 import 'package:vgo/pages/video_timer.dart';
-import 'package:vgo/utilities/constants.dart';
-import 'package:vgo/widgets/bottomnavbar.dart';
 
 class CameraScreen extends StatefulWidget {
+  const CameraScreen({Key key}) : super(key: key);
+
   @override
   CameraScreenState createState() => CameraScreenState();
 }
 
-String fileName;
-bool isPick = false;
-String videoPath;
-File _file;
-GlobalKey<ScaffoldState> _scaffold = GlobalKey();
-
 class CameraScreenState extends State<CameraScreen>
     with AutomaticKeepAliveClientMixin {
-  CameraController _camController;
+  CameraController _controller;
   List<CameraDescription> _cameras;
-  final GlobalKey<ScaffoldState> _scaffoldCameraKey =
-      GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _isRecordingMode = false;
   bool _isRecording = false;
   final _timerKey = GlobalKey<VideoTimerState>();
-  int currentIndex = 2;
-  final picker = ImagePicker();
+
   @override
   void initState() {
-    _file = null;
     _initCamera();
     super.initState();
   }
 
   Future<void> _initCamera() async {
     _cameras = await availableCameras();
-    _camController = CameraController(_cameras[0], ResolutionPreset.medium);
-    _camController.initialize().then((_) {
+    _controller = CameraController(_cameras[0], ResolutionPreset.medium);
+    _controller.initialize().then((_) {
       if (!mounted) {
         return;
       }
@@ -48,47 +41,17 @@ class CameraScreenState extends State<CameraScreen>
     });
   }
 
-  _videoFromGallery() async {
-    final pickedFile = await picker.getVideo(
-      source: ImageSource.gallery,
-    );
-    setState(
-      () {
-        if (pickedFile != null) {
-          _file = File(pickedFile.path);
-        } else {
-          print('No image selected.');
-        }
-      },
-    );
-  }
-
-  _videoFromCamera() async {
-    final pickedFile = await picker.getVideo(
-      source: ImageSource.camera,
-    );
-    setState(
-      () {
-        if (pickedFile != null) {
-          _file = File(pickedFile.path);
-        } else {
-          print('No image selected.');
-        }
-      },
-    );
-  }
-
   @override
   void dispose() {
-    _camController?.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    if (_camController != null) {
-      if (!_camController.value.isInitialized) {
+    if (_controller != null) {
+      if (!_controller.value.isInitialized) {
         return Container();
       }
     } else {
@@ -101,50 +64,12 @@ class CameraScreenState extends State<CameraScreen>
       );
     }
 
-    if (!_camController.value.isInitialized) {
+    if (!_controller.value.isInitialized) {
       return Container();
     }
     return Scaffold(
-      key: _scaffold,
       backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-            canvasColor: mainTextColor,
-            textTheme: Theme.of(context)
-                .textTheme
-                .copyWith(caption: TextStyle(color: Colors.yellow))),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.black,
-          selectedItemColor: fadeTextColor,
-          showSelectedLabels: false,
-          type: BottomNavigationBarType.fixed,
-          showUnselectedLabels: false,
-          unselectedItemColor: fadeTextColor,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: FaIcon(Icons.home), label: ''),
-            BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.search), label: ''),
-            BottomNavigationBarItem(icon: customIcon(), label: ''),
-            BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.solidHeart), label: ''),
-            BottomNavigationBarItem(icon: FaIcon(Icons.person), label: '')
-          ],
-          currentIndex: currentIndex,
-          onTap: (value) {
-            if (value == 0) {
-              Navigator.pushNamed(context, 'home');
-            } else if (value == 1) {
-              Navigator.pushNamed(context, 'search');
-            } else if (value == 2) {
-              Navigator.pushNamed(context, 'camera');
-            } else if (value == 3) {
-              Navigator.pushNamed(context, 'notification');
-            } else if (value == 4) {
-              Navigator.pushNamed(context, 'profile');
-            }
-          },
-        ),
-      ),
+      key: _scaffoldKey,
       extendBody: true,
       body: Stack(
         children: <Widget>[
@@ -153,8 +78,8 @@ class CameraScreenState extends State<CameraScreen>
             top: 24.0,
             left: 12.0,
             child: IconButton(
-              icon: FaIcon(
-                FontAwesomeIcons.syncAlt,
+              icon: Icon(
+                Icons.switch_camera,
                 color: Colors.white,
               ),
               onPressed: () {
@@ -162,23 +87,18 @@ class CameraScreenState extends State<CameraScreen>
               },
             ),
           ),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 32.0,
-            child: VideoTimer(
-              key: _timerKey,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 50),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: _buildBottomNavigationBar(),
-            ),
-          ),
+          if (_isRecordingMode)
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 32.0,
+              child: VideoTimer(
+                key: _timerKey,
+              ),
+            )
         ],
       ),
+      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
@@ -187,11 +107,11 @@ class CameraScreenState extends State<CameraScreen>
     return ClipRect(
       child: Container(
         child: Transform.scale(
-          scale: _camController.value.aspectRatio / size.aspectRatio,
+          scale: _controller.value.aspectRatio / size.aspectRatio,
           child: Center(
             child: AspectRatio(
-              aspectRatio: _camController.value.aspectRatio,
-              child: CameraPreview(_camController),
+              aspectRatio: _controller.value.aspectRatio,
+              child: CameraPreview(_controller),
             ),
           ),
         ),
@@ -200,100 +120,117 @@ class CameraScreenState extends State<CameraScreen>
   }
 
   Widget _buildBottomNavigationBar() {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 30),
+    return Container(
+      color: Colors.transparent,
+      height: 100.0,
+      width: double.infinity,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              _showPicker(context);
+          FutureBuilder(
+            future: getLastImage(),
+            builder: (context, snapshot) {
+              if (snapshot.data == null) {
+                return Container(
+                  width: 40.0,
+                  height: 40.0,
+                );
+              }
+              return GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 40.0,
+                  height: 40.0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4.0),
+                    child: Image.file(
+                      snapshot.data,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              );
             },
-            child: FaIcon(
-              FontAwesomeIcons.folderOpen,
-              color: Colors.white,
-            ),
           ),
           CircleAvatar(
-            radius: 32,
-            backgroundColor: mainBgColor,
-            child: CircleAvatar(
-              backgroundColor: Colors.red,
-              radius: 28.0,
-              child: IconButton(
-                icon: FaIcon(
-                  (_isRecording)
-                      ? FontAwesomeIcons.stop
-                      : FontAwesomeIcons.video,
-                  size: 28.0,
-                  color: mainBgColor,
-                ),
-                onPressed: () {
-                  if (_isRecording) {
-                    _onStopButtonPressed();
-                  } else {
-                    _onRecordButtonPressed();
-                  }
-                },
+            backgroundColor: Colors.white,
+            radius: 28.0,
+            child: IconButton(
+              icon: Icon(
+                (_isRecordingMode)
+                    ? (_isRecording)
+                        ? Icons.stop
+                        : Icons.videocam
+                    : Icons.camera_alt,
+                size: 28.0,
+                color: (_isRecording) ? Colors.red : Colors.black,
               ),
+              onPressed: () {
+                if (!_isRecordingMode) {
+                  _captureImage();
+                } else {
+                  if (_isRecording) {
+                    stopVideoRecording();
+                  } else {
+                    startVideoRecording();
+                  }
+                }
+              },
             ),
           ),
-          SizedBox(
-            width: 20,
-          )
+          IconButton(
+            icon: Icon(
+              (_isRecordingMode) ? Icons.camera_alt : Icons.videocam,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                _isRecordingMode = !_isRecordingMode;
+              });
+            },
+          ),
         ],
       ),
     );
   }
 
-  void _showPicker(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library),
-                      title: new Text('Video Library'),
-                      onTap: () {
-                        _videoFromGallery();
-                        Navigator.of(context).pop();
-                      }),
-                  new ListTile(
-                    leading: new Icon(Icons.photo_camera),
-                    title: new Text('Camera'),
-                    onTap: () {
-                      _videoFromCamera();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
+  Future<FileSystemEntity> getLastImage() async {
+    final Directory extDir = await getApplicationDocumentsDirectory();
+    final String dirPath = '${extDir.path}/media';
+    final myDir = Directory(dirPath);
+    List<FileSystemEntity> _images;
+    _images = myDir.listSync(recursive: true, followLinks: false);
+    _images.sort((a, b) {
+      return b.path.compareTo(a.path);
+    });
+    var lastFile = _images[0];
+    var extension = path.extension(lastFile.path);
+    if (extension == '.jpeg') {
+      return lastFile;
+    } else {
+      String thumb = await Thumbnails.getThumbnail(
+          videoFile: lastFile.path, imageType: ThumbFormat.PNG, quality: 30);
+      return File(thumb);
+    }
   }
 
-  String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
   Future<void> _onCameraSwitch() async {
     final CameraDescription cameraDescription =
-        (_camController.description == _cameras[0]) ? _cameras[1] : _cameras[0];
-    if (_camController != null) {
-      await _camController.dispose();
+        (_controller.description == _cameras[0]) ? _cameras[1] : _cameras[0];
+    if (_controller != null) {
+      await _controller.dispose();
     }
-    _camController =
-        CameraController(cameraDescription, ResolutionPreset.medium);
-    _camController.addListener(() {
+    _controller =
+        CameraController(cameraDescription, ResolutionPreset.veryHigh);
+    _controller.addListener(() {
       if (mounted) setState(() {});
-      if (_camController.value.hasError) {
-        showInSnackBar('Camera error ${_camController.value.errorDescription}');
+      if (_controller.value.hasError) {
+        showInSnackBar('Camera error ${_controller.value.errorDescription}');
       }
     });
 
     try {
-      await _camController.initialize();
+      await _controller.initialize();
     } on CameraException catch (e) {
       _showCameraException(e);
     }
@@ -303,72 +240,43 @@ class CameraScreenState extends State<CameraScreen>
     }
   }
 
-  void _onRecordButtonPressed() {
-    setState(() {
-      _isRecording = true;
-    });
-    startVideoRecording().then((String filePath) {
-      if (mounted) setState(() {});
-      print('Hehehe');
-      if (filePath != null)
-        _scaffoldCameraKey.currentState.showSnackBar(
-          SnackBar(
-            backgroundColor: errorCardColor,
-            content: Text(
-              'Saving video to $filePath',
-              style: GoogleFonts.raleway(
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            duration: Duration(seconds: 3),
-          ),
-        );
-    });
-  }
-
-  void _onStopButtonPressed() {
-    setState(() {
-      _isRecording = false;
-    });
-    stopVideoRecording().then((_) {
-      if (mounted) setState(() {});
-      showInSnackBar('Video recorded to: $videoPath');
-    });
-  }
-
-  void onPauseButtonPressed() {
-    pauseVideoRecording().then((_) {
-      if (mounted) setState(() {});
-      showInSnackBar('Video recording paused');
-    });
-  }
-
-  void onResumeButtonPressed() {
-    resumeVideoRecording().then((_) {
-      if (mounted) setState(() {});
-      showInSnackBar('Video recording resumed');
-    });
+  void _captureImage() async {
+    print('_captureImage');
+    if (_controller.value.isInitialized) {
+      SystemSound.play(SystemSoundType.click);
+      final Directory extDir = await getApplicationDocumentsDirectory();
+      final String dirPath = '${extDir.path}/media';
+      await Directory(dirPath).create(recursive: true);
+      final String filePath = '$dirPath/${_timestamp()}.jpeg';
+      print('path: $filePath');
+      await _controller.takePicture(filePath);
+      setState(() {});
+    }
   }
 
   Future<String> startVideoRecording() async {
-    if (!_camController.value.isInitialized) {
-      showInSnackBar('Error: select a camera first.');
+    print('startVideoRecording');
+    if (!_controller.value.isInitialized) {
       return null;
     }
+    setState(() {
+      _isRecording = true;
+    });
+    _timerKey.currentState.startTimer();
 
     final Directory extDir = await getApplicationDocumentsDirectory();
-    final String dirPath = '${extDir.path}/Movies/flutter_test';
+    final String dirPath = '${extDir.path}/media';
     await Directory(dirPath).create(recursive: true);
-    final String filePath = '$dirPath/${timestamp()}.mp4';
+    final String filePath = '$dirPath/${_timestamp()}.mp4';
 
-    if (_camController.value.isRecordingVideo) {
+    if (_controller.value.isRecordingVideo) {
       // A recording is already started, do nothing.
       return null;
     }
 
     try {
-      videoPath = filePath;
-      await _camController.startVideoRecording(filePath);
+//      videoPath = filePath;
+      await _controller.startVideoRecording(filePath);
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
@@ -377,43 +285,23 @@ class CameraScreenState extends State<CameraScreen>
   }
 
   Future<void> stopVideoRecording() async {
-    if (!_camController.value.isRecordingVideo) {
+    if (!_controller.value.isRecordingVideo) {
       return null;
     }
+    _timerKey.currentState.stopTimer();
+    setState(() {
+      _isRecording = false;
+    });
 
     try {
-      await _camController.stopVideoRecording();
+      await _controller.stopVideoRecording();
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
     }
   }
 
-  Future<void> pauseVideoRecording() async {
-    if (!_camController.value.isRecordingVideo) {
-      return null;
-    }
-
-    try {
-      await _camController.pauseVideoRecording();
-    } on CameraException catch (e) {
-      _showCameraException(e);
-      rethrow;
-    }
-  }
-
-  Future<void> resumeVideoRecording() async {
-    if (!_camController.value.isRecordingVideo) {
-      return null;
-    }
-
-    try {
-      await _camController.resumeVideoRecording();
-    } on CameraException catch (e) {
-      _showCameraException(e);
-      rethrow;
-    }
-  }
+  String _timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
   void _showCameraException(CameraException e) {
     logError(e.code, e.description);
@@ -421,18 +309,7 @@ class CameraScreenState extends State<CameraScreen>
   }
 
   void showInSnackBar(String message) {
-    _scaffoldCameraKey.currentState.showSnackBar(
-      SnackBar(
-        backgroundColor: errorCardColor,
-        content: Text(
-          message.toString(),
-          style: GoogleFonts.raleway(
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        duration: Duration(seconds: 3),
-      ),
-    );
+    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
   }
 
   void logError(String code, String message) =>
@@ -441,35 +318,3 @@ class CameraScreenState extends State<CameraScreen>
   @override
   bool get wantKeepAlive => true;
 }
-
-// Future _fileUploader() async {
-//   if (_file != null) {
-//     StorageReference storageReference =
-//         FirebaseStorage.instance.ref().child('file1');
-//     StorageUploadTask uploadTask = storageReference.putFile(_file);
-//     await uploadTask.onComplete;
-//     if (uploadTask.isSuccessful) {
-//       _scaffold.currentState.showSnackBar(SnackBar(
-//         backgroundColor: okCardColor,
-//         content: Text(
-//           'File Uploaded',
-//           style: GoogleFonts.raleway(
-//             fontWeight: FontWeight.w700,
-//           ),
-//         ),
-//         duration: Duration(seconds: 3),
-//       ));
-//     }
-//   } else {
-//     _scaffold.currentState.showSnackBar(SnackBar(
-//       backgroundColor: errorCardColor,
-//       content: Text(
-//         'No File',
-//         style: GoogleFonts.raleway(
-//           fontWeight: FontWeight.w700,
-//         ),
-//       ),
-//       duration: Duration(seconds: 3),
-//     ));
-//   }
-// }

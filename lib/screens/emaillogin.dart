@@ -148,7 +148,7 @@ class _EmailLoginState extends State<EmailLogin> {
                                     await _auth.signInWithEmailAndPassword(
                                         email: userMail, password: userPass);
                                 if (newUser != null) {
-                                  Navigator.pushNamed(context, 'home');
+                                  Navigator.pushNamed(context, 'camera');
                                 }
                                 // final SharedPreferences prefs =
                                 //     await SharedPreferences
