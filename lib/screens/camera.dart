@@ -310,7 +310,19 @@ class CameraScreenState extends State<CameraScreen>
     startVideoRecording().then((String filePath) {
       if (mounted) setState(() {});
       print('Hehehe');
-      if (filePath != null) showInSnackBar('Saving video to $filePath');
+      if (filePath != null)
+        _scaffoldCameraKey.currentState.showSnackBar(
+          SnackBar(
+            backgroundColor: errorCardColor,
+            content: Text(
+              'Saving video to $filePath',
+              style: GoogleFonts.raleway(
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            duration: Duration(seconds: 3),
+          ),
+        );
     });
   }
 
