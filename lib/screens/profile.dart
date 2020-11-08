@@ -26,6 +26,7 @@ String username = '';
 String userId = '';
 String userBio = '';
 String userURL = '';
+bool isReady = false;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
@@ -58,6 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             } catch (e) {
               userURL = null;
             }
+            isReady = true;
             print('Got Data');
           });
         });
@@ -87,242 +89,329 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
-        key: _scaffoldKey,
-        floatingActionButton: Padding(
-          padding: EdgeInsets.only(right: width * 0.00, top: 10),
-          child: FloatingActionButton(
-            mini: true,
-            heroTag: "btn1",
-            elevation: 0,
-            onPressed: () {
-              _scaffoldKey.currentState.openEndDrawer();
-            },
-            child: FaIcon(
-              FontAwesomeIcons.ellipsisV,
-              size: 18.0,
-              color: mainBgColor,
-            ),
-            backgroundColor: Colors.transparent,
-          ),
-        ),
-        endDrawer: EndDrawer(),
-        endDrawerEnableOpenDragGesture: false,
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-        backgroundColor: mainTextColor,
-        bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-              canvasColor: mainTextColor,
-              textTheme: Theme.of(context)
-                  .textTheme
-                  .copyWith(caption: TextStyle(color: Colors.yellow))),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.black,
-            selectedItemColor: mainBgColor,
-            showSelectedLabels: false,
-            type: BottomNavigationBarType.fixed,
-            showUnselectedLabels: false,
-            unselectedItemColor: fadeTextColor,
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(icon: FaIcon(Icons.home), label: ''),
-              BottomNavigationBarItem(
-                  icon: FaIcon(FontAwesomeIcons.search), label: ''),
-              BottomNavigationBarItem(icon: customIcon(), label: ''),
-              BottomNavigationBarItem(
-                  icon: FaIcon(FontAwesomeIcons.solidHeart), label: ''),
-              BottomNavigationBarItem(icon: FaIcon(Icons.person), label: '')
-            ],
-            currentIndex: currentIndex,
-            onTap: (value) {
-              // changePage(value);
-              if (value == 0) {
-                Navigator.pushNamed(context, 'home');
-              } else if (value == 1) {
-                Navigator.pushNamed(context, 'search');
-              } else if (value == 2) {
-                Navigator.pushNamed(context, 'camera');
-              } else if (value == 3) {
-                Navigator.pushNamed(context, 'notification');
-              }
-            },
-          ),
-        ),
-        body: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[700],
-                image: DecorationImage(
-                  fit: BoxFit.fitHeight,
-                  colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                  image: NetworkImage(userURL),
-                ),
+    if (isReady) {
+      return SafeArea(
+        child: Scaffold(
+          key: _scaffoldKey,
+          floatingActionButton: Padding(
+            padding: EdgeInsets.only(right: width * 0.00, top: 10),
+            child: FloatingActionButton(
+              mini: true,
+              heroTag: "btn1",
+              elevation: 0,
+              onPressed: () {
+                _scaffoldKey.currentState.openEndDrawer();
+              },
+              child: FaIcon(
+                FontAwesomeIcons.ellipsisV,
+                size: 18.0,
+                color: mainBgColor,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: height * 0.035, left: 25),
-                    child: Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
-                          child: Image.network(
-                            userURL,
-                            height: 80.0,
-                            width: 80.0,
+              backgroundColor: Colors.transparent,
+            ),
+          ),
+          endDrawer: EndDrawer(),
+          endDrawerEnableOpenDragGesture: false,
+          floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+          backgroundColor: mainTextColor,
+          bottomNavigationBar: Theme(
+            data: Theme.of(context).copyWith(
+                canvasColor: mainTextColor,
+                textTheme: Theme.of(context)
+                    .textTheme
+                    .copyWith(caption: TextStyle(color: Colors.yellow))),
+            child: BottomNavigationBar(
+              backgroundColor: Colors.black,
+              selectedItemColor: mainBgColor,
+              showSelectedLabels: false,
+              type: BottomNavigationBarType.fixed,
+              showUnselectedLabels: false,
+              unselectedItemColor: fadeTextColor,
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(icon: FaIcon(Icons.home), label: ''),
+                BottomNavigationBarItem(
+                    icon: FaIcon(FontAwesomeIcons.search), label: ''),
+                BottomNavigationBarItem(icon: customIcon(), label: ''),
+                BottomNavigationBarItem(
+                    icon: FaIcon(FontAwesomeIcons.solidHeart), label: ''),
+                BottomNavigationBarItem(icon: FaIcon(Icons.person), label: '')
+              ],
+              currentIndex: currentIndex,
+              onTap: (value) {
+                // changePage(value);
+                if (value == 0) {
+                  Navigator.pushNamed(context, 'home');
+                } else if (value == 1) {
+                  Navigator.pushNamed(context, 'search');
+                } else if (value == 2) {
+                  Navigator.pushNamed(context, 'camera');
+                } else if (value == 3) {
+                  Navigator.pushNamed(context, 'notification');
+                }
+              },
+            ),
+          ),
+          body: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[700],
+                  image: DecorationImage(
+                    fit: BoxFit.fitHeight,
+                    colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.2), BlendMode.dstATop),
+                    image: NetworkImage(userURL),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: height * 0.035, left: 25),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(100.0),
+                            child: Image.network(
+                              userURL,
+                              height: 80.0,
+                              width: 80.0,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 60,
-                            top: 60,
-                          ),
-                          child: CircleAvatar(
-                            radius: 10,
-                            backgroundColor: errorCardColor,
-                            child: Text(
-                              'V',
-                              style: GoogleFonts.raleway(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: mainBgColor,
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 60,
+                              top: 60,
+                            ),
+                            child: CircleAvatar(
+                              radius: 10,
+                              backgroundColor: errorCardColor,
+                              child: Text(
+                                'V',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: mainBgColor,
+                                ),
                               ),
                             ),
-                          ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: height * 0.0185, left: 25),
+                      child: Text(
+                        username,
+                        style: GoogleFonts.raleway(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: mainBgColor,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 5, left: 28),
+                      child: Text(
+                        userId,
+                        style: GoogleFonts.raleway(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: lightFadeText,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 5, left: 28),
+                      child: Text(
+                        userBio,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.raleway(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: mainBgColor,
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      color: fadeTextColor,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '1.2m',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: mainBgColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Liked',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: lightFadeText,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '12.8k',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: mainBgColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Followers',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: lightFadeText,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '1.9k',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: mainBgColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Followings',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: lightFadeText,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         )
                       ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: height * 0.0185, left: 25),
-                    child: Text(
-                      username,
-                      style: GoogleFonts.raleway(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        color: mainBgColor,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 5, left: 28),
-                    child: Text(
-                      userId,
-                      style: GoogleFonts.raleway(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: lightFadeText,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 5, left: 28),
-                    child: Text(
-                      userBio,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.raleway(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: mainBgColor,
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    color: fadeTextColor,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Column(
-                              children: [
-                                Text(
-                                  '1.2m',
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: mainBgColor,
-                                  ),
-                                ),
-                                Text(
-                                  'Liked',
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: lightFadeText,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Column(
-                              children: [
-                                Text(
-                                  '12.8k',
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: mainBgColor,
-                                  ),
-                                ),
-                                Text(
-                                  'Followers',
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: lightFadeText,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Column(
-                              children: [
-                                Text(
-                                  '1.9k',
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: mainBgColor,
-                                  ),
-                                ),
-                                Text(
-                                  'Followings',
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: lightFadeText,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: height * 0.340),
-              child: Tabbar(),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.only(top: height * 0.340),
+                child: Tabbar(),
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return SafeArea(
+        child: Scaffold(
+          key: _scaffoldKey,
+          floatingActionButton: Padding(
+            padding: EdgeInsets.only(right: width * 0.00, top: 10),
+            child: FloatingActionButton(
+              mini: true,
+              heroTag: "btn1",
+              elevation: 0,
+              onPressed: () {
+                _scaffoldKey.currentState.openEndDrawer();
+              },
+              child: FaIcon(
+                FontAwesomeIcons.ellipsisV,
+                size: 18.0,
+                color: mainBgColor,
+              ),
+              backgroundColor: Colors.transparent,
+            ),
+          ),
+          endDrawer: EndDrawer(),
+          endDrawerEnableOpenDragGesture: false,
+          floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+          backgroundColor: mainTextColor,
+          bottomNavigationBar: Theme(
+            data: Theme.of(context).copyWith(
+                canvasColor: mainTextColor,
+                textTheme: Theme.of(context)
+                    .textTheme
+                    .copyWith(caption: TextStyle(color: Colors.yellow))),
+            child: BottomNavigationBar(
+              backgroundColor: Colors.black,
+              selectedItemColor: mainBgColor,
+              showSelectedLabels: false,
+              type: BottomNavigationBarType.fixed,
+              showUnselectedLabels: false,
+              unselectedItemColor: fadeTextColor,
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(icon: FaIcon(Icons.home), label: ''),
+                BottomNavigationBarItem(
+                    icon: FaIcon(FontAwesomeIcons.search), label: ''),
+                BottomNavigationBarItem(icon: customIcon(), label: ''),
+                BottomNavigationBarItem(
+                    icon: FaIcon(FontAwesomeIcons.solidHeart), label: ''),
+                BottomNavigationBarItem(icon: FaIcon(Icons.person), label: '')
+              ],
+              currentIndex: currentIndex,
+              onTap: (value) {
+                // changePage(value);
+                if (value == 0) {
+                  Navigator.pushNamed(context, 'home');
+                } else if (value == 1) {
+                  Navigator.pushNamed(context, 'search');
+                } else if (value == 2) {
+                  Navigator.pushNamed(context, 'camera');
+                } else if (value == 3) {
+                  Navigator.pushNamed(context, 'notification');
+                }
+              },
+            ),
+          ),
+          body: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[700],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(buttonBgColor),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: height * 0.340),
+                child: Tabbar(),
+              )
+            ],
+          ),
+        ),
+      );
+    }
   }
 }
 
