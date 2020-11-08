@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vgo/pages/video_timer.dart';
 import 'package:vgo/utilities/constants.dart';
@@ -15,6 +16,7 @@ class CameraScreen extends StatefulWidget {
 String fileName;
 bool isPick = false;
 String videoPath;
+File _file = null;
 GlobalKey<ScaffoldState> _scaffold = GlobalKey();
 
 class CameraScreenState extends State<CameraScreen>
@@ -26,6 +28,7 @@ class CameraScreenState extends State<CameraScreen>
   bool _isRecording = false;
   final _timerKey = GlobalKey<VideoTimerState>();
   int currentIndex = 2;
+  final picker = ImagePicker();
   @override
   void initState() {
     _initCamera();
@@ -41,6 +44,21 @@ class CameraScreenState extends State<CameraScreen>
       }
       setState(() {});
     });
+  }
+
+  _videoFromGallery() async {
+    final pickedFile = await picker.getVideo(
+      source: ImageSource.gallery,
+    );
+    setState(
+      () {
+        if (pickedFile != null) {
+          _file = File(pickedFile.path);
+        } else {
+          print('No image selected.');
+        }
+      },
+    );
   }
 
   @override
@@ -172,7 +190,9 @@ class CameraScreenState extends State<CameraScreen>
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              _showPicker(context);
+            },
             child: FaIcon(
               FontAwesomeIcons.folderOpen,
               color: Colors.white,

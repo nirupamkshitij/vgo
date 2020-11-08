@@ -33,21 +33,6 @@ class _UserProfileInfoState extends State<UserProfileInfo> {
   File _image = null;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final picker = ImagePicker();
-  _imgFromCamera() async {
-    final pickedFile = await picker.getImage(
-      source: ImageSource.camera,
-      imageQuality: 50,
-    );
-    setState(
-      () {
-        if (pickedFile != null) {
-          _image = File(pickedFile.path);
-        } else {
-          print('No image selected.');
-        }
-      },
-    );
-  }
 
   _dataUpdates() async {
     await _fileUploader();
@@ -237,6 +222,22 @@ class _UserProfileInfoState extends State<UserProfileInfo> {
         duration: Duration(seconds: 3),
       ));
     }
+  }
+
+  _imgFromCamera() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.camera,
+      imageQuality: 50,
+    );
+    setState(
+      () {
+        if (pickedFile != null) {
+          _image = File(pickedFile.path);
+        } else {
+          print('No image selected.');
+        }
+      },
+    );
   }
 
   @override
