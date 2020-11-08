@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vgo/pages/video_timer.dart';
@@ -21,9 +22,10 @@ GlobalKey<ScaffoldState> _scaffold = GlobalKey();
 
 class CameraScreenState extends State<CameraScreen>
     with AutomaticKeepAliveClientMixin {
-  CameraController _controller;
+  CameraController _camController;
   List<CameraDescription> _cameras;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldCameraKey =
+      GlobalKey<ScaffoldState>();
   bool _isRecording = false;
   final _timerKey = GlobalKey<VideoTimerState>();
   int currentIndex = 2;
@@ -37,8 +39,8 @@ class CameraScreenState extends State<CameraScreen>
 
   Future<void> _initCamera() async {
     _cameras = await availableCameras();
-    _controller = CameraController(_cameras[0], ResolutionPreset.medium);
-    _controller.initialize().then((_) {
+    _camController = CameraController(_cameras[0], ResolutionPreset.medium);
+    _camController.initialize().then((_) {
       if (!mounted) {
         return;
       }
@@ -78,15 +80,15 @@ class CameraScreenState extends State<CameraScreen>
 
   @override
   void dispose() {
-    _controller?.dispose();
+    _camController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    if (_controller != null) {
-      if (!_controller.value.isInitialized) {
+    if (_camController != null) {
+      if (!_camController.value.isInitialized) {
         return Container();
       }
     } else {
@@ -99,7 +101,7 @@ class CameraScreenState extends State<CameraScreen>
       );
     }
 
-    if (!_controller.value.isInitialized) {
+    if (!_camController.value.isInitialized) {
       return Container();
     }
     return Scaffold(
@@ -185,11 +187,11 @@ class CameraScreenState extends State<CameraScreen>
     return ClipRect(
       child: Container(
         child: Transform.scale(
-          scale: _controller.value.aspectRatio / size.aspectRatio,
+          scale: _camController.value.aspectRatio / size.aspectRatio,
           child: Center(
             child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: CameraPreview(_controller),
+              aspectRatio: _camController.value.aspectRatio,
+              child: CameraPreview(_camController),
             ),
           ),
         ),
@@ -276,20 +278,21 @@ class CameraScreenState extends State<CameraScreen>
 
   Future<void> _onCameraSwitch() async {
     final CameraDescription cameraDescription =
-        (_controller.description == _cameras[0]) ? _cameras[1] : _cameras[0];
-    if (_controller != null) {
-      await _controller.dispose();
+        (_camController.description == _cameras[0]) ? _cameras[1] : _cameras[0];
+    if (_camController != null) {
+      await _camController.dispose();
     }
-    _controller = CameraController(cameraDescription, ResolutionPreset.medium);
-    _controller.addListener(() {
+    _camController =
+        CameraController(cameraDescription, ResolutionPreset.medium);
+    _camController.addListener(() {
       if (mounted) setState(() {});
-      if (_controller.value.hasError) {
-        showInSnackBar('Camera error ${_controller.value.errorDescription}');
+      if (_camController.value.hasError) {
+        showInSnackBar('Camera error ${_camController.value.errorDescription}');
       }
     });
 
     try {
-      await _controller.initialize();
+      await _camController.initialize();
     } on CameraException catch (e) {
       _showCameraException(e);
     }
@@ -315,13 +318,16 @@ class CameraScreenState extends State<CameraScreen>
   }
 
   Future<String> _startVideoRecording() async {
-    if (!_controller.value.isInitialized) {
+    if (!_camController.value.isInitialized) {
       showInSnackBar('Please wait');
       return null;
     }
 
     // Do nothing if a recording is on progress
-    if (_controller.value.isRecordingVideo) {
+    if (_camController.value.isRecordingVideo) {
+      setState(() {
+        _isRecording = true;
+      });
       return null;
     }
 
@@ -332,7 +338,7 @@ class CameraScreenState extends State<CameraScreen>
     final String filePath = '$videoDirectory/$currentTime.mp4';
 
     try {
-      await _controller.startVideoRecording(filePath);
+      await _camController.startVideoRecording(filePath);
       videoPath = filePath;
     } on CameraException catch (e) {
       _showCameraException(e);
@@ -343,12 +349,16 @@ class CameraScreenState extends State<CameraScreen>
   }
 
   Future<void> _stopVideoRecording() async {
-    if (!_controller.value.isRecordingVideo) {
+    if (!_camController.value.isRecordingVideo) {
       return null;
     }
 
     try {
-      await _controller.stopVideoRecording();
+      await _camController.stopVideoRecording().then((value) {
+        setState(() {
+          _isRecording = false;
+        });
+      });
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
@@ -361,7 +371,18 @@ class CameraScreenState extends State<CameraScreen>
   }
 
   void showInSnackBar(String message) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
+    _scaffoldCameraKey.currentState.showSnackBar(
+      SnackBar(
+        backgroundColor: errorCardColor,
+        content: Text(
+          message.toString(),
+          style: GoogleFonts.raleway(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        duration: Duration(seconds: 3),
+      ),
+    );
   }
 
   void logError(String code, String message) =>

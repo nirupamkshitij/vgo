@@ -15,6 +15,11 @@ int index = 0;
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int currentIndex = 0;
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SafeArea(
