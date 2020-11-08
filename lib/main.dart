@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vgo/screens/camera.dart';
 import 'package:vgo/screens/emaillogin.dart';
 import 'package:vgo/screens/home.dart';
 import 'package:vgo/screens/login.dart';
@@ -54,7 +55,7 @@ class _MainAppState extends State<MainApp> {
         'search': (context) => SearchPage(),
         'terms': (context) => Terms(),
         'notification': (context) => NotificationScreen(),
-        // 'camera': (context) => CameraScreen(),
+        'camera': (context) => CameraScreen(),
         // 'signin1': (context) => SignInData(),
       },
     );
