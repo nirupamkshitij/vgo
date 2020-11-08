@@ -29,6 +29,7 @@ class UserInfo extends StatefulWidget {
 class _UserInfoState extends State<UserInfo> {
   // ignore: avoid_init_to_null
   File _image = null;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final picker = ImagePicker();
 
@@ -71,7 +72,7 @@ class _UserInfoState extends State<UserInfo> {
       final storageReference = FirebaseStorage.instance.ref().child('file1');
       final UploadTask uploadTask = storageReference.putFile(_image);
       await uploadTask.whenComplete(() {
-        Scaffold.of(context).showSnackBar(SnackBar(
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: okCardColor,
           content: Text(
             'File Uploaded',
@@ -81,9 +82,10 @@ class _UserInfoState extends State<UserInfo> {
           ),
           duration: Duration(seconds: 3),
         ));
+        print('Uploaded');
       });
     } else {
-      Scaffold.of(context).showSnackBar(SnackBar(
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: errorCardColor,
         content: Text(
           'No File',
@@ -122,7 +124,7 @@ class _UserInfoState extends State<UserInfo> {
         });
       } catch (e) {
         print(e);
-        Scaffold.of(context).showSnackBar(SnackBar(
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
             backgroundColor: errorCardColor,
             content: Text(
               'An error occurred. Please try again later.',
@@ -132,7 +134,7 @@ class _UserInfoState extends State<UserInfo> {
       }
     } catch (e) {
       print(e);
-      Scaffold.of(context).showSnackBar(SnackBar(
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: errorCardColor,
           content: Text(
             'An error occurred. Please try again later.',
@@ -146,6 +148,7 @@ class _UserInfoState extends State<UserInfo> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         floatingActionButton: Padding(
           padding: EdgeInsets.only(
             top: 15,
