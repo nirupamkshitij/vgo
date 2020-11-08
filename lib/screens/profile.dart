@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:vgo/widgets/bottomnavbar.dart';
+import 'package:vgo/screens/userinfo.dart';
 
 List imageList = [
   'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
@@ -429,7 +430,7 @@ class EndDrawer extends StatelessWidget {
           children: [
             ListTile(
               title: Text(
-                'TIm Cooks',
+                username,
                 style: GoogleFonts.raleway(
                     color: mainBgColor, fontWeight: FontWeight.w700),
               ),
@@ -440,20 +441,14 @@ class EndDrawer extends StatelessWidget {
               textData: 'Share Profile',
             ),
             GestureDetector(
-              // onTap: () {
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //       builder: (_) => UserInfo(
-              //         userMail: 'emailid@gmail.com',
-              //         userName: username,
-              //         userNumber: 8902377381,
-              //         userImage: 'images/profile.png',
-              //         userId: userId,
-              //       ),
-              //     ),
-              //   );
-              // },
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserProfileInfo(),
+                  ),
+                );
+              },
               child: ListTile(
                 leading: FaIcon(
                   FontAwesomeIcons.cogs,

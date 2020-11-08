@@ -24,11 +24,11 @@ var userImage;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class UserInfo extends StatefulWidget {
-  _UserInfoState createState() => _UserInfoState();
+class UserProfileInfo extends StatefulWidget {
+  _UserProfileInfoState createState() => _UserProfileInfoState();
 }
 
-class _UserInfoState extends State<UserInfo> {
+class _UserProfileInfoState extends State<UserProfileInfo> {
   // ignore: avoid_init_to_null
   File _image = null;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();

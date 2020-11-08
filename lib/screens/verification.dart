@@ -144,7 +144,7 @@ below given mail Id
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => UserInfo(),
+                            builder: (_) => UserProfileInfo(),
                           ),
                         );
                       },
