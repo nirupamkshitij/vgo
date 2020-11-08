@@ -49,7 +49,111 @@ class _UserInfoState extends State<UserInfo> {
     );
   }
 
-  _dataUpdates() {}
+  _dataUpdates() async {
+    await _fileUploader();
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        try {
+          if (userMail == '' ||
+              userBio == '' ||
+              userName == '' ||
+              userId == '' ||
+              userNumber == 0 ||
+              userURL == '' ||
+              userImage == null) {
+            _scaffoldKey.currentState.showSnackBar(
+              SnackBar(
+                backgroundColor: errorCardColor,
+                content: Text(
+                  'Please Enter Your Credentials ',
+                  style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                duration: Duration(seconds: 3),
+              ),
+            );
+          } else {
+            try {
+              await _firestore.collection('user').doc(userMail).set({
+                'name': userName,
+                'phone': userNumber,
+                'userId': userId,
+                'mail': userMail,
+                'dpURl': userURL,
+                'userBio': userBio,
+              });
+              print('uploaded');
+              Navigator.pushNamed(context, 'home');
+            } on FirebaseException catch (e) {
+              print(e.code);
+              if (e.code == 'weak-password') {
+                print('The password provided is too weak.');
+                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                  backgroundColor: errorCardColor,
+                  content: Text(
+                    'The password provided is too weak.',
+                    style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  duration: Duration(seconds: 3),
+                ));
+              } else if (e.code == 'email-already-in-use') {
+                print('The account already exists for that email.');
+                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                  backgroundColor: errorCardColor,
+                  content: Text(
+                    'The account already exists for that email.',
+                    style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  duration: Duration(seconds: 3),
+                ));
+              }
+            } catch (e) {
+              print(e);
+              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                backgroundColor: errorCardColor,
+                content: Text(
+                  'Wrong Username/Password ',
+                  style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                duration: Duration(seconds: 3),
+              ));
+            }
+          }
+        } catch (e) {
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: errorCardColor,
+            content: Text(
+              'Check your Internet Connection ',
+              style: GoogleFonts.raleway(
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            duration: Duration(seconds: 3),
+          ));
+        }
+      }
+    } catch (e) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: errorCardColor,
+        content: Text(
+          'Check your Internet Connection ',
+          style: GoogleFonts.raleway(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        duration: Duration(seconds: 3),
+      ));
+    }
+  }
+
   Future<Null> _cropImage() async {
     File croppedFile = await ImageCropper.cropImage(
         sourcePath: _image.path,
@@ -188,7 +292,7 @@ class _UserInfoState extends State<UserInfo> {
               heroTag: "btn2",
               backgroundColor: bottomContainerColor,
               onPressed: () {
-                _fileUploader();
+                _dataUpdates();
                 // Navigator.popAndPushNamed(context, 'home');
               },
               child: ShaderMask(
