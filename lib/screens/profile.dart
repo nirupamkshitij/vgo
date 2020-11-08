@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,6 +26,8 @@ String username = '';
 String userId = '';
 String userBio = '';
 String userURL = '';
+final _auth = FirebaseAuth.instance;
+final _firestore = FirebaseFirestore.instance;
 
 class ProfileScreen extends StatefulWidget {
   @override
