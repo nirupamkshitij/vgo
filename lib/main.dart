@@ -4,6 +4,7 @@ import 'package:vgo/screens/emaillogin.dart';
 import 'package:vgo/screens/home.dart';
 import 'package:vgo/screens/login.dart';
 import 'package:vgo/screens/navigation.dart';
+import 'package:vgo/screens/notification.dart';
 import 'package:vgo/screens/profile.dart';
 import 'package:vgo/screens/search.dart';
 import 'package:vgo/screens/signin.dart';
@@ -52,14 +53,10 @@ class _MainAppState extends State<MainApp> {
         'signin': (context) => SignIn(),
         'search': (context) => SearchPage(),
         'terms': (context) => Terms(),
-        //
-        // 'notification': (context) => NotificationScreen(),
+        'notification': (context) => NotificationScreen(),
         //
         // 'camera': (context) => CameraScreen(),
-        //
         // 'signin1': (context) => SignInData(),
-        //
-        //
       },
     );
   }
