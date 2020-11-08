@@ -69,7 +69,8 @@ class _UserInfoState extends State<UserInfo> {
 
   Future _fileUploader() async {
     if (_image != null) {
-      final storageReference = FirebaseStorage.instance.ref().child('file1');
+      final storageReference =
+          FirebaseStorage.instance.ref().child('$userMail/dp');
       final UploadTask uploadTask = storageReference.putFile(_image);
       await uploadTask.whenComplete(() {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -82,7 +83,7 @@ class _UserInfoState extends State<UserInfo> {
           ),
           duration: Duration(seconds: 3),
         ));
-        print('Uploaded');
+        print(uploadTask);
       });
     } else {
       _scaffoldKey.currentState.showSnackBar(SnackBar(

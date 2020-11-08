@@ -94,6 +94,7 @@ class _SignInDataState extends State<SignInData> {
                   right: 25,
                 ),
                 child: TextField(
+                  keyboardType: TextInputType.name,
                   controller: _idController,
                   onChanged: (value) {
                     setState(() {
@@ -129,6 +130,7 @@ class _SignInDataState extends State<SignInData> {
                       userMail = value;
                     });
                   },
+                  keyboardType: TextInputType.emailAddress,
                   style: TextStyle(
                     color: mainBgColor,
                     fontSize: 18,
@@ -183,6 +185,7 @@ class _SignInDataState extends State<SignInData> {
                 ),
                 child: TextField(
                   keyboardType: TextInputType.visiblePassword,
+                  obscureText: true,
                   controller: _passController,
                   onEditingComplete: () {
                     setState(() {
