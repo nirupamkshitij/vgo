@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
-import 'package:camera/new/src/camera_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vgo/pages/video_timer.dart';
 import 'package:vgo/utilities/constants.dart';
@@ -17,7 +15,6 @@ class CameraScreen extends StatefulWidget {
 String fileName;
 bool isPick = false;
 String videoPath;
-var _file = null;
 GlobalKey<ScaffoldState> _scaffold = GlobalKey();
 
 class CameraScreenState extends State<CameraScreen>
@@ -33,37 +30,6 @@ class CameraScreenState extends State<CameraScreen>
   void initState() {
     _initCamera();
     super.initState();
-  }
-
-  void _fileTracker() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['mp4', 'mkv'],
-    );
-    setState(
-      () {
-        fileName = result.files.single.name;
-        isPick = true;
-        _file = File(result.files.single.path);
-      },
-    );
-    _scaffold.currentState.showSnackBar(SnackBar(
-      backgroundColor: okCardColor,
-      content: Text(
-        fileName + ' Selected',
-        style: GoogleFonts.raleway(
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-      duration: Duration(seconds: 3),
-    ));
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => VideoPreviewCustom(
-            filePath: _file,
-          ),
-        ));
   }
 
   Future<void> _initCamera() async {
@@ -206,9 +172,7 @@ class CameraScreenState extends State<CameraScreen>
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           GestureDetector(
-            onTap: () {
-              _fileTracker();
-            },
+            onTap: () {},
             child: FaIcon(
               FontAwesomeIcons.folderOpen,
               color: Colors.white,
