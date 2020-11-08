@@ -172,9 +172,9 @@ class _UserInfoState extends State<UserInfo> {
                 CropAspectRatioPreset.square,
               ],
         androidUiSettings: AndroidUiSettings(
-            toolbarTitle: 'Cropper',
-            toolbarColor: Colors.deepOrange,
-            toolbarWidgetColor: Colors.white,
+            toolbarTitle: 'Please Crop Image',
+            toolbarColor: bottomContainerColor,
+            toolbarWidgetColor: buttonBgColor,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
         iosUiSettings: IOSUiSettings(
@@ -222,9 +222,7 @@ class _UserInfoState extends State<UserInfo> {
           ),
           duration: Duration(seconds: 3),
         ));
-        setState(() async {
-          userURL = await (storageReference.getDownloadURL());
-        });
+        userURL = await (storageReference.getDownloadURL());
         print(userURL);
       });
     } else {
