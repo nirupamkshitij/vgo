@@ -276,6 +276,7 @@ class CameraScreenState extends State<CameraScreen>
         });
   }
 
+  String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
   Future<void> _onCameraSwitch() async {
     final CameraDescription cameraDescription =
         (_camController.description == _cameras[0]) ? _cameras[1] : _cameras[0];
@@ -303,65 +304,102 @@ class CameraScreenState extends State<CameraScreen>
   }
 
   void _onRecordButtonPressed() {
-    _startVideoRecording().then((String filePath) {
-      if (filePath != null) {
-        showInSnackBar('Recording video started');
-      }
+    setState(() {
+      _isRecording = true;
+    });
+    startVideoRecording().then((String filePath) {
+      if (mounted) setState(() {});
+      print('Hehehe');
+      if (filePath != null) showInSnackBar('Saving video to $filePath');
     });
   }
 
   void _onStopButtonPressed() {
-    _stopVideoRecording().then((_) {
+    setState(() {
+      _isRecording = false;
+    });
+    stopVideoRecording().then((_) {
       if (mounted) setState(() {});
-      showInSnackBar('Video recorded to $videoPath');
+      showInSnackBar('Video recorded to: $videoPath');
     });
   }
 
-  Future<String> _startVideoRecording() async {
+  void onPauseButtonPressed() {
+    pauseVideoRecording().then((_) {
+      if (mounted) setState(() {});
+      showInSnackBar('Video recording paused');
+    });
+  }
+
+  void onResumeButtonPressed() {
+    resumeVideoRecording().then((_) {
+      if (mounted) setState(() {});
+      showInSnackBar('Video recording resumed');
+    });
+  }
+
+  Future<String> startVideoRecording() async {
     if (!_camController.value.isInitialized) {
-      showInSnackBar('Please wait');
+      showInSnackBar('Error: select a camera first.');
       return null;
     }
 
-    // Do nothing if a recording is on progress
+    final Directory extDir = await getApplicationDocumentsDirectory();
+    final String dirPath = '${extDir.path}/Movies/flutter_test';
+    await Directory(dirPath).create(recursive: true);
+    final String filePath = '$dirPath/${timestamp()}.mp4';
+
     if (_camController.value.isRecordingVideo) {
-      setState(() {
-        _isRecording = true;
-      });
+      // A recording is already started, do nothing.
       return null;
     }
-
-    final Directory appDirectory = await getApplicationDocumentsDirectory();
-    final String videoDirectory = '${appDirectory.path}/Videos';
-    await Directory(videoDirectory).create(recursive: true);
-    final String currentTime = DateTime.now().millisecondsSinceEpoch.toString();
-    final String filePath = '$videoDirectory/$currentTime.mp4';
 
     try {
-      await _camController.startVideoRecording(filePath);
       videoPath = filePath;
+      await _camController.startVideoRecording(filePath);
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
     }
-
     return filePath;
   }
 
-  Future<void> _stopVideoRecording() async {
+  Future<void> stopVideoRecording() async {
     if (!_camController.value.isRecordingVideo) {
       return null;
     }
 
     try {
-      await _camController.stopVideoRecording().then((value) {
-        setState(() {
-          _isRecording = false;
-        });
-      });
+      await _camController.stopVideoRecording();
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
+    }
+  }
+
+  Future<void> pauseVideoRecording() async {
+    if (!_camController.value.isRecordingVideo) {
+      return null;
+    }
+
+    try {
+      await _camController.pauseVideoRecording();
+    } on CameraException catch (e) {
+      _showCameraException(e);
+      rethrow;
+    }
+  }
+
+  Future<void> resumeVideoRecording() async {
+    if (!_camController.value.isRecordingVideo) {
+      return null;
+    }
+
+    try {
+      await _camController.resumeVideoRecording();
+    } on CameraException catch (e) {
+      _showCameraException(e);
+      rethrow;
     }
   }
 

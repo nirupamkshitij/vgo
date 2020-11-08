@@ -35,4 +35,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
+    <uses-feature
+    android:name="android.hardware.camera"
+    android:required="true"/>
 </manifest>
