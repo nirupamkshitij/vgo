@@ -20,8 +20,10 @@ List likedList = [
   'https://images.shaadisaga.com/shaadisaga_production/photos/pictures/000/683/048/new_large/aanal_savaliya.jpg?1548750168',
   'https://images.shaadisaga.com/shaadisaga_production/photos/pictures/000/683/049/new_large/andrew_koe_studio.jpg?1548750174'
 ];
-final String username = 'Tim Cook';
-final String userId = '@imtimcooks';
+final String username = '';
+final String userId = '';
+final String userBio = '';
+final String userURL = '';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -30,6 +32,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   int currentIndex = 4;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
