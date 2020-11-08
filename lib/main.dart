@@ -9,6 +9,7 @@ import 'package:vgo/screens/search.dart';
 import 'package:vgo/screens/signin.dart';
 import 'package:vgo/screens/signindata.dart';
 import 'package:vgo/screens/splash.dart';
+import 'package:vgo/screens/terms.dart';
 // import 'package:tik_tok_demo/screens/camera.dart';
 // import 'package:tik_tok_demo/screens/emaillogin.dart';
 // import 'package:tik_tok_demo/screens/home.dart';
@@ -50,13 +51,14 @@ class _MainAppState extends State<MainApp> {
         'signin1': (context) => SignInData(),
         'signin': (context) => SignIn(),
         'search': (context) => SearchPage(),
+        'terms': (context) => Terms(),
         //
         // 'notification': (context) => NotificationScreen(),
         //
         // 'camera': (context) => CameraScreen(),
         //
         // 'signin1': (context) => SignInData(),
-        // 'terms': (context) => Terms(),
+        //
         //
       },
     );
