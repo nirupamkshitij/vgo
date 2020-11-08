@@ -269,7 +269,16 @@ class _VideoItemState extends State<VideoItem> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.url)..initialize();
+    _controller = VideoPlayerController.network(widget.url)
+      ..initialize().then((_) {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -290,11 +299,5 @@ class _VideoItemState extends State<VideoItem> {
               child: CircularProgressIndicator(),
             ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }
