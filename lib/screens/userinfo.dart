@@ -32,15 +32,12 @@ class _UserInfoState extends State<UserInfo> {
   // ignore: avoid_init_to_null
   File _image = null;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   final picker = ImagePicker();
-
   _imgFromCamera() async {
     final pickedFile = await picker.getImage(
       source: ImageSource.camera,
       imageQuality: 50,
     );
-
     setState(
       () {
         if (pickedFile != null) {
@@ -52,6 +49,7 @@ class _UserInfoState extends State<UserInfo> {
     );
   }
 
+  _dataUpdates() {}
   Future<Null> _cropImage() async {
     File croppedFile = await ImageCropper.cropImage(
         sourcePath: _image.path,
