@@ -156,9 +156,9 @@ class _SignInDataState extends State<SignInData> {
                 child: TextField(
                   keyboardType: TextInputType.number,
                   controller: _numberController,
-                  onEditingComplete: () {
+                  onChanged: (value) {
                     setState(() {
-                      userNumber = int.parse(_numberController.text);
+                      userNumber = int.parse(value);
                     });
                   },
                   style: TextStyle(
@@ -187,9 +187,9 @@ class _SignInDataState extends State<SignInData> {
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
                   controller: _passController,
-                  onEditingComplete: () {
+                  onChanged: (value) {
                     setState(() {
-                      userPass = _passController.text;
+                      userPass = value;
                     });
                   },
                   style: TextStyle(
