@@ -3,6 +3,7 @@ import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vgo/pages/tagpage.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:vgo/widgets/bottomnavbar.dart';
 
