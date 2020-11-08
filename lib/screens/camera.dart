@@ -230,6 +230,29 @@ class CameraScreenState extends State<CameraScreen>
     );
   }
 
+  void _showPicker(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Container(
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+                    leading: new Icon(Icons.photo_library),
+                    title: new Text('Photo Library'),
+                    onTap: () {
+                      _videoFromGallery();
+                      Navigator.of(context).pop();
+                    }),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> _onCameraSwitch() async {
     final CameraDescription cameraDescription =
         (_controller.description == _cameras[0]) ? _cameras[1] : _cameras[0];
