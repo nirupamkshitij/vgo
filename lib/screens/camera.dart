@@ -61,6 +61,21 @@ class CameraScreenState extends State<CameraScreen>
     );
   }
 
+  _videoFromCamera() async {
+    final pickedFile = await picker.getVideo(
+      source: ImageSource.camera,
+    );
+    setState(
+      () {
+        if (pickedFile != null) {
+          _file = File(pickedFile.path);
+        } else {
+          print('No image selected.');
+        }
+      },
+    );
+  }
+
   @override
   void dispose() {
     _controller?.dispose();
@@ -232,25 +247,32 @@ class CameraScreenState extends State<CameraScreen>
 
   void _showPicker(context) {
     showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) {
-        return SafeArea(
-          child: Container(
-            child: new Wrap(
-              children: <Widget>[
-                new ListTile(
-                    leading: new Icon(Icons.photo_library),
-                    title: new Text('Photo Library'),
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _videoFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
                     onTap: () {
-                      _videoFromGallery();
+                      _videoFromCamera();
                       Navigator.of(context).pop();
-                    }),
-              ],
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        });
   }
 
   Future<void> _onCameraSwitch() async {
