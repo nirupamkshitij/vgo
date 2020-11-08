@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tik_tok_demo/utilities/constants.dart';
+import 'package:vgo/utilities/constants.dart';
 
 class Terms extends StatelessWidget {
   @override
