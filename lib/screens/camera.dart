@@ -256,7 +256,7 @@ class CameraScreenState extends State<CameraScreen>
                 children: <Widget>[
                   new ListTile(
                       leading: new Icon(Icons.photo_library),
-                      title: new Text('Photo Library'),
+                      title: new Text('Video Library'),
                       onTap: () {
                         _videoFromGallery();
                         Navigator.of(context).pop();
