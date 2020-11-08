@@ -19,6 +19,7 @@ String userConfirmPassword = '';
 String userName = '';
 String userMail = '';
 int userNumber = 0;
+String userURL = '';
 var userImage;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
@@ -100,7 +101,7 @@ class _UserInfoState extends State<UserInfo> {
       final storageReference =
           FirebaseStorage.instance.ref().child('$userMail/dp');
       final UploadTask uploadTask = storageReference.putFile(_image);
-      await uploadTask.whenComplete(() {
+      await uploadTask.whenComplete(() async {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: okCardColor,
           content: Text(
@@ -111,7 +112,8 @@ class _UserInfoState extends State<UserInfo> {
           ),
           duration: Duration(seconds: 3),
         ));
-        print(storageReference.getDownloadURL().toString());
+        userURL = await (storageReference.getDownloadURL());
+        print(userURL);
       });
     } else {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
