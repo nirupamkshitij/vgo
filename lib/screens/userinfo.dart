@@ -62,11 +62,18 @@ class _UserInfoState extends State<UserInfo> {
               userNumber == 0 ||
               userURL == '' ||
               userImage == null) {
+            print(userMail);
+            print(userBio);
+            print(userName);
+            print(userId);
+            print(userNumber);
+            print(userURL);
+            print(userImage);
             _scaffoldKey.currentState.showSnackBar(
               SnackBar(
                 backgroundColor: errorCardColor,
                 content: Text(
-                  'Please Enter Your Credentials ',
+                  'Please Fill in the Data ',
                   style: GoogleFonts.raleway(
                     fontWeight: FontWeight.w700,
                   ),
@@ -176,6 +183,7 @@ class _UserInfoState extends State<UserInfo> {
     if (croppedFile != null) {
       setState(() {
         _image = croppedFile;
+        userImage = _image;
       });
     }
   }
@@ -207,14 +215,16 @@ class _UserInfoState extends State<UserInfo> {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: okCardColor,
           content: Text(
-            'File Uploaded',
+            'Profile Picture Updated',
             style: GoogleFonts.raleway(
               fontWeight: FontWeight.w700,
             ),
           ),
           duration: Duration(seconds: 3),
         ));
-        userURL = await (storageReference.getDownloadURL());
+        setState(() async {
+          userURL = await (storageReference.getDownloadURL());
+        });
         print(userURL);
       });
     } else {
@@ -248,7 +258,7 @@ class _UserInfoState extends State<UserInfo> {
             userNumber = value.data()['phone'];
             userId = value.data()['userId'];
             try {
-              userImage = value.data()['dp'];
+              userImage = value.data()['userURL'];
             } catch (e) {
               userImage = null;
             }
@@ -282,6 +292,8 @@ class _UserInfoState extends State<UserInfo> {
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
+        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomPadding: false,
         floatingActionButton: Padding(
           padding: EdgeInsets.only(
             top: 15,
@@ -321,63 +333,66 @@ class _UserInfoState extends State<UserInfo> {
         backgroundColor: bottomContainerColor,
         body: Stack(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      _showPicker(context);
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 25),
-                      child: _image != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Image.file(
-                                _image,
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.fitHeight,
-                              ),
-                            )
-                          : userImage == null
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey[200],
-                                      borderRadius: BorderRadius.circular(50)),
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        _showPicker(context);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 25),
+                        child: _image != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Image.file(
+                                  _image,
                                   width: 100,
                                   height: 100,
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    color: Colors.grey[800],
-                                  ),
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Image.network(
-                                    userImage,
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              )
+                            : userImage == null
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
                                     width: 100,
                                     height: 100,
-                                    fit: BoxFit.fitHeight,
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.grey[800],
+                                    ),
+                                  )
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.network(
+                                      userImage,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.fitHeight,
+                                    ),
                                   ),
-                                ),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text(
-                    "Change Profile Pic",
-                    style: TextStyle(
-                      color: darkFadeTextColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text(
+                      "Change Profile Pic",
+                      style: TextStyle(
+                        color: darkFadeTextColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(
