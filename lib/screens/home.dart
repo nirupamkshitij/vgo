@@ -109,12 +109,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         children: List.generate(8, (index) {
                           return GestureDetector(
                             onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (_) => VideoPage(),
-                              //   ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => VideoPage(),
+                                ),
+                              );
                             },
                             child: Container(
                               decoration: BoxDecoration(
