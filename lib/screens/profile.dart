@@ -70,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             backgroundColor: errorCardColor,
             content: Text(
               'An error occurred. Please try again later.',
-              style: TextStyle(color: fadeTextColor),
+              style: TextStyle(color: mainBgColor),
             ),
             duration: Duration(seconds: 3)));
       }
@@ -80,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           backgroundColor: errorCardColor,
           content: Text(
             'An error occurred. Please try again later.',
-            style: TextStyle(color: fadeTextColor),
+            style: TextStyle(color: mainBgColor),
           ),
           duration: Duration(seconds: 3)));
     }
@@ -396,7 +396,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   minWidth: MediaQuery.of(context).size.width,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.grey[700],
+                  color: bottomContainerColor,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
