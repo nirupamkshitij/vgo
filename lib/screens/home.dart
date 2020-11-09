@@ -181,69 +181,72 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       child: GridView.count(
                         crossAxisCount: 2,
                         children: List.generate(8, (index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => VideoPage(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 3.0,
-                                  color: bottomContainerColor,
-                                ),
-                              ),
-                              constraints: BoxConstraints.expand(height: 150),
-                              child: Stack(
-                                children: [
-                                  VideoItem(
-                                    forYouURL[index],
+                          return VisibilityDetector(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => VideoPage(),
                                   ),
-                                  Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.only(
-                                              left: 5, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        100.0),
-                                                child: Image.network(
-                                                  'https://picsum.photos/id/${index + 250}/250/250',
-                                                  height: 30.0,
-                                                  width: 30.0,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 10.0),
-                                                child: Text(
-                                                  forYouName[index],
-                                                  style: GoogleFonts.raleway(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: mainBgColor,
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 3.0,
+                                    color: bottomContainerColor,
+                                  ),
+                                ),
+                                constraints: BoxConstraints.expand(height: 150),
+                                child: Stack(
+                                  children: [
+                                    VideoItem(
+                                      forYouURL[index],
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                                left: 5, bottom: 5),
+                                            child: Row(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100.0),
+                                                  child: Image.network(
+                                                    'https://picsum.photos/id/${index + 250}/250/250',
+                                                    height: 30.0,
+                                                    width: 30.0,
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 10.0),
+                                                  child: Text(
+                                                    forYouName[index],
+                                                    style: GoogleFonts.raleway(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: mainBgColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
