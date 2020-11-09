@@ -63,6 +63,7 @@ class _EmailLoginState extends State<EmailLogin> {
                       userMail = value;
                     });
                   },
+                  keyboardType: TextInputType.emailAddress,
                   style: TextStyle(
                     color: mainBgColor,
                     fontSize: 18,
@@ -87,6 +88,8 @@ class _EmailLoginState extends State<EmailLogin> {
                 ),
                 child: TextField(
                   controller: _passController,
+                  keyboardType: TextInputType.visiblePassword,
+                  obscureText: true,
                   onChanged: (value) {
                     setState(() {
                       userPass = value;
@@ -148,7 +151,7 @@ class _EmailLoginState extends State<EmailLogin> {
                                     await _auth.signInWithEmailAndPassword(
                                         email: userMail, password: userPass);
                                 if (newUser != null) {
-                                  Navigator.pushNamed(context, 'camera');
+                                  Navigator.pushNamed(context, 'home');
                                 }
                                 // final SharedPreferences prefs =
                                 //     await SharedPreferences
