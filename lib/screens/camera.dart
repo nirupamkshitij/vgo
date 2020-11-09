@@ -319,7 +319,11 @@
 //   bool get wantKeepAlive => true;
 // }
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:vgo/pages/video-create.dart';
+
+List<CameraDescription> cameras;
 
 class CameraScreen extends StatefulWidget {
   @override
@@ -328,7 +332,19 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   @override
+  void initState() {
+    getReady();
+    super.initState();
+  }
+
+  Future<void> getReady() async {
+    cameras = await availableCameras();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container();
+    return MaterialApp(
+      home: CreateVideo(),
+    );
   }
 }
