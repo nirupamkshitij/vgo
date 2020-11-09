@@ -32,7 +32,7 @@ String userURL = '';
 bool isReady = false;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
-Map<int, Map<String, dynamic>> videoData;
+Map<String, Map> videoData = Map();
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -100,23 +100,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
             print(element.data()['url']);
             if (element.data()['userMail'] == userMail) {
               print('Enter');
-              setState(() {
-                videoData[counter] = {
-                  'name': element.data()['name'],
-                  'artist': element.data()['artist'],
-                  'dp': element.data()['dp'],
-                  'song': element.data()['song'],
-                  'userId': element.data()['userId'],
-                  'userMail': element.data()['userMail'],
-                  'url': element.data()['url'],
-                };
-              });
-
+              setState(
+                () {
+                  videoData[counter.toString()] = Map();
+                  videoData['test'].addAll({1: 2});
+                  videoData[counter.toString()].addAll({
+                    'name': element.data()['name'],
+                    'artist': element.data()['artist'],
+                    'dp': element.data()['dp'],
+                    'song': element.data()['song'],
+                    'userId': element.data()['userId'],
+                    'userMail': element.data()['userMail'],
+                    'url': element.data()['url'],
+                  });
+                },
+              );
+              print(videoData[counter.toString()]);
               counter = counter + 1;
             }
           });
         });
-        print(videoData[counter]);
       } catch (e) {
         print(e);
         _scaffoldKey.currentState.showSnackBar(SnackBar(
