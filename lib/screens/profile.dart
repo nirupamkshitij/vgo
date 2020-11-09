@@ -30,6 +30,7 @@ String userId = '';
 String userBio = '';
 String userURL = '';
 bool isReady = false;
+bool gotVideos = false;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 Map<String, Map> videoData = Map();
@@ -102,9 +103,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               print('Enter');
               setState(
                 () {
-                  videoData[counter.toString()] = Map();
-                  videoData['test'].addAll({1: 2});
-                  videoData[counter.toString()].addAll({
+                  videoData["$counter"] = new Map();
+                  videoData["$counter"].addAll({
                     'name': element.data()['name'],
                     'artist': element.data()['artist'],
                     'dp': element.data()['dp'],
@@ -115,9 +115,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   });
                 },
               );
-              print(videoData[counter.toString()]);
+              // videoData["subMap"] = new Map();
+              // videoData["subMap"].addAll({'super': 2});
+              // videoData["subMap"].addAll({'fill': 2});
+              print(videoData);
               counter = counter + 1;
             }
+          });
+          setState(() {
+            gotVideos = true;
           });
         });
       } catch (e) {
@@ -626,10 +632,15 @@ class _TabbarState extends State<Tabbar> {
                 color: bottomContainerColor,
                 child: GridView.count(
                   crossAxisCount: 3,
-                  children: List.generate(videoData.length, (index) {
-                    return VideoPlayerCustom(
-                      url: videoData[index]['url'],
-                    );
+                  children:
+                      List.generate(gotVideos ? videoData.length : 1, (index) {
+                    return gotVideos
+                        ? VideoPlayerCustom(
+                            url: videoData['$index']['url'],
+                          )
+                        : Container(
+                            color: bottomContainerColor,
+                          );
                   }),
                 ),
               ),
