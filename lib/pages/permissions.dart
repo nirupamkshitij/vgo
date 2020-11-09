@@ -1,42 +1,43 @@
-import 'dart:io';
+// import 'dart:io';
 
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
-class PermissionsService {
-  final PermissionHandler _permissionHandler = PermissionHandler();
+// class PermissionsService {
+//   final PermissionsService _permissionHandler = PermissionsService();
 
-  Future<bool> _requestPermission(PermissionGroup permission) async {
-    var result = await _permissionHandler.requestPermissions([permission]);
+//   Future<bool> _requestPermission(Permission permission) async {
+//     var result = await _permissionHandler._requestPermission(permission);
 
-    if (result[permission] != PermissionStatus.granted) {
-      return false;
-    }
+//     if (result == PermissionStatus.granted) {
+//       return false;
+//     }
 
-    return true;
-  }
+//     return true;
+//   }
 
-  /// Requests the user permission to save photos and videos to the Gallery
-  /// For Android, ExternalStorage, For iOS, Photos
-  Future<bool> requestPermissionToGallery() async {
-    var permission =
-        Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
+//   /// Requests the user permission to save photos and videos to the Gallery
+//   /// For Android, ExternalStorage, For iOS, Photos
+//   Future<bool> requestPermissionToGallery() async {
+//     var permission = Platform.isAndroid
+//         ? await Permission.mediaLibrary.request()
+//         : Permission.photos.request();
 
-    return _requestPermission(permission);
-  }
+//     return _requestPermission(permission);
+//   }
 
-  /// Check if the has permission to save photos to user gallery
-  /// For Android, ExternalStorage, For iOS, Photos
-  Future<bool> hasGalleryWritePermission() async {
-    var permission =
-        Platform.isAndroid ? PermissionGroup.storage : PermissionGroup.photos;
+//   /// Check if the has permission to save photos to user gallery
+//   /// For Android, ExternalStorage, For iOS, Photos
+//   Future<bool> hasGalleryWritePermission() async {
+//     var permission = Platform.isAndroid
+//         ? Permission.storage.request()
+//         : Permission.photos.request();
 
-    return hasPermission(permission);
-  }
+//     return hasPermission(permission);
+//   }
 
-  Future<bool> hasPermission(PermissionGroup permission) async {
-    var permissionStatus =
-        await _permissionHandler.checkPermissionStatus(permission);
+//   Future<bool> hasPermission(Future<PermissionStatus> permission) async {
+//     var permissionStatus = PermissionsService();
 
-    return permissionStatus == PermissionStatus.disabled;
-  }
-}
+//     return permissionStatus == PermissionStatus.denied;
+//   }
+// }
