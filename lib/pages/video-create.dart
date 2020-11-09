@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vgo/screens/camera.dart';
+import 'package:vgo/utilities/constants.dart';
 
 class CreateVideo extends StatefulWidget {
   @override
@@ -72,15 +73,25 @@ class _CreateVideoState extends State<CreateVideo> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: _camController.value.isRecordingVideo
-                    ? RawMaterialButton(onPressed: () {
-                        setState(() {
-                          if (_camController.value.isRecordingVideo) {
-                            _camController.stopVideoRecording();
-                            isDisabled = false;
-                            isDisabled = !isDisabled;
-                          }
-                        });
-                      })
+                    ? RawMaterialButton(
+                        onPressed: () {
+                          setState(() {
+                            if (_camController.value.isRecordingVideo) {
+                              _camController.stopVideoRecording();
+                              print(path);
+                              isDisabled = false;
+                              isDisabled = !isDisabled;
+                            }
+                          });
+                        },
+                        child: Icon(
+                          Icons.stop,
+                          size: 50,
+                          color: errorCardColor,
+                        ),
+                        padding: EdgeInsets.all(50),
+                        shape: CircleBorder(),
+                      )
                     : null,
               )
             ],
