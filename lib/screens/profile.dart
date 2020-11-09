@@ -106,6 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   'song': element.data()['song'],
                   'userId': element.data()['userId'],
                   'userMail': element.data()['userMail'],
+                  'url': element.data()['url'],
                 };
               });
               counter = counter + 1;
