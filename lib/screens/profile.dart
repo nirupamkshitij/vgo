@@ -614,7 +614,7 @@ class Tabbar extends StatelessWidget {
                 color: bottomContainerColor,
                 child: GridView.count(
                   crossAxisCount: 3,
-                  children: List.generate(7, (index) {
+                  children: List.generate(videoData.length, (index) {
                     return Container(
                       decoration: BoxDecoration(
                         border: Border.all(
