@@ -3,7 +3,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inview_notifier_list/inview_notifier_list.dart';
-import 'package:tik_tok_demo/utilities/constants.dart';
+import 'package:vgo/utilities/constants.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPage extends StatefulWidget {
