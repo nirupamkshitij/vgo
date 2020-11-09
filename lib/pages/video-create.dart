@@ -29,6 +29,7 @@ class _CreateVideoState extends State<CreateVideo> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
+      future: initializeControllerFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Stack(
@@ -36,6 +37,12 @@ class _CreateVideoState extends State<CreateVideo> {
               Container(
                 alignment: Alignment.center,
                 child: CameraPreview(_camController),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: !_camController.value.isRecordingVideo
+                    ? RawMaterialButton(onPressed: null)
+                    : RawMaterialButton(onPressed: null),
               )
             ],
           );
