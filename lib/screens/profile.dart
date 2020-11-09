@@ -32,7 +32,7 @@ String userURL = '';
 bool isReady = false;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
-Map<int, dynamic> videoData;
+Map<int, Map<String, dynamic>> videoData;
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -97,7 +97,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       try {
         await _firestore.collection("videos").get().then((value) {
           value.docs.forEach((element) {
+            print(element.data()['url']);
             if (element.data()['userMail'] == userMail) {
+              print('Enter');
               setState(() {
                 videoData[counter] = {
                   'name': element.data()['name'],
@@ -109,10 +111,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   'url': element.data()['url'],
                 };
               });
+
               counter = counter + 1;
             }
           });
         });
+        print(videoData[counter]);
       } catch (e) {
         print(e);
         _scaffoldKey.currentState.showSnackBar(SnackBar(
