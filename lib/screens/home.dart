@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vgo/pages/videos.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:vgo/widgets/bottomnavbar.dart';
 import 'package:video_player/video_player.dart';
@@ -182,12 +183,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         children: List.generate(8, (index) {
                           return GestureDetector(
                             onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (_) => VideoPage(),
-                              //   ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => VideoPage(),
+                                ),
+                              );
                             },
                             child: Container(
                               decoration: BoxDecoration(
