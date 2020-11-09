@@ -32,7 +32,7 @@ String userURL = '';
 bool isReady = false;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
-Map<String, dynamic> videoData;
+Map<int, dynamic> videoData;
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -99,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           value.docs.forEach((element) {
             if (element.data()['userMail'] == userMail) {
               setState(() {
-                videoData[element.data()[counter]] = {
+                videoData[counter] = {
                   'name': element.data()['name'],
                   'artist': element.data()['artist'],
                   'dp': element.data()['dp'],
