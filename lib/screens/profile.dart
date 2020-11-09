@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:vgo/widgets/bottomnavbar.dart';
 import 'package:vgo/screens/userinfo.dart';
+import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 List imageList = [
   'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
@@ -44,6 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     getUserMail();
+    getVideoList();
     super.initState();
   }
 
@@ -564,11 +567,12 @@ class GestureDrawer extends StatelessWidget {
   }
 }
 
-class Tabbar extends StatelessWidget {
-  const Tabbar({
-    Key key,
-  }) : super(key: key);
+class Tabbar extends StatefulWidget {
+  @override
+  _TabbarState createState() => _TabbarState();
+}
 
+class _TabbarState extends State<Tabbar> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -615,19 +619,8 @@ class Tabbar extends StatelessWidget {
                 child: GridView.count(
                   crossAxisCount: 3,
                   children: List.generate(videoData.length, (index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 3.0,
-                          color: bottomContainerColor,
-                        ),
-                      ),
-                      constraints: BoxConstraints.expand(height: 100),
-                      child: Image.network(
-                        imageList[index],
-                        repeat: ImageRepeat.repeatX,
-                        fit: BoxFit.contain,
-                      ),
+                    return VideoPlayerCustom(
+                      url: videoData[index]['url'],
                     );
                   }),
                 ),
@@ -681,6 +674,68 @@ class Tabbar extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class VideoPlayerCustom extends StatefulWidget {
+  VideoPlayerCustom({@required this.url});
+  final String url;
+  @override
+  _VideoPlayerCustomState createState() => _VideoPlayerCustomState();
+}
+
+class _VideoPlayerCustomState extends State<VideoPlayerCustom> {
+  VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.url)
+      ..initialize().then((_) {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  Key cellKey(VideoPlayerController _controller) =>
+      Key('Controller-$_controller');
+
+  @override
+  Widget build(BuildContext context) {
+    return VisibilityDetector(
+      onVisibilityChanged: (VisibilityInfo info) {
+        debugPrint("${info.visibleFraction} of my widget is visible");
+        if (info.visibleFraction <= 0.50) {
+          print(_controller);
+          print('Paused');
+          _controller.pause();
+        } else {
+          _controller.play();
+        }
+      },
+      key: cellKey(_controller),
+      child: Center(
+        child: _controller.value.initialized
+            ? Stack(
+                children: [
+                  AspectRatio(
+                    aspectRatio: MediaQuery.of(context).size.width *
+                        2 /
+                        MediaQuery.of(context).size.height,
+                    child: VideoPlayer(_controller),
+                  )
+                ],
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
       ),
     );
   }
