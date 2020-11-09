@@ -45,6 +45,7 @@ class _CameraScreenState extends State<CameraScreen>
     WidgetsBinding.instance.addObserver(this);
   }
 
+  final List<CameraDescription> cameras;
   void getready() async {
     cameras = await availableCameras();
   }
