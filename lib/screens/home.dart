@@ -295,7 +295,7 @@ class _VideoItemState extends State<VideoItem> {
     return VisibilityDetector(
       onVisibilityChanged: (VisibilityInfo info) {
         debugPrint("${info.visibleFraction} of my widget is visible");
-        if (info.visibleFraction == 0) {
+        if (info.visibleFraction <= 0.50) {
           print(_controller);
           print('Paused');
           _controller.pause();
