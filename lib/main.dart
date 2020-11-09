@@ -55,7 +55,7 @@ class _MainAppState extends State<MainApp> {
         'search': (context) => SearchPage(),
         'terms': (context) => Terms(),
         'notification': (context) => NotificationScreen(),
-        'camera': (context) => CameraExampleHome(),
+        'camera': (context) => CameraScreen(),
         // 'signin1': (context) => SignInData(),
       },
     );

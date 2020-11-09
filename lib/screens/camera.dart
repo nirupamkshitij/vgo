@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter_better_camera/camera.dart';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 
-class CameraExampleHome extends StatefulWidget {
+class CameraScreen extends StatefulWidget {
   @override
-  _CameraExampleHomeState createState() {
-    return _CameraExampleHomeState();
+  _CameraScreenState createState() {
+    return _CameraScreenState();
   }
 }
 
@@ -28,7 +29,7 @@ IconData getCameraLensIcon(CameraLensDirection direction) {
 void logError(String code, String message) =>
     print('Error: $code\nError Message: $message');
 
-class _CameraExampleHomeState extends State<CameraExampleHome>
+class _CameraScreenState extends State<CameraScreen>
     with WidgetsBindingObserver {
   CameraController controller;
   String imagePath;
@@ -36,12 +37,16 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
   VideoPlayerController videoController;
   VoidCallback videoPlayerListener;
   bool enableAudio = true;
-  FlashMode flashMode = FlashMode.off;
 
   @override
   void initState() {
     super.initState();
+    getready();
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  void getready() async {
+    cameras = await availableCameras();
   }
 
   @override
@@ -81,17 +86,8 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
                 child: Center(
-                    child: ZoomableWidget(
-                        child: _cameraPreviewWidget(),
-                        onTapUp: (scaledPoint) {
-                          //controller.setPointOfInterest(scaledPoint);
-                        },
-                        onZoom: (zoom) {
-                          print('zoom');
-                          if (zoom < 11) {
-                            controller.zoom(zoom);
-                          }
-                        })),
+                  child: _cameraPreviewWidget(),
+                ),
               ),
               decoration: BoxDecoration(
                 color: Colors.black,
@@ -233,16 +229,6 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
               : null,
         ),
         IconButton(
-          icon: controller != null && controller.value.autoFocusEnabled
-              ? Icon(Icons.access_alarm)
-              : Icon(Icons.access_alarms),
-          color: Colors.blue,
-          onPressed: (controller != null && controller.value.isInitialized)
-              ? toogleAutoFocus
-              : null,
-        ),
-        _flashButton(),
-        IconButton(
           icon: const Icon(Icons.stop),
           color: Colors.red,
           onPressed: controller != null &&
@@ -250,49 +236,9 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
                   controller.value.isRecordingVideo
               ? onStopButtonPressed
               : null,
-        ),
+        )
       ],
     );
-  }
-
-  /// Flash Toggle Button
-  Widget _flashButton() {
-    IconData iconData = Icons.flash_off;
-    Color color = Colors.black;
-    if (flashMode == FlashMode.alwaysFlash) {
-      iconData = Icons.flash_on;
-      color = Colors.blue;
-    } else if (flashMode == FlashMode.autoFlash) {
-      iconData = Icons.flash_auto;
-      color = Colors.red;
-    }
-    return IconButton(
-      icon: Icon(iconData),
-      color: color,
-      onPressed: controller != null && controller.value.isInitialized
-          ? _onFlashButtonPressed
-          : null,
-    );
-  }
-
-  /// Toggle Flash
-  Future<void> _onFlashButtonPressed() async {
-    bool hasFlash = false;
-    if (flashMode == FlashMode.off || flashMode == FlashMode.torch) {
-      // Turn on the flash for capture
-      flashMode = FlashMode.alwaysFlash;
-    } else if (flashMode == FlashMode.alwaysFlash) {
-      // Turn on the flash for capture if needed
-      flashMode = FlashMode.autoFlash;
-    } else {
-      // Turn off the flash
-      flashMode = FlashMode.off;
-    }
-    // Apply the new mode
-    await controller.setFlashMode(flashMode);
-
-    // Change UI State
-    setState(() {});
   }
 
   /// Display a row of toggle to select the camera (or a message if no camera is available).
@@ -325,6 +271,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
   void showInSnackBar(String message) {
+    // ignore: deprecated_member_use
     _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
   }
 
@@ -396,11 +343,6 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
       if (mounted) setState(() {});
       showInSnackBar('Video recording resumed');
     });
-  }
-
-  void toogleAutoFocus() {
-    controller.setAutoFocus(!controller.value.autoFocusEnabled);
-    showInSnackBar('Toogle auto focus');
   }
 
   Future<String> startVideoRecording() async {
@@ -527,10 +469,7 @@ class CameraApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        accentTextTheme: TextTheme(body2: TextStyle(color: Colors.white)),
-      ),
-      home: CameraExampleHome(),
+      home: CameraScreen(),
     );
   }
 }
@@ -546,134 +485,4 @@ Future<void> main() async {
     logError(e.code, e.description);
   }
   runApp(CameraApp());
-}
-
-//Zoomer this will be a seprate widget
-class ZoomableWidget extends StatefulWidget {
-  final Widget child;
-  final Function onZoom;
-  final Function onTapUp;
-
-  const ZoomableWidget({Key key, this.child, this.onZoom, this.onTapUp})
-      : super(key: key);
-
-  @override
-  _ZoomableWidgetState createState() => _ZoomableWidgetState();
-}
-
-class _ZoomableWidgetState extends State<ZoomableWidget> {
-  Matrix4 matrix = Matrix4.identity();
-  double zoom = 1;
-  double prevZoom = 1;
-  bool showZoom = false;
-  Timer t1;
-
-  bool handleZoom(newZoom) {
-    if (newZoom >= 1) {
-      if (newZoom > 10) {
-        return false;
-      }
-      setState(() {
-        showZoom = true;
-        zoom = newZoom;
-      });
-
-      if (t1 != null) {
-        t1.cancel();
-      }
-
-      t1 = Timer(Duration(milliseconds: 2000), () {
-        setState(() {
-          showZoom = false;
-        });
-      });
-    }
-    widget.onZoom(zoom);
-    return true;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onScaleStart: (scaleDetails) {
-          print('scalStart');
-          setState(() => prevZoom = zoom);
-          //print(scaleDetails);
-        },
-        onScaleUpdate: (ScaleUpdateDetails scaleDetails) {
-          var newZoom = (prevZoom * scaleDetails.scale);
-
-          handleZoom(newZoom);
-        },
-        onScaleEnd: (scaleDetails) {
-          print('end');
-          //print(scaleDetails);
-        },
-        onTapUp: (TapUpDetails det) {
-          final RenderBox box = context.findRenderObject();
-          final Offset localPoint = box.globalToLocal(det.globalPosition);
-          final Offset scaledPoint =
-              localPoint.scale(1 / box.size.width, 1 / box.size.height);
-          // TODO IMPLIMENT
-          // widget.onTapUp(scaledPoint);
-        },
-        child: Stack(children: [
-          Column(
-            children: <Widget>[
-              Container(
-                child: Expanded(
-                  child: widget.child,
-                ),
-              ),
-            ],
-          ),
-          Visibility(
-            visible: showZoom, //Default is true,
-            child: Positioned.fill(
-              child: Container(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        valueIndicatorTextStyle: TextStyle(
-                            color: Colors.amber,
-                            letterSpacing: 2.0,
-                            fontSize: 30),
-                        valueIndicatorColor: Colors.blue,
-                        // This is what you are asking for
-                        inactiveTrackColor: Color(0xFF8D8E98),
-                        // Custom Gray Color
-                        activeTrackColor: Colors.white,
-                        thumbColor: Colors.red,
-                        overlayColor: Color(0x29EB1555),
-                        // Custom Thumb overlay Color
-                        thumbShape:
-                            RoundSliderThumbShape(enabledThumbRadius: 12.0),
-                        overlayShape:
-                            RoundSliderOverlayShape(overlayRadius: 20.0),
-                      ),
-                      child: Slider(
-                        value: zoom,
-                        onChanged: (double newValue) {
-                          handleZoom(newValue);
-                        },
-                        label: "$zoom",
-                        min: 1,
-                        max: 10,
-                      ),
-                    ),
-                  ),
-                ],
-              )),
-            ),
-            //maintainSize: bool. When true this is equivalent to invisible;
-            //replacement: Widget. Defaults to Sizedbox.shrink, 0x0
-          )
-        ]));
-  }
 }

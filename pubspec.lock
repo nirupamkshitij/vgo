@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0-nullsafety.1"
+  camera:
+    dependency: "direct main"
+    description:
+      name: camera
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.8+11"
   carousel_slider:
     dependency: "direct main"
     description:
@@ -181,13 +188,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_better_camera:
+  flutter_ffmpeg:
     dependency: "direct main"
     description:
-      name: flutter_better_camera
+      name: flutter_ffmpeg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.1"
+    version: "0.3.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
