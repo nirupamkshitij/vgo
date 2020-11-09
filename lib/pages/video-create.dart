@@ -32,7 +32,12 @@ class _CreateVideoState extends State<CreateVideo> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Stack(
-            children: [],
+            children: [
+              Container(
+                alignment: Alignment.center,
+                child: CameraPreview(_camController),
+              )
+            ],
           );
         } else {
           return Center(

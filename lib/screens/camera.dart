@@ -325,25 +325,17 @@ import 'package:vgo/pages/video-create.dart';
 
 List<CameraDescription> cameras;
 
-class CameraScreen extends StatefulWidget {
-  @override
-  _CameraScreenState createState() => _CameraScreenState();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
+  runApp(CameraScreen());
 }
 
-class _CameraScreenState extends State<CameraScreen> {
-  @override
-  void initState() {
-    getReady();
-    super.initState();
-  }
-
-  Future<void> getReady() async {
-    cameras = await availableCameras();
-  }
-
+class CameraScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: CreateVideo(),
     );
   }
