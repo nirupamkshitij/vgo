@@ -30,6 +30,7 @@ String userURL = '';
 bool isReady = false;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
+Map<Map, dynamic> videoData;
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -62,6 +63,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
             }
             isReady = true;
             print('Got Data');
+          });
+        });
+      } catch (e) {
+        print(e);
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: errorCardColor,
+            content: Text(
+              'An error occurred. Please try again later.',
+              style: TextStyle(color: mainBgColor),
+            ),
+            duration: Duration(seconds: 3)));
+      }
+    } catch (e) {
+      print(e);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: errorCardColor,
+          content: Text(
+            'An error occurred. Please try again later.',
+            style: TextStyle(color: mainBgColor),
+          ),
+          duration: Duration(seconds: 3)));
+    }
+  }
+
+  void getVideoList() async {
+    try {
+      final userMail = _auth.currentUser.email;
+      try {
+        await _firestore.collection("videos").get().then((value) {
+          value.docs.forEach((element) {
+            if (element.data()['userMail'] == userMail) {
+              setState(() {});
+            }
           });
         });
       } catch (e) {
