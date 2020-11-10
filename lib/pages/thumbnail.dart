@@ -94,21 +94,13 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           final _image = snapshot.data.image;
-          final _width = snapshot.data.width;
-          final _height = snapshot.data.height;
-          final _dataSize = snapshot.data.dataSize;
+          // final _width = snapshot.data.width;
+          // final _height = snapshot.data.height;
+          // final _dataSize = snapshot.data.dataSize;
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Center(
-                child: Text(
-                    "Image ${widget.thumbnailRequest.thumbnailPath == null ? 'data size' : 'file size'}: $_dataSize, width:$_width, height:$_height"),
-              ),
-              Container(
-                color: Colors.grey,
-                height: 1.0,
-              ),
               _image,
             ],
           );
@@ -117,21 +109,11 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
             padding: EdgeInsets.all(8.0),
             color: Colors.red,
             child: Text(
-              "Error:\n${snapshot.error.toString()}",
+              "Error",
             ),
           );
         } else {
-          return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                    "Generating the thumbnail for: ${widget.thumbnailRequest.video}..."),
-                SizedBox(
-                  height: 10.0,
-                ),
-                CircularProgressIndicator(),
-              ]);
+          return CircularProgressIndicator();
         }
       },
     );
