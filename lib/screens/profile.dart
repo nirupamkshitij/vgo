@@ -22,6 +22,9 @@ String username = '';
 String userId = '';
 String userBio = '';
 String userURL = '';
+int followers = 0;
+int following = 0;
+int liked = 0;
 bool isReady = false;
 bool gotVideos = false;
 ImageFormat _format = ImageFormat.JPEG;
@@ -63,6 +66,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             username = value.data()['name'];
             userBio = value.data()['userBio'];
             userId = value.data()['userId'];
+            followers = value.data()['follower'];
+            following = value.data()['following'];
+            liked = value.data()['liked'];
             try {
               userURL = value.data()['dpURl'];
             } catch (e) {
