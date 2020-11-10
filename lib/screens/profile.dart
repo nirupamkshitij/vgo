@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vgo/pages/thumbnail.dart';
+import 'package:vgo/pages/videos.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:vgo/widgets/bottomnavbar.dart';
 import 'package:vgo/screens/userinfo.dart';
@@ -654,7 +655,16 @@ class _TabbarState extends State<Tabbar> {
                   children:
                       List.generate(gotVideos ? videoData.length : 1, (index) {
                     return gotVideos
-                        ? _futreImage[index]
+                        ? GestureDetector(
+                            child: _futreImage[index],
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          VideoPage(videoData: videoData)));
+                            },
+                          )
                         : Container(
                             color: bottomContainerColor,
                           );
