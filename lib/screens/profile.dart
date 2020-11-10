@@ -161,14 +161,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void getImages() {
     for (int i = 0; i < videopath.length; i++) {
-      print(videopath[i].toString().substring(0, videopath[i].length - 2));
       setState(() {
         _futreImage.addAll({
           i: GenThumbnailImage(
               thumbnailRequest: ThumbnailRequest(
-                  video: videopath[i]
-                      .toString()
-                      .substring(0, videopath[i].length - 2),
+                  video: videopath[i].toString(),
                   thumbnailPath: _tempDir,
                   imageFormat: _format,
                   maxHeight: _sizeH,
