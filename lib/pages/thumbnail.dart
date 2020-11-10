@@ -112,14 +112,24 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
           );
         } else if (snapshot.hasError) {
           return Container(
-            padding: EdgeInsets.all(8.0),
-            color: Colors.red,
-            child: Text(
-              "Error",
+            decoration: BoxDecoration(
+              border: Border.all(width: 3.0, color: bottomContainerColor),
+              color: bottomContainerColor,
+            ),
+            padding: EdgeInsets.all(40),
+            constraints: BoxConstraints.expand(width: 120),
+            child: SizedBox(
+              height: 10,
             ),
           );
         } else {
           return Container(
+            decoration: BoxDecoration(
+              border: Border.all(width: 3.0, color: bottomContainerColor),
+              color: bottomContainerColor,
+            ),
+            padding: EdgeInsets.all(40),
+            constraints: BoxConstraints.expand(width: 120),
             child: CircularProgressIndicator(),
           );
         }
