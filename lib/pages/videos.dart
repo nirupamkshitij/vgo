@@ -54,7 +54,7 @@ class _VideoPageState extends State<VideoPage> {
                 );
               },
               scrollDirection: Axis.vertical,
-              itemCount: 8,
+              itemCount: widget.videoData.length,
             ),
           );
         },
