@@ -7,6 +7,7 @@ import 'package:vgo/utilities/constants.dart';
 import 'package:vgo/widgets/bottomnavbar.dart';
 import 'package:vgo/screens/userinfo.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 List imageList = [
@@ -80,15 +81,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             duration: Duration(seconds: 3)));
       }
-      final uint8list = await VideoThumbnail.thumbnailFile(
-        video:
-            "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
-        thumbnailPath: (await getTemporaryDirectory()).path,
-        imageFormat: ImageFormat.WEBP,
-        maxHeight:
-            64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
-        quality: 75,
-      );
     } catch (e) {
       print(e);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -146,6 +138,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             duration: Duration(seconds: 3)));
       }
+      final uint8list = await VideoThumbnail.thumbnailFile(
+        video: videoData['0']['url'],
+        thumbnailPath: null,
+        imageFormat: ImageFormat.JPEG,
+        maxHeight:
+            64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
+        quality: 75,
+      );
+      print(uint8list.toString());
     } catch (e) {
       print(e);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
