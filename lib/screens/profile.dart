@@ -131,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               counter = counter + 1;
             }
           });
-          print(_futreImage);
+          print(videopath);
         });
         getImages();
         setState(() {
