@@ -33,7 +33,7 @@ class _VideoPageState extends State<VideoPage> {
           return deltaTop < (0.6 * viewPortDimension) &&
               deltaBottom > (0.4 * viewPortDimension);
         },
-        itemCount: 8,
+        itemCount: widget.videoData.length,
         builder: (BuildContext context, int index) {
           return Container(
             width: double.infinity,
