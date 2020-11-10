@@ -48,6 +48,7 @@ class _VideoPageState extends State<VideoPage> {
                       play: isInView,
                       index: index,
                       size: size,
+                      videoData: widget.videoData,
                     );
                   },
                 );
@@ -67,10 +68,12 @@ class VideoCustom extends StatefulWidget {
     @required this.size,
     this.index,
     @required this.play,
+    @required this.videoData,
   });
   final bool play;
   final Size size;
   final int index;
+  final Map<dynamic, dynamic> videoData;
   @override
   _VideoCustomState createState() => _VideoCustomState();
 }
@@ -84,7 +87,7 @@ class _VideoCustomState extends State<VideoCustom>
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(
-      followingURL[widget.index],
+      widget.videoData[widget.index]['url'],
     );
     _initializeVideoPlayerFuture = _controller.initialize().then((_) {
       setState(() {});
