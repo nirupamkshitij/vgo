@@ -353,7 +353,7 @@ class _VideoCustomState extends State<VideoCustom>
                       child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(50)),
                           child: Image.network(
-                            followingImageURL[widget.index],
+                            widget.videoData[widget.index]['dp'],
                             fit: BoxFit.cover,
                           )),
                     ),
