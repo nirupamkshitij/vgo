@@ -39,14 +39,11 @@ int _quality = 50;
 int _sizeH = 0;
 int _sizeW = 0;
 int _timeMs = 0;
-
-GenThumbnailImage _futreImage;
-
 String _tempDir;
-
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 Map<String, Map> videoData = Map();
+var _futreImage = new Map();
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -137,6 +134,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     'userMail': element.data()['userMail'],
                     'url': element.data()['url'],
                   });
+                  _futreImage.addAll({
+                    counter: GenThumbnailImage(
+                        thumbnailRequest: ThumbnailRequest(
+                            video:
+                                'https://firebasestorage.googleapis.com/v0/b/vgo-db-f7b4a.appspot.com/o/demouser%40gmail.com%2Fvideos%2Fmixkit-a-woman-sitting-in-a-pool-wearing-sunglasses-1262-large.mp4?alt=media&token=92789691-cad7-4172-865f-5a76313c87f5',
+                            thumbnailPath: _tempDir,
+                            imageFormat: _format,
+                            maxHeight: _sizeH,
+                            maxWidth: _sizeW,
+                            timeMs: _timeMs,
+                            quality: _quality))
+                  });
                 },
               );
               // videoData["subMap"] = new Map();
@@ -146,16 +155,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               counter = counter + 1;
             }
           });
-          _futreImage = GenThumbnailImage(
-              thumbnailRequest: ThumbnailRequest(
-                  video:
-                      'https://firebasestorage.googleapis.com/v0/b/vgo-db-f7b4a.appspot.com/o/demouser%40gmail.com%2Fvideos%2Fmixkit-a-woman-sitting-in-a-pool-wearing-sunglasses-1262-large.mp4?alt=media&token=92789691-cad7-4172-865f-5a76313c87f5',
-                  thumbnailPath: _tempDir,
-                  imageFormat: _format,
-                  maxHeight: _sizeH,
-                  maxWidth: _sizeW,
-                  timeMs: _timeMs,
-                  quality: _quality));
           print(_futreImage);
           setState(() {
             gotVideos = true;
