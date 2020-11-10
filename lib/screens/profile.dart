@@ -125,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     'userMail': element.data()['userMail'],
                     'url': element.data()['url'],
                   });
-                  videopath.add(element.data()['url']);
+                  videopath.add(element.data()['url'].toString());
                 },
               );
               counter = counter + 1;
@@ -161,11 +161,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void getImages() {
     for (int i = 0; i < videopath.length; i++) {
+      print(videopath[i].toString().substring(0, videopath[i].length - 2));
       setState(() {
         _futreImage.addAll({
           i: GenThumbnailImage(
               thumbnailRequest: ThumbnailRequest(
-                  video: videopath[i],
+                  video: videopath[i]
+                      .toString()
+                      .substring(0, videopath[i].length - 2),
                   thumbnailPath: _tempDir,
                   imageFormat: _format,
                   maxHeight: _sizeH,
