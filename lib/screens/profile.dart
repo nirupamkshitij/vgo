@@ -10,15 +10,6 @@ import 'package:vgo/widgets/bottomnavbar.dart';
 import 'package:vgo/screens/userinfo.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
-List imageList = [
-  'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
-  'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
-  'https://images.unsplash.com/photo-1516239482977-b550ba7253f2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
-  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
-  'https://images.unsplash.com/photo-1527082395-e939b847da0d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
-  'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT4FUJT4I5cjHAADrJGB6KT0Br5FDQ8KOtwtQ&usqp=CAU'
-];
 List likedList = [
   'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQQ2Hva9nycXUkfPZdJYDAwi6GhQUkWtAXh9w&usqp=CAU',
   'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRAJfFfECKakFLGuS6_auGjBfMtNb9L98oAfQ&usqp=CAU',
@@ -674,22 +665,13 @@ class _TabbarState extends State<Tabbar> {
                 color: bottomContainerColor,
                 child: GridView.count(
                   crossAxisCount: 3,
-                  children: List.generate(7, (index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 3.0,
-                          color: bottomContainerColor,
-                        ),
-                        color: bottomContainerColor,
-                      ),
-                      constraints: BoxConstraints.expand(height: 100),
-                      child: Image.network(
-                        imageList[index],
-                        repeat: ImageRepeat.repeatX,
-                        fit: BoxFit.contain,
-                      ),
-                    );
+                  children:
+                      List.generate(gotVideos ? videoData.length : 1, (index) {
+                    return gotVideos
+                        ? _futreImage[index]
+                        : Container(
+                            color: bottomContainerColor,
+                          );
                   }),
                 ),
               ),

@@ -7,7 +7,8 @@ import 'package:vgo/utilities/constants.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPage extends StatefulWidget {
-  VideoPage();
+  VideoPage({@required this.videoData});
+  final Map<dynamic, dynamic> videoData;
   @override
   _VideoPageState createState() => _VideoPageState();
 }
