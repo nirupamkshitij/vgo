@@ -42,6 +42,7 @@ final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 Map<dynamic, dynamic> videoData = Map();
 Map<dynamic, dynamic> _futreImage = Map();
+List<String> videopath = List();
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -124,29 +125,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     'userMail': element.data()['userMail'],
                     'url': element.data()['url'],
                   });
-                  final videopath = element.data()['url'];
-                  _futreImage.addAll({
-                    counter: GenThumbnailImage(
-                        thumbnailRequest: ThumbnailRequest(
-                            video: videopath,
-                            thumbnailPath: _tempDir,
-                            imageFormat: _format,
-                            maxHeight: _sizeH,
-                            maxWidth: _sizeW,
-                            timeMs: _timeMs,
-                            quality: _quality))
-                  });
+                  videopath.add(element.data()['url']);
                 },
               );
-              print(_tempDir);
-              print(_futreImage);
               counter = counter + 1;
             }
           });
           print(_futreImage);
-          setState(() {
-            gotVideos = true;
-          });
+        });
+        getImages();
+        setState(() {
+          gotVideos = true;
         });
       } catch (e) {
         print(e);
@@ -167,6 +156,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: TextStyle(color: mainBgColor),
           ),
           duration: Duration(seconds: 3)));
+    }
+  }
+
+  void getImages() {
+    for (int i = 0; i < videopath.length; i++) {
+      setState(() {
+        _futreImage.addAll({
+          i: GenThumbnailImage(
+              thumbnailRequest: ThumbnailRequest(
+                  video: videopath[i],
+                  thumbnailPath: _tempDir,
+                  imageFormat: _format,
+                  maxHeight: _sizeH,
+                  maxWidth: _sizeW,
+                  timeMs: _timeMs,
+                  quality: _quality))
+        });
+      });
     }
   }
 
