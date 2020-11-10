@@ -339,7 +339,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: Column(
                                 children: [
                                   Text(
-                                    '1.2m',
+                                    liked.toString(),
                                     style: GoogleFonts.raleway(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700,
@@ -362,7 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: Column(
                                 children: [
                                   Text(
-                                    '12.8k',
+                                    followers.toString(),
                                     style: GoogleFonts.raleway(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700,
@@ -385,7 +385,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: Column(
                                 children: [
                                   Text(
-                                    '1.9k',
+                                    following.toString(),
                                     style: GoogleFonts.raleway(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700,
