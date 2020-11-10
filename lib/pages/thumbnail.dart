@@ -94,13 +94,21 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           final _image = snapshot.data.image;
-          // final _width = snapshot.data.width;
-          // final _height = snapshot.data.height;
-          // final _dataSize = snapshot.data.dataSize;
+          final _width = snapshot.data.width;
+          final _height = snapshot.data.height;
+          final _dataSize = snapshot.data.dataSize;
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              Center(
+                child: Text(
+                    "Image ${widget.thumbnailRequest.thumbnailPath == null ? 'data size' : 'file size'}: $_dataSize, width:$_width, height:$_height"),
+              ),
+              Container(
+                color: Colors.grey,
+                height: 1.0,
+              ),
               _image,
             ],
           );
@@ -113,7 +121,9 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
             ),
           );
         } else {
-          return CircularProgressIndicator();
+          return Container(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );
