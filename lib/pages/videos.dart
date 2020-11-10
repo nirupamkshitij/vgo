@@ -167,7 +167,7 @@ class _VideoCustomState extends State<VideoCustom>
                           Row(
                             children: [
                               Text(
-                                followingName[widget.index],
+                                widget.videoData[widget.index]['userId'],
                                 style: GoogleFonts.raleway(
                                   fontSize: 24,
                                   fontWeight: FontWeight.w700,
