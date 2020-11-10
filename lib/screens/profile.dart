@@ -55,6 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
+    videoData.clear();
     getTemporaryDirectory().then((d) => _tempDir = d.path);
     getUserMail();
     getVideoList();
@@ -161,6 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void getImages() {
     for (int i = 0; i < videopath.length; i++) {
+      print(videopath[i]);
       setState(() {
         _futreImage.addAll({
           i: GenThumbnailImage(
