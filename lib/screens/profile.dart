@@ -34,9 +34,6 @@ String userBio = '';
 String userURL = '';
 bool isReady = false;
 bool gotVideos = false;
-final _video = TextEditingController(
-    text:
-        "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4");
 ImageFormat _format = ImageFormat.JPEG;
 int _quality = 50;
 int _sizeH = 0;
@@ -142,8 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   });
                   _futreImage = GenThumbnailImage(
                       thumbnailRequest: ThumbnailRequest(
-                          video:
-                              'https://firebasestorage.googleapis.com/v0/b/vgo-db-f7b4a.appspot.com/o/demouser%40gmail.com%2Fvideos%2Fmixkit-a-woman-sitting-in-a-pool-wearing-sunglasses-1262-large.mp4?alt=media&token=92789691-cad7-4172-865f-5a76313c87f5',
+                          video: videoData['0']['url'],
                           thumbnailPath: _tempDir,
                           imageFormat: _format,
                           maxHeight: _sizeH,
