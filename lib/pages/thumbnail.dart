@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:vgo/utilities/constants.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class ThumbnailRequest {
@@ -63,7 +64,11 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
   int _imageDataSize = bytes.length;
   print("image size: $_imageDataSize");
 
-  final _image = Image.memory(bytes);
+  final _image = Image.memory(
+    bytes,
+    repeat: ImageRepeat.repeatX,
+    fit: BoxFit.contain,
+  );
   _image.image
       .resolve(ImageConfiguration())
       .addListener(ImageStreamListener((ImageInfo info, bool _) {
@@ -94,23 +99,16 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           final _image = snapshot.data.image;
-          final _width = snapshot.data.width;
-          final _height = snapshot.data.height;
-          final _dataSize = snapshot.data.dataSize;
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                child: Text(
-                    "Image ${widget.thumbnailRequest.thumbnailPath == null ? 'data size' : 'file size'}: $_dataSize, width:$_width, height:$_height"),
-              ),
-              Container(
-                color: Colors.grey,
-                height: 1.0,
-              ),
-              _image,
-            ],
+          // final _width = snapshot.data.width;
+          // final _height = snapshot.data.height;
+          // final _dataSize = snapshot.data.dataSize;
+          return Container(
+            decoration: BoxDecoration(
+              border: Border.all(width: 3.0, color: bottomContainerColor),
+              color: bottomContainerColor,
+            ),
+            constraints: BoxConstraints.expand(width: 120),
+            child: _image,
           );
         } else if (snapshot.hasError) {
           return Container(
