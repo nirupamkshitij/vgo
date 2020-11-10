@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:vgo/pages/thumbnail.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:vgo/widgets/bottomnavbar.dart';
 import 'package:vgo/screens/userinfo.dart';
@@ -32,6 +34,19 @@ String userBio = '';
 String userURL = '';
 bool isReady = false;
 bool gotVideos = false;
+final _video = TextEditingController(
+    text:
+        "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4");
+ImageFormat _format = ImageFormat.JPEG;
+int _quality = 50;
+int _sizeH = 0;
+int _sizeW = 0;
+int _timeMs = 0;
+
+GenThumbnailImage _futreImage;
+
+String _tempDir;
+
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 Map<String, Map> videoData = Map();
@@ -47,6 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
+    getTemporaryDirectory().then((d) => _tempDir = d.path);
     getUserMail();
     getVideoList();
     super.initState();
@@ -124,6 +140,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     'userMail': element.data()['userMail'],
                     'url': element.data()['url'],
                   });
+                  _futreImage = GenThumbnailImage(
+                      thumbnailRequest: ThumbnailRequest(
+                          video:
+                              'https://firebasestorage.googleapis.com/v0/b/vgo-db-f7b4a.appspot.com/o/demouser%40gmail.com%2Fvideos%2Fmixkit-a-woman-sitting-in-a-pool-wearing-sunglasses-1262-large.mp4?alt=media&token=92789691-cad7-4172-865f-5a76313c87f5',
+                          thumbnailPath: _tempDir,
+                          imageFormat: _format,
+                          maxHeight: _sizeH,
+                          maxWidth: _sizeW,
+                          timeMs: _timeMs,
+                          quality: _quality));
                 },
               );
               // videoData["subMap"] = new Map();
@@ -133,6 +159,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               counter = counter + 1;
             }
           });
+
+          print(_futreImage);
           setState(() {
             gotVideos = true;
           });
@@ -644,9 +672,7 @@ class _TabbarState extends State<Tabbar> {
                   children:
                       List.generate(gotVideos ? videoData.length : 1, (index) {
                     return gotVideos
-                        ? VideoPlayerCustom(
-                            url: videoData['$index']['url'],
-                          )
+                        ? _futreImage
                         : Container(
                             color: bottomContainerColor,
                           );
