@@ -40,8 +40,8 @@ int _timeMs = 0;
 String _tempDir;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
-Map<int, Map> videoData = Map();
-Map<int, GenThumbnailImage> _futreImage = Map();
+Map<dynamic, dynamic> videoData = Map();
+Map<dynamic, dynamic> _futreImage = Map();
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -58,15 +58,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     getUserMail();
     getVideoList();
     super.initState();
-  }
-
-  void getThumbData() async {
-    final uint8list = await VideoThumbnail.thumbnailData(
-      video: videoData['0']['url'],
-      imageFormat: ImageFormat.JPEG,
-      quality: 10,
-    );
-    print('\n\n\n\n\n\n' + uint8list.toString());
   }
 
   void getUserMail() async {
@@ -145,10 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   });
                 },
               );
-              // videoData["subMap"] = new Map();
-              // videoData["subMap"].addAll({'super': 2});
-              // videoData["subMap"].addAll({'fill': 2});
-              print(videoData);
+              print(_futreImage);
               counter = counter + 1;
             }
           });
@@ -167,7 +155,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             duration: Duration(seconds: 3)));
       }
-      getThumbData();
     } catch (e) {
       print(e);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
