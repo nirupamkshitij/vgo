@@ -8,9 +8,7 @@ import 'package:vgo/pages/thumbnail.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:vgo/widgets/bottomnavbar.dart';
 import 'package:vgo/screens/userinfo.dart';
-import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 List imageList = [
   'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
@@ -42,8 +40,8 @@ int _timeMs = 0;
 String _tempDir;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
-Map<String, Map> videoData = Map();
-var _futreImage = new Map();
+Map<int, Map> videoData = Map();
+Map<int, GenThumbnailImage> _futreImage = Map();
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -124,8 +122,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               print('Enter');
               setState(
                 () {
-                  videoData["$counter"] = new Map();
-                  videoData["$counter"].addAll({
+                  videoData[counter] = new Map();
+                  videoData[counter].addAll({
                     'name': element.data()['name'],
                     'artist': element.data()['artist'],
                     'dp': element.data()['dp'],
@@ -722,68 +720,6 @@ class _TabbarState extends State<Tabbar> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class VideoPlayerCustom extends StatefulWidget {
-  VideoPlayerCustom({@required this.url});
-  final String url;
-  @override
-  _VideoPlayerCustomState createState() => _VideoPlayerCustomState();
-}
-
-class _VideoPlayerCustomState extends State<VideoPlayerCustom> {
-  VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.network(widget.url)
-      ..initialize().then((_) {
-        setState(() {});
-      });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
-
-  Key cellKey(VideoPlayerController _controller) =>
-      Key('Controller-$_controller');
-
-  @override
-  Widget build(BuildContext context) {
-    return VisibilityDetector(
-      onVisibilityChanged: (VisibilityInfo info) {
-        debugPrint("${info.visibleFraction} of my widget is visible");
-        if (info.visibleFraction <= 0.50) {
-          print(_controller);
-          print('Paused');
-          _controller.pause();
-        } else {
-          _controller.play();
-        }
-      },
-      key: cellKey(_controller),
-      child: Center(
-        child: _controller.value.initialized
-            ? Stack(
-                children: [
-                  AspectRatio(
-                    aspectRatio: MediaQuery.of(context).size.width *
-                        2 /
-                        MediaQuery.of(context).size.height,
-                    child: VideoPlayer(_controller),
-                  )
-                ],
-              )
-            : Center(
-                child: CircularProgressIndicator(),
-              ),
       ),
     );
   }
