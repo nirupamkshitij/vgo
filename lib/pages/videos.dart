@@ -186,7 +186,7 @@ class _VideoCustomState extends State<VideoCustom>
                             ],
                           ),
                           Text(
-                            followingFileName[widget.index],
+                            widget.videoData[widget.index]['name'],
                             style: GoogleFonts.raleway(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -204,7 +204,7 @@ class _VideoCustomState extends State<VideoCustom>
                               Padding(
                                 padding: EdgeInsets.only(left: 15.0),
                                 child: Text(
-                                  "Song - Artist",
+                                  widget.videoData[widget.index]['song'],
                                   style: GoogleFonts.raleway(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
