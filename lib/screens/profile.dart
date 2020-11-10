@@ -137,8 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   _futreImage.addAll({
                     counter: GenThumbnailImage(
                         thumbnailRequest: ThumbnailRequest(
-                            video:
-                                'https://firebasestorage.googleapis.com/v0/b/vgo-db-f7b4a.appspot.com/o/demouser%40gmail.com%2Fvideos%2Fmixkit-a-woman-sitting-in-a-pool-wearing-sunglasses-1262-large.mp4?alt=media&token=92789691-cad7-4172-865f-5a76313c87f5',
+                            video: element.data()['url'],
                             thumbnailPath: _tempDir,
                             imageFormat: _format,
                             maxHeight: _sizeH,
@@ -667,7 +666,7 @@ class _TabbarState extends State<Tabbar> {
                   children:
                       List.generate(gotVideos ? videoData.length : 1, (index) {
                     return gotVideos
-                        ? _futreImage
+                        ? _futreImage[index]
                         : Container(
                             color: bottomContainerColor,
                           );
