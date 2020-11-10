@@ -52,6 +52,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
+  void getThumbData() async {
+    final uint8list = await VideoThumbnail.thumbnailData(
+      video: videoData['0']['url'],
+      imageFormat: ImageFormat.JPEG,
+      quality: 10,
+    );
+    print('\n\n\n\n\n\n' + uint8list.toString());
+  }
+
   void getUserMail() async {
     try {
       final userMail = _auth.currentUser.email;
@@ -138,15 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             duration: Duration(seconds: 3)));
       }
-      final uint8list = await VideoThumbnail.thumbnailFile(
-        video: videoData['0']['url'],
-        thumbnailPath: null,
-        imageFormat: ImageFormat.JPEG,
-        maxHeight:
-            64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
-        quality: 75,
-      );
-      print(uint8list.toString());
+      getThumbData();
     } catch (e) {
       print(e);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
