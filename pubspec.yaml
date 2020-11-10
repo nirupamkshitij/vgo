@@ -26,7 +26,7 @@ dependencies:
   flutter_swiper: ^1.1.6
   inview_notifier_list: ^1.0.0
   visibility_detector: ^0.1.5
-  video_thumbnail: ^0.2.4
+  video_thumbnail: 0.1.6
   # file_picker: ^2.0.7
   # video_player: ^0.11.0
   # inview_notifier_list: ^1.0.0

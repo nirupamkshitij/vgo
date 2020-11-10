@@ -42,8 +42,6 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
         video: r.video,
         thumbnailPath: r.thumbnailPath,
         imageFormat: r.imageFormat,
-        maxHeight: r.maxHeight,
-        maxWidth: r.maxWidth,
         timeMs: r.timeMs,
         quality: r.quality);
 
@@ -55,8 +53,6 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
     bytes = await VideoThumbnail.thumbnailData(
         video: r.video,
         imageFormat: r.imageFormat,
-        maxHeight: r.maxHeight,
-        maxWidth: r.maxWidth,
         timeMs: r.timeMs,
         quality: r.quality);
   }
