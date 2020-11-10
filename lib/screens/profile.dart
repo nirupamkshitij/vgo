@@ -66,6 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               userURL = null;
             }
             isReady = true;
+
             print('Got Data');
           });
         });
@@ -79,6 +80,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             duration: Duration(seconds: 3)));
       }
+      final uint8list = await VideoThumbnail.thumbnailFile(
+        video:
+            "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+        thumbnailPath: (await getTemporaryDirectory()).path,
+        imageFormat: ImageFormat.WEBP,
+        maxHeight:
+            64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
+        quality: 75,
+      );
     } catch (e) {
       print(e);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
