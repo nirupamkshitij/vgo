@@ -111,6 +111,7 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
             child: _image,
           );
         } else if (snapshot.hasError) {
+          print('\n\n\n\n\n' + snapshot.error.toString());
           return Container(
             decoration: BoxDecoration(
               border: Border.all(width: 3.0, color: bottomContainerColor),
