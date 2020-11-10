@@ -111,6 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             print(element.data()['url']);
             if (element.data()['userMail'] == userMail) {
               print('Enter');
+              print(element.data()['url']);
               setState(
                 () {
                   videoData[counter] = new Map();
@@ -123,10 +124,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     'userMail': element.data()['userMail'],
                     'url': element.data()['url'],
                   });
+                  final videopath = element.data()['url'];
                   _futreImage.addAll({
                     counter: GenThumbnailImage(
                         thumbnailRequest: ThumbnailRequest(
-                            video: element.data()['url'],
+                            video: videopath,
                             thumbnailPath: _tempDir,
                             imageFormat: _format,
                             maxHeight: _sizeH,
@@ -136,6 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   });
                 },
               );
+              print(_tempDir);
               print(_futreImage);
               counter = counter + 1;
             }
