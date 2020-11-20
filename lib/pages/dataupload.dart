@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:video_player/video_player.dart';
 
@@ -96,7 +97,7 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
                   right: 15,
                   top: 10,
                 ),
-                child: Icon(Icons.search),
+                child: Icon(FontAwesomeIcons.upload),
               ),
             ),
           ]),
