@@ -57,33 +57,33 @@ class _VideoUploadDataState extends State<VideoUploadData> {
                           child: Align(
                             alignment: Alignment.topRight,
                             child: FloatingActionButton(
-              heroTag: "btn2",
-              backgroundColor: bottomContainerColor,
-              onPressed: () {
-                // _dataUpdates();
-                // Navigator.popAndPushNamed(context, 'home');
-              },
-              child: ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return RadialGradient(
-                    center: Alignment.center,
-                    radius: 0.5,
-                    colors: <Color>[
-                      buttonBgColor,
-                      buttonBgColor,
-                    ],
-                    tileMode: TileMode.repeated,
-                  ).createShader(bounds);
-                },
-                child: Text(
-                  'Save',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),,
+                              heroTag: "btn2",
+                              backgroundColor: bottomContainerColor,
+                              onPressed: () {
+                                // _dataUpdates();
+                                // Navigator.popAndPushNamed(context, 'home');
+                              },
+                              child: ShaderMask(
+                                shaderCallback: (Rect bounds) {
+                                  return RadialGradient(
+                                    center: Alignment.center,
+                                    radius: 0.5,
+                                    colors: <Color>[
+                                      buttonBgColor,
+                                      buttonBgColor,
+                                    ],
+                                    tileMode: TileMode.repeated,
+                                  ).createShader(bounds);
+                                },
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         )
                       ],
