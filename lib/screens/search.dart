@@ -381,6 +381,108 @@ class _SearchPageState extends State<SearchPage> {
                     //         ),
                     //       )
                     //     : CircularProgressIndicator(),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        HeadingRow(
+                          title: 'Camera',
+                          count: 156.8,
+                        ),
+                        Container(
+                          height: 200,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 100,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 3.0,
+                                        color: bottomContainerColor),
+                                    color: bottomContainerColor,
+                                  ),
+                                  constraints:
+                                      BoxConstraints.expand(width: 120),
+                                  child: Image.network(
+                                    'https://picsum.photos/id/${index + 250}/540/810',
+                                    repeat: ImageRepeat.repeatX,
+                                    fit: BoxFit.contain,
+                                  ),
+                                );
+                              }),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        HeadingRow(
+                          title: 'Traveller',
+                          count: 12.8,
+                        ),
+                        Container(
+                          height: 200,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 100,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 3.0,
+                                        color: bottomContainerColor),
+                                    color: bottomContainerColor,
+                                  ),
+                                  constraints:
+                                      BoxConstraints.expand(width: 120),
+                                  child: Image.network(
+                                    'https://picsum.photos/id/${index + 350}/540/810',
+                                    repeat: ImageRepeat.repeatX,
+                                    fit: BoxFit.contain,
+                                  ),
+                                );
+                              }),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        HeadingRow(
+                          title: 'Party',
+                          count: 56.9,
+                        ),
+                        Container(
+                          height: 200,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 100,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 3.0,
+                                        color: bottomContainerColor),
+                                    color: bottomContainerColor,
+                                  ),
+                                  constraints:
+                                      BoxConstraints.expand(width: 120),
+                                  child: Image.network(
+                                    'https://picsum.photos/id/${index + 450}/540/810',
+                                    repeat: ImageRepeat.repeatX,
+                                    fit: BoxFit.contain,
+                                  ),
+                                );
+                              }),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
