@@ -143,7 +143,6 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
                   backgroundColor: bottomContainerColor,
                   onPressed: () {
                     _fileUploader();
-                    // Navigator.popAndPushNamed(context, 'home');
                   },
                   child: ShaderMask(
                     shaderCallback: (Rect bounds) {
