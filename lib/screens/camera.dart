@@ -159,15 +159,7 @@ class CameraScreenState extends State<CameraScreen>
                 color: Colors.white,
               ),
               onPressed: () {
-                if (!_isRecordingMode) {
-                  _captureImage();
-                } else {
-                  if (_isRecording) {
-                    stopVideoRecording();
-                  } else {
-                    startVideoRecording();
-                  }
-                }
+                _videoFromGallery();
               },
             ),
           ),
@@ -180,17 +172,7 @@ class CameraScreenState extends State<CameraScreen>
                 size: 28.0,
                 color: Colors.black,
               ),
-              onPressed: () {
-                if (!_isRecordingMode) {
-                  _captureImage();
-                } else {
-                  if (_isRecording) {
-                    stopVideoRecording();
-                  } else {
-                    startVideoRecording();
-                  }
-                }
-              },
+              onPressed: () {},
             ),
           ),
           SizedBox(
