@@ -197,7 +197,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 body: TabBarView(
                   children: [
                     Container(
-                      height: size.height,
                       color: bottomContainerColor,
                       child: GridView.count(
                         crossAxisCount: 2,
