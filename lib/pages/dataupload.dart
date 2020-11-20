@@ -72,10 +72,13 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
 
   Future _fileUploader() async {
     if (widget.videoData != null) {
+      print(_auth.currentUser.email.toString() +
+          '/videos/' +
+          widget.videoData.path.split('/').last);
       final storageReference = FirebaseStorage.instance.ref().child(
           _auth.currentUser.email.toString() +
-              '/' +
-              widget.videoData.path.split('/videos/').last);
+              '/videos/' +
+              widget.videoData.path.split('/').last);
       final UploadTask uploadTask = storageReference.putFile(widget.videoData);
       await uploadTask.whenComplete(() async {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -159,6 +162,7 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
                   backgroundColor: bottomContainerColor,
                   onPressed: () {
                     _fileUploader();
+                    _popupDialog(context);
                   },
                   child: ShaderMask(
                     shaderCallback: (Rect bounds) {
@@ -210,6 +214,20 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
         ),
       ),
     );
+  }
+
+  void _popupDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          {
+            return AlertDialog(
+              content: CircularProgressIndicator(),
+              contentPadding: EdgeInsets.all(10.0),
+              shape: CircleBorder(),
+            );
+          }
+        });
   }
 
   @override
