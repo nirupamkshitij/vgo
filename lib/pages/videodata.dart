@@ -322,7 +322,7 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
                         color: buttonBgColor,
                         onPressed: () {},
                         child: Text(
-                          'Add to Cart',
+                          'Upload',
                           style: GoogleFonts.openSans(
                             fontSize: 18,
                             fontWeight: FontWeight.w900,
