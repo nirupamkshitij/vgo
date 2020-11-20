@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:vgo/utilities/constants.dart';
 
 class VideoDetailsData extends StatefulWidget {
+  VideoDetailsData({@required this.url, @required this.docId});
+  final String url;
+  final String docId;
   @override
   _VideoDetailsDataState createState() => _VideoDetailsDataState();
 }
