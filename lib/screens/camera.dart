@@ -14,6 +14,8 @@ class CameraScreen extends StatefulWidget {
   CameraScreenState createState() => CameraScreenState();
 }
 
+File _file;
+
 class CameraScreenState extends State<CameraScreen>
     with AutomaticKeepAliveClientMixin {
   CameraController _controller;
@@ -24,6 +26,7 @@ class CameraScreenState extends State<CameraScreen>
   final picker = ImagePicker();
   @override
   void initState() {
+    _file = null;
     _initCamera();
     super.initState();
   }
