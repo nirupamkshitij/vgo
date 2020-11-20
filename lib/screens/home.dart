@@ -122,7 +122,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
@@ -278,79 +277,78 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                     ),
                     Container(
-                      height: size.height,
-                      color: bottomContainerColor,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 3.0,
+                          color: bottomContainerColor,
+                        ),
+                      ),
+                      constraints: BoxConstraints.expand(height: 150),
                       child: GridView.count(
                         crossAxisCount: 2,
-                        children: List.generate(8, (index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => VideoPage(
-                                    videoData: null,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 3.0,
-                                  color: bottomContainerColor,
-                                ),
-                              ),
-                              constraints: BoxConstraints.expand(height: 150),
-                              child: Stack(
-                                children: [
-                                  VideoItem(
-                                    forYouURL[index],
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.only(
-                                              left: 5, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        100.0),
-                                                child: Image.network(
-                                                  'https://picsum.photos/id/${index + 250}/250/250',
-                                                  height: 30.0,
-                                                  width: 30.0,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 10.0),
-                                                child: Text(
-                                                  forYouName[index],
-                                                  style: GoogleFonts.raleway(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: mainBgColor,
+                        children: List.generate(
+                            gotVideos ? videoData.length : 1, (index) {
+                          return gotVideos
+                              ? GestureDetector(
+                                  child: Stack(
+                                    children: [
+                                      _futreImage[index],
+                                      Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 5, bottom: 5),
+                                              child: Row(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100.0),
+                                                    child: Image.network(
+                                                      videoData[index]['dp'],
+                                                      height: 30.0,
+                                                      width: 30.0,
+                                                    ),
                                                   ),
-                                                ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10.0),
+                                                    child: Text(
+                                                      videoData[index]
+                                                          ['userId'],
+                                                      style:
+                                                          GoogleFonts.raleway(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color: mainBgColor,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          );
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => VideoPage(
+                                                videoData: videoData)));
+                                  },
+                                )
+                              : Container(
+                                  color: bottomContainerColor,
+                                );
                         }),
                       ),
                     ),
