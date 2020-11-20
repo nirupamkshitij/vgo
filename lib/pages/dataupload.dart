@@ -11,7 +11,7 @@ class VideoUploadData extends StatefulWidget {
   _VideoUploadDataState createState() => _VideoUploadDataState();
 }
 
-class _VideoUploadDataState extends State<VideoUploadData> {
+class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
   @override
@@ -30,13 +30,29 @@ class _VideoUploadDataState extends State<VideoUploadData> {
   }
 
   @override
-  void dispose() {
-    if (_controller.value.isPlaying) _controller.pause();
-    _controller = null;
-    setState(() {
-      _controller = null;
-    });
-    super.dispose();
+  void didPop() {
+    print("didPop");
+    super.didPop();
+  }
+
+  @override
+  void didPopNext() {
+    print("didPopNext");
+    _controller.play();
+    super.didPopNext();
+  }
+
+  @override
+  void didPush() {
+    print("didPush");
+    super.didPush();
+  }
+
+  @override
+  void didPushNext() {
+    print("didPushNext");
+    _controller.pause();
+    super.didPushNext();
   }
 
   @override
