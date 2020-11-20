@@ -36,6 +36,7 @@ Map<dynamic, dynamic> videoData = Map();
 Map<dynamic, dynamic> _futreImage = Map();
 List<String> videopath = List();
 List<String> tags = List();
+Map<dynamic, dynamic> tagVideoData = Map();
 
 class _SearchPageState extends State<SearchPage> {
   int _current = 0;
@@ -72,10 +73,14 @@ class _SearchPageState extends State<SearchPage> {
 
   void getTagsList() async {
     try {
-      await _firestore.collection("videos").doc('tags').get().then((value) {
-        tags = value.data()['popular'];
+      await _firestore.collection("tags").doc('popular').get().then((value) {
+        tags = value.data()['keys'];
       });
-      for (int i = 0; i < tags.length; i++) {}
+      for (int i = 0; i < tags.length; i++) {
+        for (int j = 0; j < videoData.length; j++) {
+          if (videoData[j][tags].contains(tags[i])) {}
+        }
+      }
     } catch (e) {
       print(e);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
