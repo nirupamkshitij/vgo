@@ -7,9 +7,9 @@ class VideoDeatilsData extends StatefulWidget {
 }
 
 class _VideoDeatilsDataState extends State<VideoDeatilsData> {
-  final _bioController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _songController = TextEditingController();
+  final _artistController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -25,11 +25,9 @@ class _VideoDeatilsDataState extends State<VideoDeatilsData> {
                 right: 25,
               ),
               child: TextFormField(
-                controller: _bioController,
+                controller: _nameController,
                 onChanged: (value) {
-                  setState(() {
-                    userBio = value;
-                  });
+                  setState(() {});
                 },
                 style: TextStyle(
                   fontSize: 16,
@@ -54,8 +52,6 @@ class _VideoDeatilsDataState extends State<VideoDeatilsData> {
                   right: 25,
                 ),
                 child: TextFormField(
-                  enabled: false,
-                  initialValue: widget.userId,
                   style: TextStyle(
                     fontSize: 16,
                     color: mainBgColor,
@@ -78,13 +74,11 @@ class _VideoDeatilsDataState extends State<VideoDeatilsData> {
                 right: 25,
               ),
               child: TextFormField(
-                controller: _passwordController,
+                controller: _songController,
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: true,
                 onChanged: (value) {
-                  setState(() {
-                    userPassword = value;
-                  });
+                  setState(() {});
                 },
                 style: TextStyle(
                   fontSize: 16,
@@ -109,13 +103,11 @@ class _VideoDeatilsDataState extends State<VideoDeatilsData> {
                 right: 25,
               ),
               child: TextFormField(
-                controller: _confirmController,
+                controller: _artistController,
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: true,
                 onEditingComplete: () {
-                  setState(() {
-                    userConfirmPassword = _confirmController.text;
-                  });
+                  setState(() {});
                 },
                 style: TextStyle(
                   fontSize: 16,
