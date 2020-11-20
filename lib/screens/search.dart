@@ -77,14 +77,15 @@ class _SearchPageState extends State<SearchPage> {
       await _firestore.collection("tags").doc('popular').get().then((value) {
         tags = value.data()['keys'];
       });
+      int counter = 0;
       for (int i = 0; i < tags.length; i++) {
         for (int j = 0; j < videoData.length; j++) {
           tagVideoData[tags[i]] = new Map();
           if (videoData[j]['tags'].contains(tags[i])) {
             setState(
               () {
-                tagVideoData[tags[i]][videoData[j]['name']] = new Map();
-                tagVideoData[tags[i]][videoData[j]['name']].addAll({
+                tagVideoData[tags[i]][counter] = new Map();
+                tagVideoData[tags[i]][counter].addAll({
                   'name': videoData[j]['name'],
                   'artist': videoData[j]['artist'],
                   'dp': videoData[j]['dp'],
@@ -94,6 +95,7 @@ class _SearchPageState extends State<SearchPage> {
                   'url': videoData[j]['url'],
                 });
               },
+              counter = counter + 1,
             );
           }
         }
@@ -275,8 +277,10 @@ class _SearchPageState extends State<SearchPage> {
                                       children: [
                                         HeadingRow(
                                           title: tags[index],
-                                          count:
-                                              tagVideoData[tags[index]].length,
+                                          count: double.parse(
+                                              tagVideoData[tags[index]]
+                                                  .length
+                                                  .toString()),
                                         ),
                                         Row(
                                           children: List.generate(
