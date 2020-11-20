@@ -320,7 +320,9 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
                         ),
                         height: 45,
                         color: buttonBgColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          _dataUpdates();
+                        },
                         child: Text(
                           'Upload',
                           style: GoogleFonts.openSans(
