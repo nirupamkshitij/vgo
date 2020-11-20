@@ -3,10 +3,8 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:vgo/pages/dataupload.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -23,8 +21,6 @@ class CameraScreenState extends State<CameraScreen>
   CameraController _controller;
   List<CameraDescription> _cameras;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool _isRecordingMode = false;
-  bool _isRecording = false;
   final picker = ImagePicker();
   @override
   void initState() {
@@ -223,49 +219,6 @@ class CameraScreenState extends State<CameraScreen>
     }
   }
 
-  void _captureImage() async {
-    print('_captureImage');
-    if (_controller.value.isInitialized) {
-      SystemSound.play(SystemSoundType.click);
-      final Directory extDir = await getApplicationDocumentsDirectory();
-      final String dirPath = '${extDir.path}/media';
-      await Directory(dirPath).create(recursive: true);
-      final String filePath = '$dirPath/${_timestamp()}.jpeg';
-      print('path: $filePath');
-      await _controller.takePicture(filePath);
-      setState(() {});
-    }
-  }
-
-  Future<String> startVideoRecording() async {
-    print('startVideoRecording');
-    if (!_controller.value.isInitialized) {
-      return null;
-    }
-    setState(() {
-      _isRecording = true;
-    });
-
-    final Directory extDir = await getApplicationDocumentsDirectory();
-    final String dirPath = '${extDir.path}/media';
-    await Directory(dirPath).create(recursive: true);
-    final String filePath = '$dirPath/${_timestamp()}.mp4';
-
-    if (_controller.value.isRecordingVideo) {
-      // A recording is already started, do nothing.
-      return null;
-    }
-
-    try {
-//      videoPath = filePath;
-      await _controller.startVideoRecording(filePath);
-    } on CameraException catch (e) {
-      _showCameraException(e);
-      return null;
-    }
-    return filePath;
-  }
-
   Future<void> stopVideoRecording() async {
     if (!_controller.value.isRecordingVideo) {
       return null;
@@ -278,8 +231,6 @@ class CameraScreenState extends State<CameraScreen>
       return null;
     }
   }
-
-  String _timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
   void _showCameraException(CameraException e) {
     logError(e.code, e.description);
