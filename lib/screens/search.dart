@@ -95,8 +95,8 @@ class _SearchPageState extends State<SearchPage> {
                   'url': videoData[j]['url'],
                 });
               },
-              counter = counter + 1,
             );
+            counter = counter + 1;
           }
         }
       }
