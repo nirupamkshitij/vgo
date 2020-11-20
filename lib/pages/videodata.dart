@@ -191,23 +191,46 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            color: bottomContainerColor,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
+        body: Container(
+          color: bottomContainerColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 25,
+                  left: 25,
+                  right: 25,
+                ),
+                child: TextFormField(
+                  controller: _nameController,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: mainBgColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(
+                      color: darkFadeTextColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    border: InputBorder.none,
+                    labelText: 'Video Name',
+                  ),
+                ),
+              ),
+              Padding(
                   padding: EdgeInsets.only(
                     top: 25,
                     left: 25,
                     right: 25,
                   ),
                   child: TextFormField(
-                    controller: _nameController,
-                    onChanged: (value) {
-                      setState(() {});
-                    },
+                    controller: _artistController,
                     style: TextStyle(
                       fontSize: 16,
                       color: mainBgColor,
@@ -220,130 +243,109 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
                         fontWeight: FontWeight.w600,
                       ),
                       border: InputBorder.none,
-                      labelText: 'Video Name',
+                      labelText: 'Video Artist',
                     ),
+                  )),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 25,
+                  left: 25,
+                  right: 25,
+                ),
+                child: TextFormField(
+                  controller: _songController,
+                  keyboardType: TextInputType.visiblePassword,
+                  obscureText: true,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: mainBgColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(
+                      color: darkFadeTextColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    border: InputBorder.none,
+                    labelText: 'Song',
                   ),
                 ),
-                Padding(
-                    padding: EdgeInsets.only(
-                      top: 25,
-                      left: 25,
-                      right: 25,
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 25,
+                  left: 25,
+                  right: 25,
+                ),
+                child: TextFormField(
+                  controller: _tagsController,
+                  keyboardType: TextInputType.visiblePassword,
+                  obscureText: true,
+                  onEditingComplete: () {
+                    setState(() {});
+                  },
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: mainBgColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(
+                      color: darkFadeTextColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                     ),
-                    child: TextFormField(
-                      controller: _artistController,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: mainBgColor,
-                        fontWeight: FontWeight.w600,
+                    border: InputBorder.none,
+                    labelText: 'tags',
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 25.0,
+                        left: 25,
+                        right: 25,
                       ),
-                      decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          color: darkFadeTextColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                      child: FlatButton(
+                        minWidth: MediaQuery.of(context).size.width,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
                         ),
-                        border: InputBorder.none,
-                        labelText: 'Video Artist',
-                      ),
-                    )),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 25,
-                    left: 25,
-                    right: 25,
-                  ),
-                  child: TextFormField(
-                    controller: _songController,
-                    keyboardType: TextInputType.visiblePassword,
-                    obscureText: true,
-                    onChanged: (value) {
-                      setState(() {});
-                    },
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: mainBgColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: darkFadeTextColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      border: InputBorder.none,
-                      labelText: 'Song',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 25,
-                    left: 25,
-                    right: 25,
-                  ),
-                  child: TextFormField(
-                    controller: _tagsController,
-                    keyboardType: TextInputType.visiblePassword,
-                    obscureText: true,
-                    onEditingComplete: () {
-                      setState(() {});
-                    },
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: mainBgColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: darkFadeTextColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      border: InputBorder.none,
-                      labelText: 'tags',
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: Padding(
-                        padding: EdgeInsets.only(bottom: 25.0),
-                        child: FlatButton(
-                          minWidth: MediaQuery.of(context).size.width,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          height: 45,
-                          color: buttonBgColor,
-                          onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.shopping_bag_outlined,
+                        height: 45,
+                        color: buttonBgColor,
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.shopping_bag_outlined,
+                              color: mainBgColor,
+                              size: 20,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Add to Cart',
+                              style: GoogleFonts.openSans(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
                                 color: mainBgColor,
-                                size: 20,
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Add to Cart',
-                                style: GoogleFonts.openSans(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w900,
-                                  color: mainBgColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ),
+                            ),
+                          ],
+                        ),
+                      )),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
