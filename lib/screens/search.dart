@@ -269,112 +269,117 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
                     gotVideos
-                        ? GridView.count(
-                            crossAxisCount: 1,
-                            children: List.generate(gotVideos ? tags.length : 1,
-                                (index1) {
-                              return gotVideos
-                                  ? Column(
-                                      children: [
-                                        HeadingRow(
-                                          title: tags[index1],
-                                          count: double.parse(
-                                              tagVideoData[tags[index1]]
-                                                  .length
-                                                  .toString()),
-                                        ),
-                                        Row(
-                                          children: List.generate(
-                                            tagVideoData[tags[index1]].length,
-                                            (index) {
-                                              print(tagVideoData[tags[index1]]);
-                                              return GestureDetector(
-                                                child: Stack(
-                                                  children: [
-                                                    _futreImage[index],
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.bottomLeft,
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: 5,
-                                                                    bottom: 5),
-                                                            child: Row(
-                                                              children: [
-                                                                ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              100.0),
-                                                                  child: Image
-                                                                      .network(
-                                                                    tagVideoData[
-                                                                            tags[index1]]
-                                                                        [
-                                                                        index]['dp'],
-                                                                    height:
-                                                                        30.0,
-                                                                    width: 30.0,
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                          left:
-                                                                              10.0),
-                                                                  child: Text(
-                                                                    tagVideoData[tags[index1]]
-                                                                            [
-                                                                            index]
-                                                                        [
-                                                                        'userId'],
-                                                                    style: GoogleFonts
-                                                                        .raleway(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w700,
-                                                                      color:
-                                                                          mainBgColor,
+                        ? Container(
+                            height: 300,
+                            child: GridView.count(
+                              crossAxisCount: 1,
+                              children: List.generate(
+                                  gotVideos ? tags.length : 1, (index1) {
+                                return gotVideos
+                                    ? Column(
+                                        children: [
+                                          HeadingRow(
+                                            title: tags[index1],
+                                            count: double.parse(
+                                                tagVideoData[tags[index1]]
+                                                    .length
+                                                    .toString()),
+                                          ),
+                                          Row(
+                                            children: List.generate(
+                                              tagVideoData[tags[index1]].length,
+                                              (index) {
+                                                print(
+                                                    tagVideoData[tags[index1]]);
+                                                return GestureDetector(
+                                                  child: Stack(
+                                                    children: [
+                                                      _futreImage[index],
+                                                      Align(
+                                                        alignment: Alignment
+                                                            .bottomLeft,
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            Container(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: 5,
+                                                                      bottom:
+                                                                          5),
+                                                              child: Row(
+                                                                children: [
+                                                                  ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            100.0),
+                                                                    child: Image
+                                                                        .network(
+                                                                      tagVideoData[tags[index1]]
+                                                                              [
+                                                                              index]
+                                                                          [
+                                                                          'dp'],
+                                                                      height:
+                                                                          30.0,
+                                                                      width:
+                                                                          30.0,
                                                                     ),
                                                                   ),
-                                                                ),
-                                                              ],
+                                                                  Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                            left:
+                                                                                10.0),
+                                                                    child: Text(
+                                                                      tagVideoData[tags[index1]]
+                                                                              [
+                                                                              index]
+                                                                          [
+                                                                          'userId'],
+                                                                      style: GoogleFonts
+                                                                          .raleway(
+                                                                        fontSize:
+                                                                            14,
+                                                                        fontWeight:
+                                                                            FontWeight.w700,
+                                                                        color:
+                                                                            mainBgColor,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ],
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              VideoPage(
-                                                                  videoData:
-                                                                      videoData)));
-                                                },
-                                              );
-                                            },
+                                                    ],
+                                                  ),
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                VideoPage(
+                                                                    videoData:
+                                                                        videoData)));
+                                                  },
+                                                );
+                                              },
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  : Container(
-                                      color: bottomContainerColor,
-                                    );
-                            }),
+                                        ],
+                                      )
+                                    : Container(
+                                        color: bottomContainerColor,
+                                      );
+                              }),
+                            ),
                           )
                         : CircularProgressIndicator(),
                     Column(
