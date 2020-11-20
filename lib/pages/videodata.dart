@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vgo/utilities/constants.dart';
 
-class VideoDeatilsData extends StatefulWidget {
+class VideoDetailsData extends StatefulWidget {
   @override
-  _VideoDeatilsDataState createState() => _VideoDeatilsDataState();
+  _VideoDetailsDataState createState() => _VideoDetailsDataState();
 }
 
-class _VideoDeatilsDataState extends State<VideoDeatilsData> {
+class _VideoDetailsDataState extends State<VideoDetailsData> {
   final _nameController = TextEditingController();
   final _songController = TextEditingController();
   final _artistController = TextEditingController();
