@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vgo/pages/videodata.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:video_player/video_player.dart';
 
@@ -83,6 +84,10 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
           duration: Duration(seconds: 3),
         ));
         userURL = await (storageReference.getDownloadURL());
+        VideoDetailsData(
+          docId: widget.videoData.path.split('/').last,
+          url: userURL,
+        );
         print(userURL);
       });
     } else {
