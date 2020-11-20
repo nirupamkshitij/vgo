@@ -1,6 +1,7 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:video_player/video_player.dart';
 
@@ -15,6 +16,8 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
   RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+  String userURL = '';
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     super.initState();
@@ -62,10 +65,45 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
     super.didPushNext();
   }
 
+  Future _fileUploader() async {
+    if (widget.videoData != null) {
+      final storageReference = FirebaseStorage.instance
+          .ref()
+          .child(widget.videoData.path.split('/').last);
+      final UploadTask uploadTask = storageReference.putFile(widget.videoData);
+      await uploadTask.whenComplete(() async {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: okCardColor,
+          content: Text(
+            'Video Uploaded',
+            style: GoogleFonts.raleway(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          duration: Duration(seconds: 3),
+        ));
+        userURL = await (storageReference.getDownloadURL());
+        print(userURL);
+      });
+    } else {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: errorCardColor,
+        content: Text(
+          'No File',
+          style: GoogleFonts.raleway(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        duration: Duration(seconds: 3),
+      ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -90,46 +128,40 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
             ),
           ),
           actions: [
-            GestureDetector(
-              onTap: () {},
-              child: Padding(
-                padding: EdgeInsets.only(
-                  right: 15,
-                  top: 10,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: 25,
-                    right: 25,
+            Padding(
+              padding: EdgeInsets.only(
+                top: 15,
+                right: 15,
+              ),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: FloatingActionButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: FloatingActionButton(
-                      heroTag: "btn2",
-                      backgroundColor: bottomContainerColor,
-                      onPressed: () {
-                        // _dataUpdates();
-                        // Navigator.popAndPushNamed(context, 'home');
-                      },
-                      child: ShaderMask(
-                        shaderCallback: (Rect bounds) {
-                          return RadialGradient(
-                            center: Alignment.center,
-                            radius: 0.5,
-                            colors: <Color>[
-                              buttonBgColor,
-                              buttonBgColor,
-                            ],
-                            tileMode: TileMode.repeated,
-                          ).createShader(bounds);
-                        },
-                        child: Text(
-                          'Save',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                  heroTag: "btn2",
+                  backgroundColor: bottomContainerColor,
+                  onPressed: () {
+                    _fileUploader();
+                    // Navigator.popAndPushNamed(context, 'home');
+                  },
+                  child: ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return RadialGradient(
+                        center: Alignment.center,
+                        radius: 0.5,
+                        colors: <Color>[
+                          buttonBgColor,
+                          buttonBgColor,
+                        ],
+                        tileMode: TileMode.repeated,
+                      ).createShader(bounds);
+                    },
+                    child: Text(
+                      'Save',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
