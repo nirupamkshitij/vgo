@@ -25,8 +25,10 @@ String _tempDir;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 int index = 0;
+bool gotVideos = false;
 Map<dynamic, dynamic> videoData = Map();
 Map<dynamic, dynamic> _futreImage = Map();
+List<String> videopath = List();
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int currentIndex = 0;
