@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -115,6 +116,28 @@ class CameraScreenState extends State<CameraScreen>
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: 28.0,
+            child: IconButton(
+              icon: Icon(
+                FontAwesomeIcons.folderOpen,
+                size: 28.0,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                if (!_isRecordingMode) {
+                  _captureImage();
+                } else {
+                  if (_isRecording) {
+                    stopVideoRecording();
+                  } else {
+                    startVideoRecording();
+                  }
+                }
+              },
+            ),
+          ),
+          CircleAvatar(
             backgroundColor: Colors.white,
             radius: 28.0,
             child: IconButton(
@@ -135,6 +158,9 @@ class CameraScreenState extends State<CameraScreen>
                 }
               },
             ),
+          ),
+          SizedBox(
+            width: 50,
           ),
         ],
       ),
