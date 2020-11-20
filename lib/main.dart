@@ -12,17 +12,6 @@ import 'package:vgo/screens/signin.dart';
 import 'package:vgo/screens/signindata.dart';
 import 'package:vgo/screens/splash.dart';
 import 'package:vgo/screens/terms.dart';
-// import 'package:tik_tok_demo/screens/camera.dart';
-// import 'package:tik_tok_demo/screens/emaillogin.dart';
-// import 'package:tik_tok_demo/screens/home.dart';
-// import 'package:tik_tok_demo/screens/login.dart';
-// import 'package:tik_tok_demo/screens/navigation.dart';
-// import 'package:tik_tok_demo/screens/notification.dart';
-// import 'package:tik_tok_demo/screens/profile.dart';
-// import 'package:tik_tok_demo/screens/search.dart';
-// import 'package:tik_tok_demo/screens/signin.dart';
-// import 'package:tik_tok_demo/screens/signindata.dart';
-// import 'package:tik_tok_demo/screens/terms.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
