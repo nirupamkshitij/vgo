@@ -96,6 +96,7 @@ class _SearchPageState extends State<SearchPage> {
           }
         }
       }
+      print(tagVideoData);
     } catch (e) {
       print(e);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
