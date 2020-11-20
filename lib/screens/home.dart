@@ -32,6 +32,7 @@ List<String> videopath = List();
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int currentIndex = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void dispose() {
     super.dispose();
@@ -118,6 +119,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         backgroundColor: bottomContainerColor,
         bottomNavigationBar: Theme(
           data: Theme.of(context).copyWith(
