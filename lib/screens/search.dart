@@ -79,11 +79,12 @@ class _SearchPageState extends State<SearchPage> {
       });
       for (int i = 0; i < tags.length; i++) {
         for (int j = 0; j < videoData.length; j++) {
+          tagVideoData[tags[i]] = new Map();
           if (videoData[j]['tags'].contains(tags[i])) {
             setState(
               () {
-                tagVideoData[tags[i]] = new Map();
-                tagVideoData[tags[i]].addAll({
+                tagVideoData[tags[i]][videoData[j]['name']] = new Map();
+                tagVideoData[tags[i]][videoData[j]['name']].addAll({
                   'name': videoData[j]['name'],
                   'artist': videoData[j]['artist'],
                   'dp': videoData[j]['dp'],
@@ -135,8 +136,9 @@ class _SearchPageState extends State<SearchPage> {
             counter = counter + 1;
           });
         });
-        getImages();
+        print(videoData.length);
         getTagsList();
+        getImages();
         setState(() {
           gotVideos = true;
         });
@@ -263,68 +265,82 @@ class _SearchPageState extends State<SearchPage> {
                         ],
                       ),
                     ),
-                    GridView.count(
-                      crossAxisCount: 1,
-                      children:
-                          List.generate(gotVideos ? tags.length : 1, (index) {
-                        return gotVideos
-                            ? Column(
-                                children: [
-                                  HeadingRow(
-                                    title: tags[index],
-                                    count: tagVideoData[tags[index]].length,
-                                  ),
-                                  Row(
-                                    children: List.generate(
-                                      tagVideoData[tags[index]].length,
-                                      (index) {
-                                        return GestureDetector(
-                                          child: Stack(
-                                            children: [
-                                              _futreImage[index],
-                                              Align(
-                                                alignment: Alignment.bottomLeft,
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
+                    gotVideos
+                        ? GridView.count(
+                            crossAxisCount: 1,
+                            children: List.generate(gotVideos ? tags.length : 1,
+                                (index) {
+                              return gotVideos
+                                  ? Column(
+                                      children: [
+                                        HeadingRow(
+                                          title: tags[index],
+                                          count:
+                                              tagVideoData[tags[index]].length,
+                                        ),
+                                        Row(
+                                          children: List.generate(
+                                            tagVideoData[tags[index]].length,
+                                            (index) {
+                                              return GestureDetector(
+                                                child: Stack(
                                                   children: [
-                                                    Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 5, bottom: 5),
+                                                    _futreImage[index],
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.bottomLeft,
                                                       child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
                                                         children: [
-                                                          ClipRRect(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        100.0),
-                                                            child:
-                                                                Image.network(
-                                                              tagVideoData[
-                                                                  index]['dp'],
-                                                              height: 30.0,
-                                                              width: 30.0,
-                                                            ),
-                                                          ),
-                                                          Padding(
+                                                          Container(
                                                             padding:
                                                                 EdgeInsets.only(
-                                                                    left: 10.0),
-                                                            child: Text(
-                                                              tagVideoData[
-                                                                      index]
-                                                                  ['userId'],
-                                                              style: GoogleFonts
-                                                                  .raleway(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                color:
-                                                                    mainBgColor,
-                                                              ),
+                                                                    left: 5,
+                                                                    bottom: 5),
+                                                            child: Row(
+                                                              children: [
+                                                                ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              100.0),
+                                                                  child: Image
+                                                                      .network(
+                                                                    tagVideoData[
+                                                                            index]
+                                                                        ['dp'],
+                                                                    height:
+                                                                        30.0,
+                                                                    width: 30.0,
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10.0),
+                                                                  child: Text(
+                                                                    tagVideoData[
+                                                                            index]
+                                                                        [
+                                                                        'userId'],
+                                                                    style: GoogleFonts
+                                                                        .raleway(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700,
+                                                                      color:
+                                                                          mainBgColor,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
                                                           ),
                                                         ],
@@ -332,29 +348,27 @@ class _SearchPageState extends State<SearchPage> {
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                            ],
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              VideoPage(
+                                                                  videoData:
+                                                                      videoData)));
+                                                },
+                                              );
+                                            },
                                           ),
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        VideoPage(
-                                                            videoData:
-                                                                videoData)));
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Container(
-                                color: bottomContainerColor,
-                              );
-                      }),
-                    ),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(
+                                      color: bottomContainerColor,
+                                    );
+                            }),
+                          )
+                        : CircularProgressIndicator(),
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
