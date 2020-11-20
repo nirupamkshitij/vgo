@@ -14,6 +14,7 @@ class VideoUploadData extends StatefulWidget {
 class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
+  RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
   @override
   void initState() {
     super.initState();
@@ -27,6 +28,12 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
         print('complete');
       });
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    routeObserver.subscribe(this, ModalRoute.of(context)); //Subscribe it here
+    super.didChangeDependencies();
   }
 
   @override
@@ -124,5 +131,12 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
         )
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this); //Don't forget to unsubscribe it!!!!!!
+    super.dispose();
+    _controller.dispose();
   }
 }
