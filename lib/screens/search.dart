@@ -35,6 +35,7 @@ bool gotVideos = false;
 Map<dynamic, dynamic> videoData = Map();
 Map<dynamic, dynamic> _futreImage = Map();
 List<String> videopath = List();
+List<String> tags = List();
 
 class _SearchPageState extends State<SearchPage> {
   int _current = 0;
