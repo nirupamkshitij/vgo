@@ -78,20 +78,19 @@ class _SearchPageState extends State<SearchPage> {
       });
       for (int i = 0; i < tags.length; i++) {
         for (int j = 0; j < videoData.length; j++) {
-          if (videoData[j][tags].contains(tags[i])) {
+          if (videoData[j]['tags'].contains(tags[i])) {
             setState(
               () {
-                tagVideoData[counter] = new Map();
-                tagVideoData[counter].addAll({
-                  'name': element.data()['name'],
-                  'artist': element.data()['artist'],
-                  'dp': element.data()['dp'],
-                  'song': element.data()['song'],
-                  'userId': element.data()['userId'],
-                  'userMail': element.data()['userMail'],
-                  'url': element.data()['url'],
+                tagVideoData[tags] = new Map();
+                tagVideoData[tags].addAll({
+                  'name': videoData[j]['name'],
+                  'artist': videoData[j]['artist'],
+                  'dp': videoData[j]['dp'],
+                  'song': videoData[j]['song'],
+                  'userId': videoData[j]['userId'],
+                  'userMail': videoData[j]['userMail'],
+                  'url': videoData[j]['url'],
                 });
-                videopath.add(element.data()['url'].toString());
               },
             );
           }
