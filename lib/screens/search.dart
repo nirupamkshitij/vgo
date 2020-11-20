@@ -276,74 +276,69 @@ class _SearchPageState extends State<SearchPage> {
                         children:
                             List.generate(gotVideos ? tags.length : 1, (index) {
                           return gotVideos
-                              ? Column(
-                                  children: [
-                                    HeadingRow(
-                                      title: tags[index],
-                                      count: 156.8,
-                                    ),
-                                    GestureDetector(
-                                      child: Stack(
-                                        children: [
-                                          _futreImage[index],
-                                          Align(
-                                            alignment: Alignment.bottomLeft,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Container(
-                                                  padding: EdgeInsets.only(
-                                                      left: 5, bottom: 5),
-                                                  child: Row(
-                                                    children: [
-                                                      ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    100.0),
-                                                        child: Image.network(
-                                                          videoData[index]
-                                                              ['dp'],
-                                                          height: 30.0,
-                                                          width: 30.0,
+                              ? Row(
+                                  children: List.generate(
+                                      tagVideoData[tags[index]].length,
+                                      (index) {
+                                  return GestureDetector(
+                                    child: Stack(
+                                      children: [
+                                        _futreImage[index],
+                                        Align(
+                                          alignment: Alignment.bottomLeft,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.only(
+                                                    left: 5, bottom: 5),
+                                                child: Row(
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100.0),
+                                                      child: Image.network(
+                                                        tagVideoData[index]
+                                                            ['dp'],
+                                                        height: 30.0,
+                                                        width: 30.0,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 10.0),
+                                                      child: Text(
+                                                        tagVideoData[index]
+                                                            ['userId'],
+                                                        style:
+                                                            GoogleFonts.raleway(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          color: mainBgColor,
                                                         ),
                                                       ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 10.0),
-                                                        child: Text(
-                                                          videoData[index]
-                                                              ['userId'],
-                                                          style: GoogleFonts
-                                                              .raleway(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            color: mainBgColor,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => VideoPage(
-                                                    videoData: videoData)));
-                                      },
-                                    )
-                                  ],
-                                )
+                                        ),
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => VideoPage(
+                                                  videoData: videoData)));
+                                    },
+                                  );
+                                }))
                               : Container(
                                   color: bottomContainerColor,
                                 );
