@@ -317,7 +317,7 @@ class _SearchPageState extends State<SearchPage> {
                                                                   child: Image
                                                                       .network(
                                                                     tagVideoData[
-                                                                            index1]
+                                                                            tags[index1]]
                                                                         [
                                                                         index]['dp'],
                                                                     height:
@@ -331,7 +331,7 @@ class _SearchPageState extends State<SearchPage> {
                                                                           left:
                                                                               10.0),
                                                                   child: Text(
-                                                                    tagVideoData[index1]
+                                                                    tagVideoData[tags[index1]]
                                                                             [
                                                                             index]
                                                                         [
