@@ -80,8 +80,8 @@ class _SearchPageState extends State<SearchPage> {
       int counter = 0;
       for (int i = 0; i < tags.length; i++) {
         counter = 0;
+        tagVideoData[tags[i]] = new Map();
         for (int j = 0; j < videoData.length; j++) {
-          tagVideoData[tags[i]] = new Map();
           if (videoData[j]['tags'].contains(tags[i])) {
             setState(
               () {
