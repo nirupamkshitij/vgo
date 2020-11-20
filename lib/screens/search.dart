@@ -3,6 +3,7 @@ import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:vgo/widgets/bottomnavbar.dart';
 
@@ -23,9 +24,12 @@ final List<String> imgList = [
 class _SearchPageState extends State<SearchPage> {
   int _current = 0;
   int currentIndex = 1;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
-    // TODO: implement initState
+    videoData.clear();
+    getTemporaryDirectory().then((d) => _tempDir = d.path);
+    getVideoList();
     super.initState();
   }
 
