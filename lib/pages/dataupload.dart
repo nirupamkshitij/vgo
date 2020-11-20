@@ -44,67 +44,67 @@ class _VideoUploadDataState extends State<VideoUploadData> {
     final size = MediaQuery.of(context).size;
     return ClipRect(
       child: Container(
-        child: Transform.scale(
-          scale: _controller.value.aspectRatio / size.aspectRatio,
-          child: Center(
-            child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: FutureBuilder(
-                future: _initializeVideoPlayerFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return Stack(
-                      children: [
-                        AspectRatio(
+        child: Stack(
+          children: [
+            Transform.scale(
+              scale: _controller.value.aspectRatio / size.aspectRatio,
+              child: Center(
+                child: AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: FutureBuilder(
+                    future: _initializeVideoPlayerFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return AspectRatio(
                           aspectRatio: size.aspectRatio,
                           child: VideoPlayer(_controller),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 25,
-                            right: 25,
-                          ),
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: FloatingActionButton(
-                              heroTag: "btn2",
-                              backgroundColor: bottomContainerColor,
-                              onPressed: () {
-                                // _dataUpdates();
-                                // Navigator.popAndPushNamed(context, 'home');
-                              },
-                              child: ShaderMask(
-                                shaderCallback: (Rect bounds) {
-                                  return RadialGradient(
-                                    center: Alignment.center,
-                                    radius: 0.5,
-                                    colors: <Color>[
-                                      buttonBgColor,
-                                      buttonBgColor,
-                                    ],
-                                    tileMode: TileMode.repeated,
-                                  ).createShader(bounds);
-                                },
-                                child: Text(
-                                  'Save',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    );
-                  } else {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                },
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                ),
               ),
             ),
-          ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 25,
+                right: 25,
+              ),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: FloatingActionButton(
+                  heroTag: "btn2",
+                  backgroundColor: bottomContainerColor,
+                  onPressed: () {
+                    // _dataUpdates();
+                    // Navigator.popAndPushNamed(context, 'home');
+                  },
+                  child: ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return RadialGradient(
+                        center: Alignment.center,
+                        radius: 0.5,
+                        colors: <Color>[
+                          buttonBgColor,
+                          buttonBgColor,
+                        ],
+                        tileMode: TileMode.repeated,
+                      ).createShader(bounds);
+                    },
+                    child: Text(
+                      'Save',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
