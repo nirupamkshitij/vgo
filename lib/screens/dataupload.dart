@@ -11,17 +11,15 @@ class VideoUploadData extends StatefulWidget {
 }
 
 class _VideoUploadDataState extends State<VideoUploadData> {
-    VideoPlayerController _controller;
+  VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.file(
-    );
+    _controller = VideoPlayerController.file(widget.videoData);
     _initializeVideoPlayerFuture = _controller.initialize().then((_) {
       setState(() {});
     });
-
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _controller.play().whenComplete(() {
@@ -29,6 +27,7 @@ class _VideoUploadDataState extends State<VideoUploadData> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -39,22 +38,23 @@ class _VideoUploadDataState extends State<VideoUploadData> {
           child: Center(
             child: AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
-              child:FutureBuilder(
-              future: _initializeVideoPlayerFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return AspectRatio(
-                    aspectRatio: size.aspectRatio,
-                    child: VideoPlayer(_controller),
-                  );
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-            ) ,
+              child: FutureBuilder(
+                future: _initializeVideoPlayerFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return AspectRatio(
+                      aspectRatio: size.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    );
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
             ),
           ),
         ),
       ),
     );
+  }
 }
