@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ class VideoUploadData extends StatefulWidget {
   @override
   _VideoUploadDataState createState() => _VideoUploadDataState();
 }
+
+final _auth = FirebaseAuth.instance;
 
 class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
   VideoPlayerController _controller;
@@ -71,7 +74,7 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
     if (widget.videoData != null) {
       final storageReference = FirebaseStorage.instance
           .ref()
-          .child(widget.videoData.path.split('/').last);
+          .child('' + widget.videoData.path.split('/').last);
       final UploadTask uploadTask = storageReference.putFile(widget.videoData);
       await uploadTask.whenComplete(() async {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
