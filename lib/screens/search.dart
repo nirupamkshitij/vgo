@@ -45,6 +45,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     videoData.clear();
+    tagVideoData.clear();
     getTemporaryDirectory().then((d) => _tempDir = d.path);
     getVideoList();
     super.initState();
