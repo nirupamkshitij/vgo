@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 int index = 0;
+Map<dynamic, dynamic> _futreImage = Map();
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int currentIndex = 0;
