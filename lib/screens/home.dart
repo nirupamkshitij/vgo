@@ -38,11 +38,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   void getImages() {
     for (int i = 0; i < videopath.length; i++) {
       print(videopath[i]);
