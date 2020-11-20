@@ -231,6 +231,7 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
                       right: 25,
                     ),
                     child: TextFormField(
+                      controller: _artistController,
                       style: TextStyle(
                         fontSize: 16,
                         color: mainBgColor,
@@ -282,7 +283,7 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
                     right: 25,
                   ),
                   child: TextFormField(
-                    controller: _artistController,
+                    controller: _tagsController,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     onEditingComplete: () {
