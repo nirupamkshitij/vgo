@@ -73,6 +73,11 @@ class CameraScreenState extends State<CameraScreen>
       () {
         if (pickedFile != null) {
           _file = File(pickedFile.path);
+          Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => VideoUploadData(videoData: _file),
+              ));
         } else {
           print('No image selected.');
         }
