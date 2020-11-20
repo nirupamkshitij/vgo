@@ -22,7 +22,6 @@ int _sizeH = 0;
 int _sizeW = 0;
 int _timeMs = 0;
 String _tempDir;
-final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 int index = 0;
 bool gotVideos = false;
@@ -33,6 +32,12 @@ List<String> videopath = List();
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int currentIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  void initState() {
+    getVideoList();
+    super.initState();
+  }
+
   @override
   void dispose() {
     super.dispose();
