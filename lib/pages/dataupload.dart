@@ -97,60 +97,70 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
                   right: 15,
                   top: 10,
                 ),
-                child: Icon(FontAwesomeIcons.upload),
-              ),
-            ),
-          ]),
-      body: Stack(
-        children: [
-          ClipRect(
-            child: Container(
-              child: Transform.scale(
-                scale: _controller.value.aspectRatio / size.aspectRatio,
-                child: Center(
-                  child: AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: FutureBuilder(
-                      future: _initializeVideoPlayerFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return AspectRatio(
-                            aspectRatio: size.aspectRatio,
-                            child: VideoPlayer(_controller),
-                          );
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: 25,
+                    right: 25,
+                  ),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: FloatingActionButton(
+                      heroTag: "btn2",
+                      backgroundColor: bottomContainerColor,
+                      onPressed: () {
+                        // _dataUpdates();
+                        // Navigator.popAndPushNamed(context, 'home');
                       },
+                      child: ShaderMask(
+                        shaderCallback: (Rect bounds) {
+                          return RadialGradient(
+                            center: Alignment.center,
+                            radius: 0.5,
+                            colors: <Color>[
+                              buttonBgColor,
+                              buttonBgColor,
+                            ],
+                            tileMode: TileMode.repeated,
+                          ).createShader(bounds);
+                        },
+                        child: Text(
+                          'Save',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              top: 25,
-              right: 25,
-            ),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: FlatButton(
-                onPressed: () {
-                  // _dataUpdates();
-                  // Navigator.popAndPushNamed(context, 'home');
-                },
-                child: Text(
-                  'Save',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+          ]),
+      body: ClipRect(
+        child: Container(
+          child: Transform.scale(
+            scale: _controller.value.aspectRatio / size.aspectRatio,
+            child: Center(
+              child: AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: FutureBuilder(
+                  future: _initializeVideoPlayerFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return AspectRatio(
+                        aspectRatio: size.aspectRatio,
+                        child: VideoPlayer(_controller),
+                      );
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
                 ),
               ),
             ),
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
