@@ -172,7 +172,9 @@ class CameraScreenState extends State<CameraScreen>
                 size: 28.0,
                 color: Colors.black,
               ),
-              onPressed: () {},
+              onPressed: () {
+                _videoFromCamera();
+              },
             ),
           ),
           SizedBox(
