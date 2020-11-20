@@ -70,6 +70,7 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
+  void getTagsList() async {}
   void getVideoList() async {
     try {
       int counter = 0;
