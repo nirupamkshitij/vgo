@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,6 +21,18 @@ final List<String> imgList = [
   'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
 ];
+ImageFormat _format = ImageFormat.JPEG;
+int _quality = 50;
+int _sizeH = 0;
+int _sizeW = 0;
+int _timeMs = 0;
+String _tempDir;
+final _firestore = FirebaseFirestore.instance;
+int index = 0;
+bool gotVideos = false;
+Map<dynamic, dynamic> videoData = Map();
+Map<dynamic, dynamic> _futreImage = Map();
+List<String> videopath = List();
 
 class _SearchPageState extends State<SearchPage> {
   int _current = 0;
