@@ -174,6 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     maxWidth: _sizeW,
                     timeMs: _timeMs,
                     quality: _quality),
+                width: 120,
               )
             },
           );

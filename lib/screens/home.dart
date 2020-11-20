@@ -51,14 +51,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       setState(() {
         _futreImage.addAll({
           i: GenThumbnailImage(
-              thumbnailRequest: ThumbnailRequest(
-                  video: videopath[i].toString(),
-                  thumbnailPath: _tempDir,
-                  imageFormat: _format,
-                  maxHeight: _sizeH,
-                  maxWidth: _sizeW,
-                  timeMs: _timeMs,
-                  quality: _quality))
+            thumbnailRequest: ThumbnailRequest(
+                video: videopath[i].toString(),
+                thumbnailPath: _tempDir,
+                imageFormat: _format,
+                maxHeight: _sizeH,
+                maxWidth: _sizeW,
+                timeMs: _timeMs,
+                quality: _quality),
+            width: MediaQuery.of(context).size.width / 2,
+          )
         });
       });
     }
