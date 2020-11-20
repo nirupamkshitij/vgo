@@ -70,7 +70,28 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void getTagsList() async {}
+  void getTagsList() async {
+    try {
+      await _firestore.collection("videos").doc('tags').get().then((value) {
+        print(value.data()['popular']);
+        print(videopath);
+      });
+      getImages();
+      setState(() {
+        gotVideos = true;
+      });
+    } catch (e) {
+      print(e);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: errorCardColor,
+          content: Text(
+            'An error occurred. Please try again later.',
+            style: TextStyle(color: mainBgColor),
+          ),
+          duration: Duration(seconds: 3)));
+    }
+  }
+
   void getVideoList() async {
     try {
       int counter = 0;
