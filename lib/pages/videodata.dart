@@ -28,6 +28,7 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
+    getUserMail();
     super.initState();
   }
 
@@ -135,6 +136,39 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
         ),
         duration: Duration(seconds: 3),
       ));
+    }
+  }
+
+  void getUserMail() async {
+    try {
+      userMail = _auth.currentUser.email;
+      try {
+        await _firestore.collection("user").doc(userMail).get().then((value) {
+          setState(() {
+            userId = value.data()['userId'];
+            dp = value.data()['dpURl'];
+            print('Got Data');
+          });
+        });
+      } catch (e) {
+        print(e);
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: errorCardColor,
+            content: Text(
+              'An error occurred. Please try again later.',
+              style: TextStyle(color: mainBgColor),
+            ),
+            duration: Duration(seconds: 3)));
+      }
+    } catch (e) {
+      print(e);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: errorCardColor,
+          content: Text(
+            'An error occurred. Please try again later.',
+            style: TextStyle(color: mainBgColor),
+          ),
+          duration: Duration(seconds: 3)));
     }
   }
 
