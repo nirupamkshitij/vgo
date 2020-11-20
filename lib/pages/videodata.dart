@@ -24,6 +24,10 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
   final _tagsController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
+  void initState() {
+    super.initState();
+  }
+
   _dataUpdates() async {
     try {
       final result = await InternetAddress.lookup('google.com');
@@ -51,14 +55,7 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
             );
           } else {
             try {
-              await _firestore.collection('user').doc(userMail).set({
-                'name': userName,
-                'phone': userNumber,
-                'userId': userId,
-                'mail': userMail,
-                'dpURl': userURL,
-                'userBio': userBio,
-              });
+              await _firestore.collection('videos').doc(widget.docId).set({});
               print('uploaded');
               Navigator.pushNamed(context, 'home');
             } on FirebaseException catch (e) {
@@ -129,6 +126,7 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
