@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vgo/pages/videodata.dart';
@@ -84,11 +85,16 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
           duration: Duration(seconds: 3),
         ));
         userURL = await (storageReference.getDownloadURL());
-        VideoDetailsData(
-          docId: widget.videoData.path.split('/').last,
-          url: userURL,
-        );
+
         print(userURL);
+        Navigator.pushReplacement(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => VideoDetailsData(
+                docId: widget.videoData.path.split('/').last,
+                url: userURL,
+              ),
+            ));
       });
     } else {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
