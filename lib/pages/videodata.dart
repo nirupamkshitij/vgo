@@ -321,26 +321,13 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
                         height: 45,
                         color: buttonBgColor,
                         onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.shopping_bag_outlined,
-                              color: mainBgColor,
-                              size: 20,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'Add to Cart',
-                              style: GoogleFonts.openSans(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w900,
-                                color: mainBgColor,
-                              ),
-                            ),
-                          ],
+                        child: Text(
+                          'Add to Cart',
+                          style: GoogleFonts.openSans(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                            color: mainBgColor,
+                          ),
                         ),
                       )),
                 ),
