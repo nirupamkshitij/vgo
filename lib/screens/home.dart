@@ -59,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void getVideoList() async {
     try {
-      final userMail = _auth.currentUser.email;
       int counter = 0;
       try {
         await _firestore.collection("videos").get().then((value) {
