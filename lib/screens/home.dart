@@ -42,6 +42,63 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
+  void getVideoList() async {
+    try {
+      final userMail = _auth.currentUser.email;
+      int counter = 0;
+      try {
+        await _firestore.collection("videos").get().then((value) {
+          value.docs.forEach((element) {
+            print(element.data()['url']);
+            if (element.data()['userMail'] == userMail) {
+              print('Enter');
+              print(element.data()['url']);
+              setState(
+                () {
+                  videoData[counter] = new Map();
+                  videoData[counter].addAll({
+                    'name': element.data()['name'],
+                    'artist': element.data()['artist'],
+                    'dp': element.data()['dp'],
+                    'song': element.data()['song'],
+                    'userId': element.data()['userId'],
+                    'userMail': element.data()['userMail'],
+                    'url': element.data()['url'],
+                  });
+                  videopath.add(element.data()['url'].toString());
+                },
+              );
+              counter = counter + 1;
+            }
+          });
+          print(videopath);
+        });
+        getImages();
+        setState(() {
+          gotVideos = true;
+        });
+      } catch (e) {
+        print(e);
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: errorCardColor,
+            content: Text(
+              'An error occurred. Please try again later.',
+              style: TextStyle(color: mainBgColor),
+            ),
+            duration: Duration(seconds: 3)));
+      }
+    } catch (e) {
+      print(e);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: errorCardColor,
+          content: Text(
+            'An error occurred. Please try again later.',
+            style: TextStyle(color: mainBgColor),
+          ),
+          duration: Duration(seconds: 3)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
