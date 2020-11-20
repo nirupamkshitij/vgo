@@ -242,7 +242,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     padding: EdgeInsets.only(
                                                         left: 10.0),
                                                     child: Text(
-                                                      followingName[index],
+                                                      videoData[index]
+                                                          ['userId'],
                                                       style:
                                                           GoogleFonts.raleway(
                                                         fontSize: 14,
