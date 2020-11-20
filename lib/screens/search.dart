@@ -79,6 +79,7 @@ class _SearchPageState extends State<SearchPage> {
       });
       int counter = 0;
       for (int i = 0; i < tags.length; i++) {
+        counter = 0;
         for (int j = 0; j < videoData.length; j++) {
           tagVideoData[tags[i]] = new Map();
           if (videoData[j]['tags'].contains(tags[i])) {
@@ -271,21 +272,22 @@ class _SearchPageState extends State<SearchPage> {
                         ? GridView.count(
                             crossAxisCount: 1,
                             children: List.generate(gotVideos ? tags.length : 1,
-                                (index) {
+                                (index1) {
                               return gotVideos
                                   ? Column(
                                       children: [
                                         HeadingRow(
-                                          title: tags[index],
+                                          title: tags[index1],
                                           count: double.parse(
-                                              tagVideoData[tags[index]]
+                                              tagVideoData[tags[index1]]
                                                   .length
                                                   .toString()),
                                         ),
                                         Row(
                                           children: List.generate(
-                                            tagVideoData[tags[index]].length,
+                                            tagVideoData[tags[index1]].length,
                                             (index) {
+                                              print(tagVideoData[tags[index1]]);
                                               return GestureDetector(
                                                 child: Stack(
                                                   children: [
@@ -315,8 +317,9 @@ class _SearchPageState extends State<SearchPage> {
                                                                   child: Image
                                                                       .network(
                                                                     tagVideoData[
-                                                                            index]
-                                                                        ['dp'],
+                                                                            index1]
+                                                                        [
+                                                                        index]['dp'],
                                                                     height:
                                                                         30.0,
                                                                     width: 30.0,
@@ -328,7 +331,8 @@ class _SearchPageState extends State<SearchPage> {
                                                                           left:
                                                                               10.0),
                                                                   child: Text(
-                                                                    tagVideoData[
+                                                                    tagVideoData[index1]
+                                                                            [
                                                                             index]
                                                                         [
                                                                         'userId'],
