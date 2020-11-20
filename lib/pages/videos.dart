@@ -79,10 +79,11 @@ class VideoCustom extends StatefulWidget {
 }
 
 class _VideoCustomState extends State<VideoCustom>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, RouteAware {
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
   AnimationController _animationController;
+  RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
   @override
   void initState() {
     super.initState();
@@ -108,6 +109,38 @@ class _VideoCustomState extends State<VideoCustom>
   }
 
   @override
+  void didChangeDependencies() {
+    routeObserver.subscribe(this, ModalRoute.of(context)); //Subscribe it here
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didPop() {
+    print("didPop");
+    super.didPop();
+  }
+
+  @override
+  void didPopNext() {
+    print("didPopNext");
+    _controller.play();
+    super.didPopNext();
+  }
+
+  @override
+  void didPush() {
+    print("didPush");
+    super.didPush();
+  }
+
+  @override
+  void didPushNext() {
+    print("didPushNext");
+    _controller.pause();
+    super.didPushNext();
+  }
+
+  @override
   void didUpdateWidget(VideoCustom oldWidget) {
     if (oldWidget.play != widget.play) {
       if (widget.play) {
@@ -118,12 +151,6 @@ class _VideoCustomState extends State<VideoCustom>
       }
     }
     super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -365,6 +392,13 @@ class _VideoCustomState extends State<VideoCustom>
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+    _controller.dispose();
   }
 }
 
