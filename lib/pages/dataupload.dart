@@ -90,21 +90,7 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
           ),
           actions: [
             GestureDetector(
-              onTap: () {
-                // Navigator.of(context).pushNamed('search');
-              },
-              child: Padding(
-                padding: EdgeInsets.only(
-                  right: 15,
-                  top: 10,
-                ),
-                child: Icon(Icons.star_rate_rounded),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed('search');
-              },
+              onTap: () {},
               child: Padding(
                 padding: EdgeInsets.only(
                   right: 15,
