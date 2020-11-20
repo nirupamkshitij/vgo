@@ -131,7 +131,7 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
               color: bottomContainerColor,
             ),
             padding: EdgeInsets.all(40),
-            constraints: BoxConstraints.expand(width: 120),
+            constraints: BoxConstraints.expand(width: widget.width),
             child: CircularProgressIndicator(),
           );
         }
