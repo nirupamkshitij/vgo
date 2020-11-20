@@ -221,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         BorderRadius.circular(
                                                             100.0),
                                                     child: Image.network(
-                                                      'https://picsum.photos/id/${index + 50}/250/250',
+                                                      videoData[index]['dp'],
                                                       height: 30.0,
                                                       width: 30.0,
                                                     ),
