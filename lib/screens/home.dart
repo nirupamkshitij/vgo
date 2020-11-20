@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:vgo/pages/thumbnail.dart';
 import 'package:vgo/pages/videos.dart';
 import 'package:vgo/utilities/constants.dart';
@@ -33,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
+    videoData.clear();
+    getTemporaryDirectory().then((d) => _tempDir = d.path);
     getVideoList();
     super.initState();
   }
