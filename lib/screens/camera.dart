@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class CameraScreenState extends State<CameraScreen>
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isRecordingMode = false;
   bool _isRecording = false;
-
+  final picker = ImagePicker();
   @override
   void initState() {
     _initCamera();
@@ -36,6 +37,36 @@ class CameraScreenState extends State<CameraScreen>
       }
       setState(() {});
     });
+  }
+
+  _videoFromGallery() async {
+    final pickedFile = await picker.getVideo(
+      source: ImageSource.gallery,
+    );
+    setState(
+      () {
+        if (pickedFile != null) {
+          _file = File(pickedFile.path);
+        } else {
+          print('No image selected.');
+        }
+      },
+    );
+  }
+
+  _videoFromCamera() async {
+    final pickedFile = await picker.getVideo(
+      source: ImageSource.camera,
+    );
+    setState(
+      () {
+        if (pickedFile != null) {
+          _file = File(pickedFile.path);
+        } else {
+          print('No image selected.');
+        }
+      },
+    );
   }
 
   @override
