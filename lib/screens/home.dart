@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       height: size.height,
                       color: bottomContainerColor,
                       child: GridView.count(
-                        crossAxisCount: 3,
+                        crossAxisCount: 2,
                         children: List.generate(
                             gotVideos ? videoData.length : 1, (index) {
                           return gotVideos
