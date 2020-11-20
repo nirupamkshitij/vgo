@@ -22,6 +22,9 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
   final _songController = TextEditingController();
   final _artistController = TextEditingController();
   final _tagsController = TextEditingController();
+  String dp = '';
+  String userId = '';
+  String userMail = '';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
@@ -35,7 +38,7 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
         try {
           if (_nameController.text == '' ||
               _songController.text == '' ||
-              _artistController == '' ||
+              _artistController.text == '' ||
               _tagsController.text == '' ||
               _nameController.text == null ||
               _songController.text == null ||
@@ -55,7 +58,16 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
             );
           } else {
             try {
-              await _firestore.collection('videos').doc(widget.docId).set({});
+              await _firestore.collection('videos').doc(widget.docId).set({
+                'artist': _artistController.text,
+                'dp': dp,
+                'name': _nameController.text,
+                'song': _songController.text,
+                'tags': _tagsController.text.split(','),
+                'url': widget.url,
+                'userId': userId,
+                'userMail': userMail,
+              });
               print('uploaded');
               Navigator.pushNamed(context, 'home');
             } on FirebaseException catch (e) {
