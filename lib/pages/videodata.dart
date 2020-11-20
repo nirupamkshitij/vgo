@@ -254,8 +254,7 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
                 ),
                 child: TextFormField(
                   controller: _songController,
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: true,
+                  keyboardType: TextInputType.name,
                   onChanged: (value) {
                     setState(() {});
                   },
@@ -283,8 +282,7 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
                 ),
                 child: TextFormField(
                   controller: _tagsController,
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: true,
+                  keyboardType: TextInputType.name,
                   onEditingComplete: () {
                     setState(() {});
                   },
