@@ -119,13 +119,9 @@ class CameraScreenState extends State<CameraScreen>
             radius: 28.0,
             child: IconButton(
               icon: Icon(
-                (_isRecordingMode)
-                    ? (_isRecording)
-                        ? Icons.stop
-                        : Icons.videocam
-                    : Icons.camera_alt,
+                Icons.videocam,
                 size: 28.0,
-                color: (_isRecording) ? Colors.red : Colors.black,
+                color: Colors.black,
               ),
               onPressed: () {
                 if (!_isRecordingMode) {
@@ -139,17 +135,6 @@ class CameraScreenState extends State<CameraScreen>
                 }
               },
             ),
-          ),
-          IconButton(
-            icon: Icon(
-              (_isRecordingMode) ? Icons.camera_alt : Icons.videocam,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _isRecordingMode = !_isRecordingMode;
-              });
-            },
           ),
         ],
       ),
