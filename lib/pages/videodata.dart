@@ -177,6 +177,20 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
+        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          backgroundColor: bottomContainerColor,
+          centerTitle: true,
+          title: Text(
+            'Video Details',
+            style: GoogleFonts.raleway(
+              fontSize: 18,
+              color: mainBgColor,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Container(
             color: bottomContainerColor,
