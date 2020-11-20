@@ -29,6 +29,81 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
   }
 
+  void getImages() {
+    for (int i = 0; i < videopath.length; i++) {
+      print(videopath[i]);
+      setState(() {
+        _futreImage.addAll({
+          i: GenThumbnailImage(
+            thumbnailRequest: ThumbnailRequest(
+                video: videopath[i].toString(),
+                thumbnailPath: _tempDir,
+                imageFormat: _format,
+                maxHeight: _sizeH,
+                maxWidth: _sizeW,
+                timeMs: _timeMs,
+                quality: _quality),
+            width: MediaQuery.of(context).size.width / 2,
+          )
+        });
+      });
+    }
+  }
+
+  void getVideoList() async {
+    try {
+      int counter = 0;
+      try {
+        await _firestore.collection("videos").get().then((value) {
+          value.docs.forEach((element) {
+            print(element.data()['url']);
+            print('Enter');
+            print(element.data()['url']);
+            setState(
+              () {
+                videoData[counter] = new Map();
+                videoData[counter].addAll({
+                  'name': element.data()['name'],
+                  'artist': element.data()['artist'],
+                  'dp': element.data()['dp'],
+                  'song': element.data()['song'],
+                  'userId': element.data()['userId'],
+                  'userMail': element.data()['userMail'],
+                  'url': element.data()['url'],
+                });
+                videopath.add(element.data()['url'].toString());
+              },
+            );
+            counter = counter + 1;
+          });
+          print(videopath);
+        });
+        getImages();
+        setState(() {
+          gotVideos = true;
+        });
+      } catch (e) {
+        print(e);
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: errorCardColor,
+            content: Text(
+              'An error occurred. Please try again later.',
+              style: TextStyle(color: mainBgColor),
+            ),
+            duration: Duration(seconds: 3)));
+      }
+    } catch (e) {
+      print(e);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: errorCardColor,
+          content: Text(
+            'An error occurred. Please try again later.',
+            style: TextStyle(color: mainBgColor),
+          ),
+          duration: Duration(seconds: 3)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
