@@ -75,6 +75,7 @@ class _SearchPageState extends State<SearchPage> {
       await _firestore.collection("videos").doc('tags').get().then((value) {
         tags = value.data()['popular'];
       });
+      for (int i = 0; i < tags.length; i++) {}
     } catch (e) {
       print(e);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
