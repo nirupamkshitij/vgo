@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vgo/utilities/constants.dart';
 
 class VideoDetailsData extends StatefulWidget {
