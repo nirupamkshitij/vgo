@@ -7,6 +7,9 @@ class VideoDeatilsData extends StatefulWidget {
 }
 
 class _VideoDeatilsDataState extends State<VideoDeatilsData> {
+  final _bioController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
