@@ -52,7 +52,6 @@ class _SearchPageState extends State<SearchPage> {
 
   void getImages() {
     for (int i = 0; i < videopath.length; i++) {
-      print(videopath[i]);
       setState(() {
         _futreImage.addAll({
           i: GenThumbnailImage(
@@ -81,8 +80,8 @@ class _SearchPageState extends State<SearchPage> {
           if (videoData[j]['tags'].contains(tags[i])) {
             setState(
               () {
-                tagVideoData[tags] = new Map();
-                tagVideoData[tags].addAll({
+                tagVideoData[tags[i]] = new Map();
+                tagVideoData[tags[i]].addAll({
                   'name': videoData[j]['name'],
                   'artist': videoData[j]['artist'],
                   'dp': videoData[j]['dp'],
@@ -115,9 +114,6 @@ class _SearchPageState extends State<SearchPage> {
       try {
         await _firestore.collection("videos").get().then((value) {
           value.docs.forEach((element) {
-            print(element.data()['url']);
-            print('Enter');
-            print(element.data()['url']);
             setState(
               () {
                 videoData[counter] = new Map();
@@ -126,6 +122,7 @@ class _SearchPageState extends State<SearchPage> {
                   'artist': element.data()['artist'],
                   'dp': element.data()['dp'],
                   'song': element.data()['song'],
+                  'tags': element.data()['tags'],
                   'userId': element.data()['userId'],
                   'userMail': element.data()['userMail'],
                   'url': element.data()['url'],
@@ -135,7 +132,6 @@ class _SearchPageState extends State<SearchPage> {
             );
             counter = counter + 1;
           });
-          print(videopath);
         });
         getImages();
         getTagsList();
