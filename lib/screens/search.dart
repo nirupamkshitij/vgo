@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vgo/pages/thumbnail.dart';
+import 'package:vgo/pages/videos.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:vgo/widgets/bottomnavbar.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
@@ -260,6 +261,82 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                           ),
                         ],
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 3.0,
+                          color: bottomContainerColor,
+                        ),
+                      ),
+                      constraints: BoxConstraints.expand(height: 150),
+                      child: GridView.count(
+                        crossAxisCount: 2,
+                        children: List.generate(
+                            gotVideos ? videoData.length : 1, (index) {
+                          return gotVideos
+                              ? GestureDetector(
+                                  child: Stack(
+                                    children: [
+                                      _futreImage[index],
+                                      Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 5, bottom: 5),
+                                              child: Row(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100.0),
+                                                    child: Image.network(
+                                                      videoData[index]['dp'],
+                                                      height: 30.0,
+                                                      width: 30.0,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10.0),
+                                                    child: Text(
+                                                      videoData[index]
+                                                          ['userId'],
+                                                      style:
+                                                          GoogleFonts.raleway(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color: mainBgColor,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => VideoPage(
+                                                videoData: videoData)));
+                                  },
+                                )
+                              : Container(
+                                  color: bottomContainerColor,
+                                );
+                        }),
                       ),
                     ),
                     Column(
