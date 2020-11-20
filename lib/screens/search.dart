@@ -74,12 +74,7 @@ class _SearchPageState extends State<SearchPage> {
   void getTagsList() async {
     try {
       await _firestore.collection("videos").doc('tags').get().then((value) {
-        print(value.data()['popular']);
-        print(videopath);
-      });
-      getImages();
-      setState(() {
-        gotVideos = true;
+        tags = value.data()['popular'];
       });
     } catch (e) {
       print(e);
