@@ -278,6 +278,10 @@ class _SearchPageState extends State<SearchPage> {
                           return gotVideos
                               ? Column(
                                   children: [
+                                    HeadingRow(
+                                      title: tags[index],
+                                      count: 156.8,
+                                    ),
                                     GestureDetector(
                                       child: Stack(
                                         children: [
