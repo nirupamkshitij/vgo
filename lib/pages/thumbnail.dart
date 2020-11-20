@@ -84,8 +84,8 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
 
 class GenThumbnailImage extends StatefulWidget {
   final ThumbnailRequest thumbnailRequest;
-
-  const GenThumbnailImage({Key key, this.thumbnailRequest}) : super(key: key);
+final double width;
+  const GenThumbnailImage({@required this.thumbnailRequest, @required this.width}) ;
 
   @override
   _GenThumbnailImageState createState() => _GenThumbnailImageState();
@@ -107,7 +107,7 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
               border: Border.all(width: 3.0, color: bottomContainerColor),
               color: bottomContainerColor,
             ),
-            constraints: BoxConstraints.expand(width: 120),
+            constraints: BoxConstraints.expand(width: widget.),
             child: _image,
           );
         } else if (snapshot.hasError) {
