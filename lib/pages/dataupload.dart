@@ -65,7 +65,7 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Column(
+    return Stack(
       children: [
         ClipRect(
           child: Container(
@@ -99,31 +99,16 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
           ),
           child: Align(
             alignment: Alignment.topRight,
-            child: FloatingActionButton(
-              heroTag: "btn2",
-              backgroundColor: bottomContainerColor,
+            child: FlatButton(
               onPressed: () {
                 // _dataUpdates();
                 // Navigator.popAndPushNamed(context, 'home');
               },
-              child: ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return RadialGradient(
-                    center: Alignment.center,
-                    radius: 0.5,
-                    colors: <Color>[
-                      buttonBgColor,
-                      buttonBgColor,
-                    ],
-                    tileMode: TileMode.repeated,
-                  ).createShader(bounds);
-                },
-                child: Text(
-                  'Save',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+              child: Text(
+                'Save',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
