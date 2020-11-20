@@ -42,9 +42,13 @@ class _VideoUploadDataState extends State<VideoUploadData> {
                 future: _initializeVideoPlayerFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    return AspectRatio(
-                      aspectRatio: size.aspectRatio,
-                      child: VideoPlayer(_controller),
+                    return Stack(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: size.aspectRatio,
+                          child: VideoPlayer(_controller),
+                        ),
+                      ],
                     );
                   } else {
                     return Center(child: CircularProgressIndicator());
