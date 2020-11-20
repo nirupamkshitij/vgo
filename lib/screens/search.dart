@@ -24,6 +24,12 @@ class _SearchPageState extends State<SearchPage> {
   int _current = 0;
   int currentIndex = 1;
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
