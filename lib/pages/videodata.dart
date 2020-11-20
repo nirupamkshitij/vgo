@@ -305,6 +305,43 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
                     ),
                   ),
                 ),
+                Expanded(
+                  child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Padding(
+                        padding: EdgeInsets.only(bottom: 25.0),
+                        child: FlatButton(
+                          minWidth: MediaQuery.of(context).size.width,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          height: 45,
+                          color: buttonBgColor,
+                          onPressed: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.shopping_bag_outlined,
+                                color: mainBgColor,
+                                size: 20,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Add to Cart',
+                                style: GoogleFonts.openSans(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w900,
+                                  color: mainBgColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
+                  ),
+                ),
               ],
             ),
           ),
