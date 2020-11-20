@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 int index = 0;
+Map<dynamic, dynamic> videoData = Map();
 Map<dynamic, dynamic> _futreImage = Map();
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
@@ -20,6 +21,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void getImages() {
+    for (int i = 0; i < videopath.length; i++) {
+      print(videopath[i]);
+      setState(() {
+        _futreImage.addAll({
+          i: GenThumbnailImage(
+              thumbnailRequest: ThumbnailRequest(
+                  video: videopath[i].toString(),
+                  thumbnailPath: _tempDir,
+                  imageFormat: _format,
+                  maxHeight: _sizeH,
+                  maxWidth: _sizeW,
+                  timeMs: _timeMs,
+                  quality: _quality))
+        });
+      });
+    }
   }
 
   @override
