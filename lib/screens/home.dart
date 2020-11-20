@@ -5,6 +5,7 @@ import 'package:vgo/pages/videos.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:vgo/widgets/bottomnavbar.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,6 +13,14 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+ImageFormat _format = ImageFormat.JPEG;
+int _quality = 50;
+int _sizeH = 0;
+int _sizeW = 0;
+int _timeMs = 0;
+String _tempDir;
+final _auth = FirebaseAuth.instance;
+final _firestore = FirebaseFirestore.instance;
 int index = 0;
 Map<dynamic, dynamic> videoData = Map();
 Map<dynamic, dynamic> _futreImage = Map();
