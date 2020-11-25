@@ -15,7 +15,8 @@ class VideoPage extends StatefulWidget {
 
 final _controller = ScrollController();
 int keyValue = 0;
-
+final _auth = FirebaseAuth.instance;
+final _firestore = FirebaseFirestore.instance;
 class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
