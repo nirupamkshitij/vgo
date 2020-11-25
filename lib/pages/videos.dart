@@ -209,10 +209,18 @@ class _VideoCustomState extends State<VideoCustom>
                                 padding: EdgeInsets.only(left: 15.0),
                                 child: FlatButton(
                                   shape: StadiumBorder(),
-                                  onPressed: () async{
+                                  onPressed: () async {
                                     if (widget.videoData[widget.index]
                                             ['mail'] !=
-                                        _auth.currentUser) {  await _firestore.collection("user").doc(userMail)}
+                                        _auth.currentUser) {
+                                      await _firestore
+                                          .collection("user")
+                                          .doc(_auth.currentUser.email)
+                                          .set({
+                                        'following': widget
+                                            .videoData[widget.index]['mail']
+                                      }, SetOptions(merge: true));
+                                    }
                                   },
                                   child: Text('Follow'),
                                   color: okCardColor,
