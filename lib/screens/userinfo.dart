@@ -75,9 +75,8 @@ class _UserProfileInfoState extends State<UserProfileInfo> {
                 'mail': userMail,
                 'dpURl': userURL,
                 'userBio': userBio,
-              });
+              }).whenComplete(() => Navigator.pushNamed(context, 'home'));
               print('uploaded');
-              Navigator.pushNamed(context, 'home');
             } on FirebaseException catch (e) {
               print(e.code);
               if (e.code == 'weak-password') {
