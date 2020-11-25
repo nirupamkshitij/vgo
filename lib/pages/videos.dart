@@ -212,7 +212,7 @@ class _VideoCustomState extends State<VideoCustom>
                                   onPressed: () async{
                                     if (widget.videoData[widget.index]
                                             ['mail'] !=
-                                        _auth.currentUser) {await _}
+                                        _auth.currentUser) {  await _firestore.collection("user").doc(userMail)}
                                   },
                                   child: Text('Follow'),
                                   color: okCardColor,
