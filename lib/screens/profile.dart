@@ -67,7 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             userBio = value.data()['userBio'];
             userId = value.data()['userId'];
             followers = value.data()['follower'];
-            following = value.data()['following'];
+            following = value.data()['following'].length;
             liked = value.data()['liked'];
             try {
               userURL = value.data()['dpURl'];
