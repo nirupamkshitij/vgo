@@ -205,7 +205,9 @@ class _VideoCustomState extends State<VideoCustom>
                                 padding: EdgeInsets.only(left: 15.0),
                                 child: FlatButton(
                                   shape: StadiumBorder(),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    if(widget.videoData[widget.index]['userId'] != _a)
+                                  },
                                   child: Text('Follow'),
                                   color: okCardColor,
                                 ),
