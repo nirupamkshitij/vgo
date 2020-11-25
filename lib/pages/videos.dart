@@ -19,6 +19,7 @@ final _controller = ScrollController();
 int keyValue = 0;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
+
 class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
@@ -208,8 +209,10 @@ class _VideoCustomState extends State<VideoCustom>
                                 padding: EdgeInsets.only(left: 15.0),
                                 child: FlatButton(
                                   shape: StadiumBorder(),
-                                  onPressed: () {
-                                    if(widget.videoData[widget.index]['userId'] != _a)
+                                  onPressed: () async{
+                                    if (widget.videoData[widget.index]
+                                            ['mail'] !=
+                                        _auth.currentUser) {await _}
                                   },
                                   child: Text('Follow'),
                                   color: okCardColor,
