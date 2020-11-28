@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -569,10 +570,23 @@ class EndDrawer extends StatelessWidget {
               iconData: FontAwesomeIcons.asterisk,
               textData: 'Terms of Use',
             ),
-            GestureDrawer(
-              route: 'login',
-              iconData: FontAwesomeIcons.signOutAlt,
-              textData: 'Log Out',
+            GestureDetector(
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                print("USER SIGNED OUT");
+              },
+              child: ListTile(
+                leading: FaIcon(
+                  FontAwesomeIcons.signOutAlt,
+                  size: 18,
+                  color: mainBgColor,
+                ),
+                title: Text(
+                  'Log Out',
+                  style: GoogleFonts.raleway(
+                      color: mainBgColor, fontWeight: FontWeight.w600),
+                ),
+              ),
             ),
           ],
         ),
