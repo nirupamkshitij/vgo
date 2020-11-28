@@ -1,3 +1,2 @@
-# vgo
+# TikTok FLutter Source Code
 
-vgo-flutter
