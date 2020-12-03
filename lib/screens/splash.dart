@@ -48,7 +48,7 @@ class SplashScreen extends StatelessWidget {
                         ),
                         Center(
                           child: Text(
-                            "Vgo",
+                            "Yo Video",
                             style: GoogleFonts.archivoBlack(
                               textStyle: TextStyle(
                                 fontSize: 36,

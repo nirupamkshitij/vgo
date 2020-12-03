@@ -215,7 +215,7 @@ class _VideoCustomState extends State<VideoCustom>
                                         _auth.currentUser) {
                                       await _firestore
                                           .collection("user")
-                                          .doc(_auth.currentUser.email)
+                                          .doc(_auth.currentUser.uid)
                                           .set({
                                         'following': widget
                                             .videoData[widget.index]['mail']

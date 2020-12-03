@@ -72,11 +72,11 @@ class _VideoUploadDataState extends State<VideoUploadData> with RouteAware {
 
   Future _fileUploader() async {
     if (widget.videoData != null) {
-      print(_auth.currentUser.email.toString() +
+      print(_auth.currentUser.uid.toString() +
           '/videos/' +
           widget.videoData.path.split('/').last);
       final storageReference = FirebaseStorage.instance.ref().child(
-          _auth.currentUser.email.toString() +
+          _auth.currentUser.uid.toString() +
               '/videos/' +
               widget.videoData.path.split('/').last);
       final UploadTask uploadTask = storageReference.putFile(widget.videoData);

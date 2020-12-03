@@ -1,50 +1,34 @@
 {
   "project_info": {
-    "project_number": "866631162328",
-    "firebase_url": "https://vgo-db-f7b4a.firebaseio.com",
-    "project_id": "vgo-db-f7b4a",
-    "storage_bucket": "vgo-db-f7b4a.appspot.com"
+    "project_number": "1006561666420",
+    "firebase_url": "https://yo-video-a2ddb.firebaseio.com",
+    "project_id": "yo-video-a2ddb",
+    "storage_bucket": "yo-video-a2ddb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:866631162328:android:b878aa23e4e3df15abfaad",
+        "mobilesdk_app_id": "1:1006561666420:android:782dbd3c1b3afebb85f821",
         "android_client_info": {
-          "package_name": "com.example.vgo"
+          "package_name": "com.yovideo.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "866631162328-cprgq24au7nmjp7ruttd1co9l6e9p1jr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.vgo",
-            "certificate_hash": "0f071095fd2171e8992c52a9a8b57b2d5ee8d9d8"
-          }
-        },
-        {
-          "client_id": "866631162328-4g84dc7hf8mhqc2timrejjb3ajhfhstj.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.vgo",
-            "certificate_hash": "b530694b35f64bd7a958cb0e355f4a89c65e4ef1"
-          }
-        },
-        {
-          "client_id": "866631162328-ls39b9u91m12fadfosrn68ddfigqoheh.apps.googleusercontent.com",
+          "client_id": "1006561666420-o31pdpb0m8j2venfd1564q3qi9o63ig3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAOe4LeEl8gEhQQqi_KseZbXX1qhCyZEAA"
+          "current_key": "AIzaSyBTHxMMv2tSk_WjcJgVpLKrEIXZtS9Nzv8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "866631162328-ls39b9u91m12fadfosrn68ddfigqoheh.apps.googleusercontent.com",
+              "client_id": "1006561666420-o31pdpb0m8j2venfd1564q3qi9o63ig3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

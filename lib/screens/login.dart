@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vgo/models/userModel.dart';
 import 'package:vgo/screens/signin.dart';
 import 'package:vgo/utilities/constants.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -178,11 +181,11 @@ comment on videos, and more.''',
     );
   }
 
-  Future<UserCredential> signInWithTwitter() async {
+  Future<void> signInWithTwitter() async {
     // Create a TwitterLogin instance
     final TwitterLogin twitterLogin = new TwitterLogin(
-      consumerKey: 'zVZRE5g6kceMfBcdMjuIWor9N',
-      consumerSecret: 'Krl2pCWfjMcnRLdm7EqXfelP8Ng3d1Mf427PFHkw4qDbFR2l1u',
+      consumerKey: 'EM1nTOn8VhYMW8jrdogpLbRB2',
+      consumerSecret: 'twAHwtW5uZ60nDmZwnZIM1SyhSWH1AXxVNaLR2LIr8gY1ak02W',
     );
 
     // Trigger the sign-in flow
@@ -201,8 +204,18 @@ comment on videos, and more.''',
 
       // Once signed in, return the UserCredential
 
-      return await FirebaseAuth.instance
+      UserCredential userCredential = await FirebaseAuth.instance
           .signInWithCredential(twitterAuthCredential);
+      User user = userCredential.user;
+      UserModel userModel = UserModel(
+        user.displayName,
+        user.email,
+        user.phoneNumber,
+        user.photoURL,
+        user.uid,
+        user.tenantId,
+      );
+      await _firestore.collection('user').doc(user.uid).set(userModel.toJson());
     } else if (loginResult.status == TwitterLoginStatus.cancelledByUser) {
       Fluttertoast.showToast(
           msg: 'Login cancelled',
@@ -228,7 +241,7 @@ comment on videos, and more.''',
     }
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
@@ -249,7 +262,18 @@ comment on videos, and more.''',
     //   'userId': userId,
     //   'mail': userMail,
     // });
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    User user = userCredential.user;
+    UserModel userModel = UserModel(
+      user.displayName,
+      user.email,
+      user.phoneNumber,
+      user.photoURL,
+      user.uid,
+      user.tenantId,
+    );
+    await _firestore.collection('user').doc(user.uid).set(userModel.toJson());
   }
 
   Future<UserCredential> signInWithFacebook() async {
@@ -259,9 +283,19 @@ comment on videos, and more.''',
     // Create a credential from the access token
     final FacebookAuthCredential facebookAuthCredential =
         FacebookAuthProvider.credential(result.token);
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance
+    UserCredential userCredential = await FirebaseAuth.instance
         .signInWithCredential(facebookAuthCredential);
+
+    User user = userCredential.user;
+    UserModel userModel = UserModel(
+      user.displayName,
+      user.email,
+      user.phoneNumber,
+      user.photoURL,
+      user.uid,
+      user.tenantId,
+    );
+    await _firestore.collection('user').doc(user.uid).set(userModel.toJson());
   }
+
 }

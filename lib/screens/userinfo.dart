@@ -248,8 +248,15 @@ class _UserProfileInfoState extends State<UserProfileInfo> {
   void getUserMail() async {
     try {
       userMail = _auth.currentUser.email;
+      print("VALUE IS ${_auth.currentUser.uid}");
+
       try {
-        await _firestore.collection("user").doc(userMail).get().then((value) {
+        await _firestore
+            .collection("user")
+            .doc(_auth.currentUser.uid)
+            .get()
+            .then((value) {
+          print("VALUE IS $value");
           setState(() {
             userName = value.data()['name'];
             userMail = value.data()['mail'];
@@ -558,68 +565,68 @@ class _TabbarState extends State<Tabbar> {
                               labelText: 'Username',
                             ),
                           )),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: 25,
-                          left: 25,
-                          right: 25,
-                        ),
-                        child: TextFormField(
-                          controller: _passwordController,
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: true,
-                          onChanged: (value) {
-                            setState(() {
-                              userPassword = value;
-                            });
-                          },
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: mainBgColor,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                              color: darkFadeTextColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            border: InputBorder.none,
-                            labelText: 'Enter Password',
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: 25,
-                          left: 25,
-                          right: 25,
-                        ),
-                        child: TextFormField(
-                          controller: _confirmController,
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: true,
-                          onEditingComplete: () {
-                            setState(() {
-                              userConfirmPassword = _confirmController.text;
-                            });
-                          },
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: mainBgColor,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                              color: darkFadeTextColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            border: InputBorder.none,
-                            labelText: 'Confirm Password',
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //     top: 25,
+                      //     left: 25,
+                      //     right: 25,
+                      //   ),
+                      //   child: TextFormField(
+                      //     controller: _passwordController,
+                      //     keyboardType: TextInputType.visiblePassword,
+                      //     obscureText: true,
+                      //     onChanged: (value) {
+                      //       setState(() {
+                      //         userPassword = value;
+                      //       });
+                      //     },
+                      //     style: TextStyle(
+                      //       fontSize: 16,
+                      //       color: mainBgColor,
+                      //       fontWeight: FontWeight.w600,
+                      //     ),
+                      //     decoration: InputDecoration(
+                      //       labelStyle: TextStyle(
+                      //         color: darkFadeTextColor,
+                      //         fontSize: 16,
+                      //         fontWeight: FontWeight.w600,
+                      //       ),
+                      //       border: InputBorder.none,
+                      //       labelText: 'Enter Password',
+                      //     ),
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //     top: 25,
+                      //     left: 25,
+                      //     right: 25,
+                      //   ),
+                      //   child: TextFormField(
+                      //     controller: _confirmController,
+                      //     keyboardType: TextInputType.visiblePassword,
+                      //     obscureText: true,
+                      //     onEditingComplete: () {
+                      //       setState(() {
+                      //         userConfirmPassword = _confirmController.text;
+                      //       });
+                      //     },
+                      //     style: TextStyle(
+                      //       fontSize: 16,
+                      //       color: mainBgColor,
+                      //       fontWeight: FontWeight.w600,
+                      //     ),
+                      //     decoration: InputDecoration(
+                      //       labelStyle: TextStyle(
+                      //         color: darkFadeTextColor,
+                      //         fontSize: 16,
+                      //         fontWeight: FontWeight.w600,
+                      //       ),
+                      //       border: InputBorder.none,
+                      //       labelText: 'Confirm Password',
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

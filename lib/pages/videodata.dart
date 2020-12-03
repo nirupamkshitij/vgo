@@ -143,7 +143,11 @@ class _VideoDetailsDataState extends State<VideoDetailsData> {
     try {
       userMail = _auth.currentUser.email;
       try {
-        await _firestore.collection("user").doc(userMail).get().then((value) {
+        await _firestore
+            .collection("user")
+            .doc(_auth.currentUser.uid)
+            .get()
+            .then((value) {
           setState(() {
             userId = value.data()['userId'];
             dp = value.data()['dpURl'];

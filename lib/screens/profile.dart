@@ -62,7 +62,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     try {
       final userMail = _auth.currentUser.email;
       try {
-        await _firestore.collection("user").doc(userMail).get().then((value) {
+        await _firestore
+            .collection("user")
+            .doc(_auth.currentUser.uid)
+            .get()
+            .then((value) {
           setState(() {
             username = value.data()['name'];
             userBio = value.data()['userBio'];

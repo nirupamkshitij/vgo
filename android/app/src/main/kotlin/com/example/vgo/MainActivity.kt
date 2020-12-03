@@ -1,4 +1,4 @@
-package com.example.vgo
+package com.yovideo.app
 
 import io.flutter.embedding.android.FlutterActivity
 
